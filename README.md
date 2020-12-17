@@ -1,1 +1,1 @@
-[brandontsang.net]
+https://brandontsang.net
