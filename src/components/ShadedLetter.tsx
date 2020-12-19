@@ -4,7 +4,8 @@ function calcTextShadow(
     theta: number,
     phi: number,
     maxLightness: number,
-    minLightness: number
+    minLightness: number,
+    color: {hue: number; sat: number; light: number}
 ) {
     let shadowRadius = 4;
     let numShadows = 25;
@@ -28,8 +29,13 @@ function calcTextShadow(
                 ? 2 * b * f(lightness)
                 : 2 * (1 - b) * f(lightness) + 100 - 2 * (1 - b) * f(100);
 
-        let newShadow = `, ${x}px ${y}px 1px hsl(0deg, 0%, ${
-            lightness * ((maxLightness - minLightness) / 100) + minLightness
+        let newShadow = `, ${x}px ${y}px 0.5px hsl(${color.hue}deg, ${
+            color.sat
+        }%, ${
+            lightness *
+                (color.light / 100) *
+                ((maxLightness - minLightness) / 100) +
+            minLightness
         }%)`;
         textShadow += newShadow;
     }
@@ -49,12 +55,20 @@ export default function ShadedLetter({
     children,
     mousePos,
     maxLightness,
-    minLightness
+    minLightness,
+    color,
+    selected = false,
+    selectionStart = false,
+    selectionEnd = false
 }: {
     children: ReactNode;
     mousePos: number[];
     maxLightness: number;
     minLightness: number;
+    color: {hue: number; sat: number; light: number};
+    selected: boolean;
+    selectionStart: boolean;
+    selectionEnd: boolean;
 }) {
     const charRef = useRef(null);
 
@@ -69,16 +83,36 @@ export default function ShadedLetter({
         (boundingBox.bottom + boundingBox.top) / 2
     ];
     let mouseDir = calcMouseDir(charCenter, mousePos) as [number, number];
-    let textShadow = calcTextShadow(...mouseDir, maxLightness, minLightness);
+    let textShadow = calcTextShadow(
+        ...mouseDir,
+        maxLightness,
+        minLightness,
+        color
+    );
+
+    let borderRadius = 10;
 
     return (
         <span
             style={{
                 whiteSpace: 'pre',
-                transition: 'color 0.2s',
-                color: `hsl(0deg, 0%, ${
-                    mouseDir[1] < 0.02 ? maxLightness : maxLightness * 0.9
+                color: `hsl(${color.hue}deg, ${color.sat}%, ${
+                    Math.cos(mouseDir[1]) *
+                        (color.light / 100) *
+                        maxLightness *
+                        0.9 +
+                    minLightness
                 }%)`,
+                background: selected
+                    ? `hsl(${color.hue}deg, ${color.sat}%, ${
+                          color.light - 20
+                      }%)`
+                    : 'transparent',
+                borderRadius: `${selectionStart ? borderRadius : 0}px ${
+                    selectionEnd ? borderRadius : 0
+                }px ${selectionEnd ? borderRadius : 0}px ${
+                    selectionStart ? borderRadius : 0
+                }px`,
                 textShadow
             }}
             ref={charRef}

@@ -22,10 +22,25 @@
     padding: 0px;
     outline: none;
     color: white;
+
+    &::selection {
+        background: transparent;
+    }
 }
 
 .display {
     pointer-events: none;
     position: relative;
     z-index: 2;
+    user-select: none;
+}
+
+.info-text {
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: sans-serif;
+    opacity: 0.5;
+    user-select: none;
 }
