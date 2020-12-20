@@ -66,9 +66,9 @@ export default function ShadedLetter({
     maxLightness: number;
     minLightness: number;
     color: {hue: number; sat: number; light: number};
-    selected: boolean;
-    selectionStart: boolean;
-    selectionEnd: boolean;
+    selected?: boolean;
+    selectionStart?: boolean;
+    selectionEnd?: boolean;
 }) {
     const charRef = useRef(null);
 
@@ -92,6 +92,7 @@ export default function ShadedLetter({
 
     let borderRadius = 10;
 
+    if (children === ' ') return <> </>;
     return (
         <span
             style={{
