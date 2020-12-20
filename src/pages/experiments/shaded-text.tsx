@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 
 import styles from './shaded-text.module.scss';
 import ShadedLetter from '../../components/ShadedLetter';
-import {clamp} from '../../misc/util';
+import {clamp, isTouchDevice} from '../../misc/util';
 
 let minLightness = 10;
 let maxLightness = 90;
@@ -36,6 +36,38 @@ export default function Home() {
         }
         document.addEventListener('mousemove', handleMouseMove);
 
+        let prevTouchPos: number[] = [null, null];
+        function handleTouchMove(evt: TouchEvent) {
+            if (evt.touches.length === 0) return;
+            if (prevTouchPos[0] === null) {
+                var dx = 0;
+                var dy = 0;
+            } else {
+                var dx = evt.touches[0].clientX - prevTouchPos[0];
+                var dy = evt.touches[0].clientY - prevTouchPos[1];
+            }
+
+            setColor((prevColor) => ({
+                hue: prevColor.hue + (dx / window.innerWidth) * 180,
+                sat: clamp(
+                    prevColor.sat - (dy / window.innerHeight) * 100,
+                    0,
+                    100
+                ),
+                light: 60
+            }));
+
+            prevTouchPos = [evt.touches[0].clientX, evt.touches[0].clientY];
+        }
+        document.addEventListener('touchmove', handleTouchMove);
+
+        function handleTouchStart(evt: TouchEvent) {
+            evt.touches[0] &&
+                setMousePos([evt.touches[0].clientX, evt.touches[0].clientY]);
+            prevTouchPos = [null, null];
+        }
+        document.addEventListener('touchstart', handleTouchStart);
+
         function handleSelectionChange() {
             setSelection([
                 inputRef.current.selectionStart,
@@ -45,7 +77,9 @@ export default function Home() {
         document.addEventListener('selectionchange', handleSelectionChange);
 
         return () => {
-            window.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchstart', handleTouchStart);
             document.removeEventListener(
                 'selectionchange',
                 handleSelectionChange
@@ -118,7 +152,8 @@ export default function Home() {
                     color: `hsl(${color.hue}deg, ${color.sat}%, ${color.light}%)`
                 }}
             >
-                (Drag on the background to change the color)
+                (Drag on the background to change the color
+                {isTouchDevice() ? '; tap to change light position' : ''})
             </p>
         </div>
     );
