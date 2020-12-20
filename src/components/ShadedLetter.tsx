@@ -92,7 +92,6 @@ export default function ShadedLetter({
 
     let borderRadius = 10;
 
-    if (children === ' ') return <> </>;
     return (
         <span
             style={{

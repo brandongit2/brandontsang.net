@@ -126,26 +126,24 @@ export default function Home() {
                     overscroll-behavior: contain;
                 }
             `}</style>
-            <div style={{position: 'relative'}}>
+            <div className={styles['text-container']}>
+                <textarea
+                    className={`${styles.title} ${styles.input}`}
+                    onMouseDown={(evt) => {
+                        evt.stopPropagation();
+                    }}
+                    onInput={(evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        setText(evt.target.value);
+                    }}
+                    spellCheck="false"
+                    ref={inputRef}
+                    style={{
+                        caretColor: `hsl(${color.hue}deg, ${color.sat}%, ${color.light}%)`
+                    }}
+                >
+                    {text}
+                </textarea>
                 <span className={`${styles.title} ${styles.display}`}>
-                    <textarea
-                        className={`${styles.title} ${styles.input}`}
-                        onMouseDown={(evt) => {
-                            evt.stopPropagation();
-                        }}
-                        onInput={(
-                            evt: React.ChangeEvent<HTMLTextAreaElement>
-                        ) => {
-                            setText(evt.target.value);
-                        }}
-                        spellCheck="false"
-                        ref={inputRef}
-                        style={{
-                            caretColor: `hsl(${color.hue}deg, ${color.sat}%, ${color.light}%)`
-                        }}
-                    >
-                        {text}
-                    </textarea>
                     {(() => {
                         // Split text into groups of characters and whitespace
                         // (fixes whitespace issues in Safari)
