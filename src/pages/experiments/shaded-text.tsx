@@ -121,6 +121,11 @@ export default function Home() {
                     href="https://use.typekit.net/lni7lly.css"
                 />
             </Head>
+            <style jsx global>{`
+                body {
+                    overscroll-behavior: contain;
+                }
+            `}</style>
             <div style={{position: 'relative'}}>
                 <span className={`${styles.title} ${styles.display}`}>
                     <textarea
