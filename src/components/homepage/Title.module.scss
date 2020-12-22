@@ -1,7 +1,10 @@
 .container {
     width: calc(100vw - 6.5rem);
-    padding: 2.5rem;
-    color: var(--foreground-color);
+    padding-left: 2.5rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .title {
