@@ -1,7 +1,14 @@
 import Head from 'next/head';
 
 import styles from './index.module.scss';
-import {Title, Footer} from '../components/homepage';
+import {
+    Title,
+    Experience,
+    Footer,
+    Projects,
+    Skills,
+    TableOfContents
+} from '../components/homepage';
 
 export default function Index() {
     return (
@@ -20,6 +27,7 @@ export default function Index() {
 
                     font-family: mostra-nuova;
                     background: var(--background-color);
+                    color: var(--foreground-color);
                     height: 100%;
                 }
 
@@ -29,6 +37,10 @@ export default function Index() {
                 }
             `}</style>
             <Title />
+            <TableOfContents />
+            <Projects />
+            <Skills />
+            <Experience />
             <Footer />
         </div>
     );

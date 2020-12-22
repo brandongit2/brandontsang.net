@@ -2,8 +2,12 @@
     margin: 2rem;
     display: inline-flex;
     height: calc(100% - 4rem);
-    align-items: center;
+    align-items: stretch;
     border: 2px solid var(--foreground-color);
     box-sizing: border-box;
     width: max-content;
+
+    > div {
+        padding: 2rem;
+    }
 }
