@@ -101,6 +101,9 @@ export default function Home() {
         color.light / 100 + minLightness
     }%)`;
 
+    // Work around Safari bugs dealing with word wraps
+    let isSafari = process.browser && /AppleWebKit\//.test(navigator.userAgent);
+
     return (
         <div
             className={styles.container}
@@ -128,7 +131,9 @@ export default function Home() {
             `}</style>
             <div className={styles['text-container']}>
                 <textarea
-                    className={`${styles.title} ${styles.input}`}
+                    className={`${styles.title} ${styles.input} ${
+                        isSafari ? styles.safari : ''
+                    }`}
                     onMouseDown={(evt) => {
                         evt.stopPropagation();
                     }}
@@ -143,35 +148,29 @@ export default function Home() {
                 >
                     {text}
                 </textarea>
-                <span className={`${styles.title} ${styles.display}`}>
+                <span
+                    className={`${styles.title} ${styles.display} ${
+                        isSafari ? styles.safari : ''
+                    }`}
+                >
                     {(() => {
                         // Split text into groups of characters and whitespace
                         // (fixes whitespace issues in Safari)
                         let split = [...text.matchAll(/(\s+|[^\s])/g)];
 
-                        return split.map(([letter], i) => {
-                            if (/^\s+$/.test(letter)) {
-                                // If letter is only whitespace
-                                return letter;
-                            } else {
-                                return (
-                                    <ShadedLetter
-                                        mousePos={mousePos}
-                                        maxLightness={maxLightness}
-                                        minLightness={minLightness}
-                                        color={color}
-                                        selected={
-                                            i >= selection[0] &&
-                                            i < selection[1]
-                                        }
-                                        selectionStart={i === selection[0]}
-                                        selectionEnd={i === selection[1] - 1}
-                                    >
-                                        {letter}
-                                    </ShadedLetter>
-                                );
-                            }
-                        });
+                        return split.map(([letter], i) => (
+                            <ShadedLetter
+                                mousePos={mousePos}
+                                maxLightness={maxLightness}
+                                minLightness={minLightness}
+                                color={color}
+                                selected={i >= selection[0] && i < selection[1]}
+                                selectionStart={i === selection[0]}
+                                selectionEnd={i === selection[1] - 1}
+                            >
+                                {letter}
+                            </ShadedLetter>
+                        ));
                     })()}
                 </span>
             </div>

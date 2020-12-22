@@ -95,7 +95,6 @@ export default function ShadedLetter({
     return (
         <span
             style={{
-                whiteSpace: 'pre',
                 color: `hsl(${color.hue}deg, ${color.sat}%, ${
                     Math.cos(mouseDir[1]) *
                         (color.light / 100) *

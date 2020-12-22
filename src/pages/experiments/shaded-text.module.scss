@@ -12,11 +12,16 @@
 }
 
 .title {
+    display: inline-block;
     font: 4rem 'new-spirit';
     text-align: center;
     letter-spacing: 0.07em;
-    word-break: break-all;
-    white-space: pre-wrap;
+    font-kerning: none;
+
+    &:not(.safari) {
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+    }
 }
 
 .input {
@@ -39,10 +44,7 @@
 }
 
 .display {
-    display: inline-block;
-    span {
-        user-select: none;
-    }
+    user-select: none;
 }
 
 .info-text {
