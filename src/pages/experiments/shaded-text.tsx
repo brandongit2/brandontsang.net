@@ -153,25 +153,19 @@ export default function Home() {
                         isSafari ? styles.safari : ''
                     }`}
                 >
-                    {(() => {
-                        // Split text into groups of characters and whitespace
-                        // (fixes whitespace issues in Safari)
-                        let split = [...text.matchAll(/(\s+|[^\s])/g)];
-
-                        return split.map(([letter], i) => (
-                            <ShadedLetter
-                                mousePos={mousePos}
-                                maxLightness={maxLightness}
-                                minLightness={minLightness}
-                                color={color}
-                                selected={i >= selection[0] && i < selection[1]}
-                                selectionStart={i === selection[0]}
-                                selectionEnd={i === selection[1] - 1}
-                            >
-                                {letter}
-                            </ShadedLetter>
-                        ));
-                    })()}
+                    {text.split('').map(([letter], i) => (
+                        <ShadedLetter
+                            mousePos={mousePos}
+                            maxLightness={maxLightness}
+                            minLightness={minLightness}
+                            color={color}
+                            selected={i >= selection[0] && i < selection[1]}
+                            selectionStart={i === selection[0]}
+                            selectionEnd={i === selection[1] - 1}
+                        >
+                            {letter}
+                        </ShadedLetter>
+                    ))}
                 </span>
             </div>
             <p
