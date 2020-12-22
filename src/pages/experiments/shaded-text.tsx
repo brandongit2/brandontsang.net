@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 import styles from './shaded-text.module.scss';
 import ShadedLetter from '../../components/ShadedLetter';
@@ -121,7 +121,7 @@ export default function Home() {
                 <title>Shaded Text Demo</title>
                 <link
                     rel="stylesheet"
-                    href="https://use.typekit.net/lni7lly.css"
+                    href="https://use.typekit.net/wyb4ytz.css"
                 />
             </Head>
             <style jsx global>{`

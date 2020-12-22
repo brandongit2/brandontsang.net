@@ -1,0 +1,44 @@
+.container {
+    width: calc(100vw - 6.5rem);
+    padding: 2.5rem;
+    color: var(--foreground-color);
+}
+
+.title {
+    font-weight: 700;
+    font-size: 8rem;
+}
+
+.subtitle {
+    font-size: 4rem;
+}
+
+.action {
+    font-size: 1.5rem;
+    border: 2px solid var(--foreground-color);
+    padding: 1rem;
+    display: inline-block;
+    margin-top: 2rem;
+}
+
+.arrow {
+    vertical-align: bottom;
+    height: 1em;
+    margin-left: calc(0.5em + 0.2em);
+    margin-right: 0.2em;
+    position: relative;
+    animation: arrow-movement 1s cubic-bezier(0.36, 0.11, 0.65, 0.93) alternate
+        infinite;
+}
+
+@keyframes arrow-movement {
+    $movement-amt: 0.1em;
+
+    from {
+        left: -$movement-amt;
+    }
+
+    to {
+        left: $movement-amt;
+    }
+}
