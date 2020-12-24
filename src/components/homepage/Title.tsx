@@ -1,20 +1,29 @@
+import {useContext} from 'react';
+
 import styles from './Title.module.scss';
+import {ThemeColorContext} from '../../contexts/ThemeColors';
 import {useShadow} from '../../hooks/useShadow';
+import Color from 'color';
 
 export default function Slide1() {
-    const fromColor = {hue: 120, sat: 100, light: 20};
-    const toColor = {hue: 330, sat: 100, light: 40};
+    const {back, fore} = useContext(ThemeColorContext);
 
-    const titleShadow = useShadow(fromColor, toColor, 20);
-    const actionShadow = useShadow(fromColor, toColor, 20);
+    const shadow = useShadow(
+        20,
+        fore,
+        Color({h: 230, s: 100, l: 40}),
+        Color({h: 330, s: 100, l: 25}),
+        Color({h: 30, s: 100, l: 50}),
+        back
+    );
 
     return (
         <div className={styles.container}>
             <h1
                 className={styles.title}
                 style={{
-                    color: `hsl(${fromColor.hue}deg, ${fromColor.sat}%, ${fromColor.light}%)`,
-                    textShadow: titleShadow
+                    color: fore.string(),
+                    textShadow: shadow
                 }}
             >
                 I'm Brandon Tsang.
@@ -22,13 +31,13 @@ export default function Slide1() {
             <h2
                 className={styles.subtitle}
                 style={{
-                    color: `hsl(${fromColor.hue}deg, ${fromColor.sat}%, ${fromColor.light}%)`,
-                    textShadow: titleShadow
+                    color: fore.string(),
+                    textShadow: shadow
                 }}
             >
                 UI/UX designer and full-stack web developer.
             </h2>
-            <p className={styles.action} style={{boxShadow: actionShadow}}>
+            <p className={styles.action} style={{boxShadow: shadow}}>
                 Scroll to read more
                 <svg viewBox="0 0 476.213 476.213" className={styles.arrow}>
                     <polygon
