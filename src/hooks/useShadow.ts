@@ -1,15 +1,7 @@
-interface ColorHSL {
-    hue: number;
-    sat: number;
-    light: number;
-}
+import Color from 'color';
 
-export function useShadow(
-    fromColor: ColorHSL,
-    toColor: ColorHSL,
-    height: number
-) {
-    const shadowsPerPixel = 2;
+export function useShadow(height: number, ...colors: Color[]) {
+    const shadowsPerPixel = 1.3;
     const slant = 135 * (Math.PI / 180);
 
     let shadow = '';
@@ -20,13 +12,15 @@ export function useShadow(
         let x = prog * height * Math.cos(slant);
         let y = prog * height * Math.sin(slant);
 
-        let hue = prog * (toColor.hue - fromColor.hue) + fromColor.hue;
-        let sat = prog * (toColor.sat - fromColor.sat) + fromColor.sat;
-        let light = prog * (toColor.light - fromColor.light) + fromColor.light;
+        let firstColor = colors[Math.floor(prog * (colors.length - 1))];
+        let secondColor = colors[Math.ceil(prog * (colors.length - 1))];
+        let colorProg =
+            (prog % (1 / (colors.length - 1))) * (colors.length - 1);
+        let color = firstColor.mix(secondColor, colorProg);
 
         let newShadow = `${
             shadow === '' ? '' : ','
-        }${x}px ${y}px 0.5px hsla(${hue}deg,${sat}%, ${light}%)`;
+        }${x}px ${y}px 1px ${color.string()}`;
         shadow += newShadow;
     }
     return shadow;
