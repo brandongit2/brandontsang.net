@@ -16,15 +16,6 @@
     left: 2rem;
 }
 
-$canada-height: 300px;
-
-.canada-overlay {
-    background: var(--foreground-color);
-    height: $canada-height;
-    mask: url('/canada.svg') center/contain no-repeat;
-    position: relative;
-}
-
 .montreal {
     width: 10px;
     height: 10px;
@@ -32,6 +23,20 @@ $canada-height: 300px;
     border-radius: 50%;
     background: red;
     position: absolute;
-    top: 83.3%;
-    left: calc(50% + #{$canada-height / 1.1826 * 0.34});
+    top: 84.4%;
+    left: calc(50% + 300px / 1.1826 * 0.35);
+}
+
+.contact-links {
+    display: flex;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    margin-right: 1em;
+}
+
+.contact-logo {
+    margin-right: 0.5em;
 }
