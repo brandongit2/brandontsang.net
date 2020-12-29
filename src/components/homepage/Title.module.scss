@@ -10,18 +10,19 @@
 
 .title {
     font-weight: 700;
-    font-size: 8rem;
+    font-size: 6em;
+    line-height: 1em;
+    margin-bottom: 0.2em;
 }
 
 .subtitle {
-    font-size: 4rem;
+    font-size: 3em;
 }
 
 .action {
     position: absolute;
     bottom: 2rem;
     left: 2rem;
-    font-size: 1.5rem;
 }
 
 .arrow {
@@ -42,5 +43,16 @@
 
     to {
         left: $movement-amt;
+    }
+}
+
+@media (max-width: 799px) {
+    .container {
+        width: unset;
+        height: calc(100vh - 4rem);
+    }
+
+    .action {
+        display: none;
     }
 }

@@ -1,8 +1,11 @@
+.scroller {
+    width: 100vw;
+    height: 100vh;
+}
+
 .page-container {
-    font-size: 1.3rem;
     margin: 2rem;
     display: inline-flex;
-    height: calc(100% - 4rem);
     align-items: stretch;
     border: 2px solid var(--foreground-color);
     box-sizing: border-box;
@@ -10,5 +13,29 @@
 
     > div {
         padding: 2rem;
+    }
+}
+
+@media (max-width: 799px) {
+    .scroller {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+
+    .page-container {
+        flex-direction: column;
+        width: calc(100% - 4rem);
+    }
+}
+
+@media (min-width: 800px) {
+    .scroller {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .page-container {
+        font-size: 1.3rem;
+        height: calc(100% - 4rem);
     }
 }
