@@ -1,19 +1,10 @@
 .container {
-    width: 40rem;
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    p {
-        margin: 1em 0px;
-    }
-}
-
-.title {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    row-gap: 1em;
+    align-content: center;
 }
 
 .montreal {
@@ -29,6 +20,7 @@
 
 .contact-links {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .contact-link {
@@ -39,4 +31,16 @@
 
 .contact-logo {
     margin-right: 0.5em;
+}
+
+@media (min-width: 800px) {
+    .container {
+        width: 40rem;
+    }
+
+    .title {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+    }
 }

@@ -10,7 +10,7 @@ import {clamp} from '../misc/util';
 export default function Index() {
     const aboutRef = useRef(null);
     const workRef = useRef(null);
-    const verticalScroller = useRef(null);
+    const scrollerRef = useRef(null);
 
     const colors = {
         title: [Color('#385168'), Color('#eae607')],
@@ -22,26 +22,21 @@ export default function Index() {
     const [fore, setFore] = useState(colors.title[1]);
 
     useEffect(() => {
-        const scrollThreshold = 150; // in pixels
         function handleScroll() {
-            let aboutAmt = clamp(
-                -(
-                    aboutRef.current.getBoundingClientRect().left -
-                    window.innerWidth / 2 -
-                    scrollThreshold / 2
-                ) / scrollThreshold,
-                0,
-                1
-            );
-            let workAmt = clamp(
-                -(
-                    workRef.current.getBoundingClientRect().left -
-                    window.innerWidth / 2 -
-                    scrollThreshold / 2
-                ) / scrollThreshold,
-                0,
-                1
-            );
+            if (window.innerWidth < 800) {
+                var midScreen =
+                    scrollerRef.current.scrollTop + window.innerHeight / 2;
+                var aboutStart = aboutRef.current.offsetTop;
+                var workStart = workRef.current.offsetTop;
+            } else {
+                var midScreen =
+                    scrollerRef.current.scrollLeft + window.innerWidth / 2;
+                var aboutStart = aboutRef.current.offsetLeft;
+                var workStart = workRef.current.offsetLeft;
+            }
+
+            let aboutAmt = clamp((midScreen - aboutStart + 75) / 150, 0, 1);
+            let workAmt = clamp((midScreen - workStart + 75) / 150, 0, 1);
 
             let back = colors.title[0]
                 .mix(colors.about[0], aboutAmt)
@@ -55,15 +50,16 @@ export default function Index() {
             setBack(back);
             setFore(fore);
         }
-        window.addEventListener('scroll', handleScroll);
+        let scroller = scrollerRef.current;
+        scroller.addEventListener('scroll', handleScroll);
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            scroller.removeEventListener('scroll', handleScroll);
         };
     }, []);
 
     return (
-        <>
+        <div className={styles['scroller']} ref={scrollerRef}>
             <ThemeColorContext.Provider value={{back, fore}}>
                 <div className={styles['page-container']}>
                     <Head>
@@ -74,10 +70,6 @@ export default function Index() {
                         />
                     </Head>
                     <style jsx global>{`
-                        html {
-                            height: 100%;
-                        }
-
                         body {
                             --background-color: ${colors.title[0]};
                             --foreground-color: ${colors.title[1]};
@@ -85,13 +77,7 @@ export default function Index() {
                             font-family: mostra-nuova;
                             background: var(--background-color);
                             color: var(--foreground-color);
-                            width: min-content;
-                            height: 100%;
-                        }
-
-                        #__next {
-                            height: 100%;
-                            display: inline-block;
+                            overflow: hidden;
                         }
 
                         a:link,
@@ -105,10 +91,6 @@ export default function Index() {
                     <Footer />
                 </div>
             </ThemeColorContext.Provider>
-            <div
-                ref={verticalScroller}
-                className={styles['vertical-scroller']}
-            />
-        </>
+        </div>
     );
 }

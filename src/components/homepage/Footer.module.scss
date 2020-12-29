@@ -1,14 +1,16 @@
 .container {
     background: var(--foreground-color);
     color: var(--background-color);
-    width: 20rem;
 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    row-gap: 1em;
+    align-content: center;
+}
 
-    p {
-        margin: 0.5rem 0px;
+@media (min-width: 800px) {
+    .container {
+        width: 20rem;
     }
 }

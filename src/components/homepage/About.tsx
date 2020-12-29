@@ -11,7 +11,6 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
                 src="canada.png"
                 color={'var(--foreground-color)'}
                 height="300px"
-                style={{marginBottom: '1rem'}}
             >
                 <div className={styles.montreal} />
             </ColoredImg>
