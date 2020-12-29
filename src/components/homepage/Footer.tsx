@@ -23,6 +23,7 @@ export default function Footer() {
                     www.flaticon.com
                 </a>
             </p>
+            <p>Website by Brandon Tsang</p>
         </div>
     );
 }

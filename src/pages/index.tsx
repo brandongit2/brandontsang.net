@@ -10,11 +10,12 @@ import {clamp} from '../misc/util';
 export default function Index() {
     const aboutRef = useRef(null);
     const workRef = useRef(null);
+    const verticalScroller = useRef(null);
 
     const colors = {
-        title: [Color('#ffc5cd'), Color('#006600')],
-        about: [Color('#1548f8'), Color('#f9bd05')],
-        work: [Color('#000000'), Color('#de3d3c')]
+        title: [Color('#385168'), Color('#eae607')],
+        about: [Color('#45256D'), Color('#45C895')],
+        work: [Color('#6d2d52'), Color('#8ECD51')]
     };
 
     const [back, setBack] = useState(colors.title[0]);
@@ -62,46 +63,52 @@ export default function Index() {
     }, []);
 
     return (
-        <ThemeColorContext.Provider value={{back, fore}}>
-            <div className={styles['page-container']}>
-                <Head>
-                    <title>Brandon Tsang</title>
-                    <meta
-                        name="viewport"
-                        content="initial-scale=1.0, width=device-width"
-                    />
-                </Head>
-                <style jsx global>{`
-                    html {
-                        height: 100%;
-                    }
+        <>
+            <ThemeColorContext.Provider value={{back, fore}}>
+                <div className={styles['page-container']}>
+                    <Head>
+                        <title>Brandon Tsang</title>
+                        <meta
+                            name="viewport"
+                            content="initial-scale=1.0, width=device-width"
+                        />
+                    </Head>
+                    <style jsx global>{`
+                        html {
+                            height: 100%;
+                        }
 
-                    body {
-                        --background-color: #ffc5cd;
-                        --foreground-color: #006600;
+                        body {
+                            --background-color: ${colors.title[0]};
+                            --foreground-color: ${colors.title[1]};
 
-                        font-family: mostra-nuova;
-                        background: var(--background-color);
-                        color: var(--foreground-color);
-                        width: min-content;
-                        height: 100%;
-                    }
+                            font-family: mostra-nuova;
+                            background: var(--background-color);
+                            color: var(--foreground-color);
+                            width: min-content;
+                            height: 100%;
+                        }
 
-                    #__next {
-                        height: 100%;
-                        display: inline-block;
-                    }
+                        #__next {
+                            height: 100%;
+                            display: inline-block;
+                        }
 
-                    a:link,
-                    a:visited {
-                        color: inherit;
-                    }
-                `}</style>
-                <Title />
-                <About ref={aboutRef} />
-                <Work ref={workRef} />
-                <Footer />
-            </div>
-        </ThemeColorContext.Provider>
+                        a:link,
+                        a:visited {
+                            color: inherit;
+                        }
+                    `}</style>
+                    <Title />
+                    <About ref={aboutRef} />
+                    <Work ref={workRef} />
+                    <Footer />
+                </div>
+            </ThemeColorContext.Provider>
+            <div
+                ref={verticalScroller}
+                className={styles['vertical-scroller']}
+            />
+        </>
     );
 }

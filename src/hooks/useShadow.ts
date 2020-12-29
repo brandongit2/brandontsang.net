@@ -1,7 +1,7 @@
 import Color from 'color';
 
 export function useShadow(height: number, ...colors: Color[]) {
-    const shadowsPerPixel = 1.3;
+    const shadowsPerPixel = 1.5;
     const slant = 135 * (Math.PI / 180);
 
     let shadow = '';
@@ -20,7 +20,7 @@ export function useShadow(height: number, ...colors: Color[]) {
 
         let newShadow = `${
             shadow === '' ? '' : ','
-        }${x}px ${y}px 1px ${color.string()}`;
+        }${x}px ${y}px 0.5px ${color.string()}`;
         shadow += newShadow;
     }
     return shadow;
