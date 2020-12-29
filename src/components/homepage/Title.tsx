@@ -3,20 +3,12 @@ import {useContext} from 'react';
 import styles from './Title.module.scss';
 import {ThemeColorContext} from '../../contexts/ThemeColors';
 import {useShadow} from '../../hooks/useShadow';
-import Color from 'color';
 import ColoredImg from '../ColoredImg';
 
 export default function Slide1() {
     const {back, fore} = useContext(ThemeColorContext);
 
-    const shadow = useShadow(
-        20,
-        fore,
-        Color({h: 230, s: 100, l: 40}),
-        Color({h: 330, s: 100, l: 25}),
-        Color({h: 30, s: 100, l: 50}),
-        back
-    );
+    const shadow = useShadow(20, fore, back);
 
     return (
         <div className={styles.container}>
@@ -38,7 +30,7 @@ export default function Slide1() {
             >
                 UI/UX designer and full-stack web developer.
             </h2>
-            <p className={styles.action} style={{boxShadow: shadow}}>
+            <p className={styles.action}>
                 Scroll to read more
                 <ColoredImg
                     src="right-arrow.svg"
