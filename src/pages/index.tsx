@@ -53,6 +53,11 @@ export default function Index() {
         let scroller = scrollerRef.current;
         scroller.addEventListener('scroll', handleScroll);
 
+        document.documentElement.style.setProperty(
+            '--vh',
+            `${window.innerHeight}px`
+        );
+
         return () => {
             scroller.removeEventListener('scroll', handleScroll);
         };
@@ -73,6 +78,9 @@ export default function Index() {
                         body {
                             --background-color: ${colors.title[0]};
                             --foreground-color: ${colors.title[1]};
+                            --vh: ${process.browser
+                                ? `${window.innerHeight}px`
+                                : '100vh'};
 
                             font-family: mostra-nuova;
                             background: var(--background-color);
