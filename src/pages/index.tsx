@@ -53,10 +53,12 @@ export default function Index() {
         let scroller = scrollerRef.current;
         scroller.addEventListener('scroll', handleScroll);
 
-        document.documentElement.style.setProperty(
-            '--vh',
-            `${window.innerHeight}px`
-        );
+        function handleResize() {
+            document
+                .getElementsByTagName('body')[0]
+                .style.setProperty('--vh', `${window.innerHeight}px`);
+        }
+        window.addEventListener('resize', handleResize);
 
         return () => {
             scroller.removeEventListener('scroll', handleScroll);
