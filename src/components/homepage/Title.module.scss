@@ -10,9 +10,10 @@
 
 .title {
     font-weight: 700;
-    font-size: 6em;
+    font-size: 7em;
     line-height: 1em;
-    margin-bottom: 0.2em;
+    margin-bottom: 0.1em;
+    color: var(--foreground-color);
 }
 
 .subtitle {
@@ -48,8 +49,14 @@
 
 @media (max-width: 799px) {
     .container {
+        padding-left: 1.5rem !important;
         width: unset;
-        height: calc(100vh - 4rem);
+        height: calc(var(--vh) - 4rem);
+        font-size: 0.8rem;
+    }
+
+    .title {
+        margin-bottom: 0.2em;
     }
 
     .action {

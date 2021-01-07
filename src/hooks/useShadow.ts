@@ -20,7 +20,7 @@ export function useShadow(height: number, ...colors: Color[]) {
 
         let newShadow = `${
             shadow === '' ? '' : ','
-        }${x}px ${y}px 0.5px ${color.string()}`;
+        }${x}px ${y}px 0px ${color.string()}`;
         shadow += newShadow;
     }
     return shadow;

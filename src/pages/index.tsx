@@ -14,8 +14,8 @@ export default function Index() {
 
     const colors = {
         title: [Color('#385168'), Color('#eae607')],
-        about: [Color('#45256D'), Color('#45C895')],
-        work: [Color('#6d2d52'), Color('#8ECD51')]
+        about: [Color('#45256d'), Color('#45c895')],
+        work: [Color('#6d2d52'), Color('#8ecd51')]
     };
 
     const [back, setBack] = useState(colors.title[0]);
@@ -54,6 +54,7 @@ export default function Index() {
         scroller.addEventListener('scroll', handleScroll);
 
         function handleResize() {
+            if (window.innerWidth * window.devicePixelRatio < 800) return;
             document
                 .getElementsByTagName('body')[0]
                 .style.setProperty('--vh', `${window.innerHeight}px`);
@@ -62,6 +63,7 @@ export default function Index() {
 
         return () => {
             scroller.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleResize);
         };
     }, []);
 

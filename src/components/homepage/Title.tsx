@@ -5,17 +5,17 @@ import {ThemeColorContext} from '../../contexts/ThemeColors';
 import {useShadow} from '../../hooks/useShadow';
 import ColoredImg from '../ColoredImg';
 
-export default function Slide1() {
+export default function Title() {
     const {back, fore} = useContext(ThemeColorContext);
 
-    const shadow = useShadow(20, fore, back);
+    const shadowHeight = process.browser && window.innerWidth < 800 ? 15 : 20;
+    const shadow = useShadow(shadowHeight, fore, back);
 
     return (
         <div className={styles.container}>
             <h1
                 className={styles.title}
                 style={{
-                    color: fore.string(),
                     textShadow: shadow
                 }}
             >
@@ -24,7 +24,6 @@ export default function Slide1() {
             <h2
                 className={styles.subtitle}
                 style={{
-                    color: fore.string(),
                     textShadow: shadow
                 }}
             >
@@ -34,7 +33,7 @@ export default function Slide1() {
                 Scroll to read more
                 <ColoredImg
                     src="right-arrow.svg"
-                    color={fore.string()}
+                    color="var(--foreground-color)"
                     height="1em"
                     className={styles.arrow}
                 />
