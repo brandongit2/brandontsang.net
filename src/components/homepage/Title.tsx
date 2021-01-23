@@ -27,7 +27,7 @@ export default function Title() {
                     textShadow: shadow
                 }}
             >
-                UI/UX designer and full-stack web developer.
+                UI/UX designer and front-end web developer.
             </h2>
             <p className={styles.action}>
                 Scroll to read more

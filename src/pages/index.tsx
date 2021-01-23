@@ -68,9 +68,9 @@ export default function Index() {
     }, []);
 
     return (
-        <div className={styles['scroller']} ref={scrollerRef}>
+        <div className={styles.scroller} ref={scrollerRef}>
             <ThemeColorContext.Provider value={{back, fore}}>
-                <div className={styles['page-container']}>
+                <div className={styles.pageContainer}>
                     <Head>
                         <title>Brandon Tsang</title>
                         <meta
@@ -97,6 +97,7 @@ export default function Index() {
                             color: inherit;
                         }
                     `}</style>
+                    <div className={styles.indicators} />
                     <Title />
                     <About ref={aboutRef} />
                     <Work ref={workRef} />

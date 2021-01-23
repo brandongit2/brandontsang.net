@@ -6,7 +6,6 @@ import ColoredImg from '../ColoredImg';
 const About = forwardRef<HTMLDivElement>((props, ref) => {
     return (
         <div ref={ref} className={styles.container}>
-            <h1 className={styles.title}>About Me</h1>
             <ColoredImg
                 src="canada.png"
                 color={'var(--foreground-color)'}
@@ -21,43 +20,43 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
                 in both English and French.
             </p>
             <p>Wanna contact me? Use the links below:</p>
-            <div className={styles['contact-links']}>
+            <div className={styles.contactLinks}>
                 <a
                     href="https://github.com/brandongit2"
                     target="_blank"
-                    className={styles['contact-link']}
+                    className={styles.contactLink}
                 >
                     <ColoredImg
                         src="github-logo.svg"
                         color={'var(--foreground-color)'}
                         height="1em"
-                        className={styles['contact-logo']}
+                        className={styles.contactLogo}
                     />
                     <span>brandongit2</span>
                 </a>
                 <a
                     href="https://www.linkedin.com/in/brandontsang2/"
                     target="_blank"
-                    className={styles['contact-link']}
+                    className={styles.contactLink}
                 >
                     <ColoredImg
                         src="linkedin-logo.svg"
                         color={'var(--foreground-color)'}
                         height="1em"
-                        className={styles['contact-logo']}
+                        className={styles.contactLogo}
                     />
                     <span>Brandon Tsang</span>
                 </a>
                 <a
                     href="mailto:brandononline2@gmail.com"
                     target="_blank"
-                    className={styles['contact-link']}
+                    className={styles.contactLink}
                 >
                     <ColoredImg
                         src="email.svg"
                         color={'var(--foreground-color)'}
                         height="1em"
-                        className={styles['contact-logo']}
+                        className={styles.contactLogo}
                     />
                     <span>brandononline2@gmail.com</span>
                 </a>
