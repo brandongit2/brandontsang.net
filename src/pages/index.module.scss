@@ -4,6 +4,7 @@
 }
 
 .pageContainer {
+    position: relative;
     margin: 2rem;
     display: inline-grid;
     grid-auto-flow: column;
@@ -13,17 +14,13 @@
     width: max-content;
 }
 
-.indicators {
-    position: absolute;
-    bottom: 0px;
+.indicator {
+    position: fixed;
     left: 50%;
-    transform: translate(-50%, 0px);
-    width: 100px;
-    height: 10px;
-    border: 2px solid var(--foreground-color);
-    border-top: none;
-    border-bottom: none;
-    padding: 0px;
+    transform: translate(-50%, -100%);
+    width: 2px;
+    height: 25px;
+    background: var(--background-color);
 }
 
 @media (max-width: 799px) {

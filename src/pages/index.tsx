@@ -11,6 +11,7 @@ export default function Index() {
     const aboutRef = useRef(null);
     const workRef = useRef(null);
     const scrollerRef = useRef(null);
+    const indicatorRef = useRef(null);
 
     const colors = {
         title: [Color('#385168'), Color('#eae607')],
@@ -22,6 +23,11 @@ export default function Index() {
     const [fore, setFore] = useState(colors.title[1]);
 
     useEffect(() => {
+        // Center indicators on screen
+        indicatorRef.current.style.top = `${
+            aboutRef.current.getBoundingClientRect().bottom
+        }px`;
+
         function handleScroll() {
             if (window.innerWidth < 800) {
                 var midScreen =
@@ -68,8 +74,8 @@ export default function Index() {
     }, []);
 
     return (
-        <div className={styles.scroller} ref={scrollerRef}>
-            <ThemeColorContext.Provider value={{back, fore}}>
+        <ThemeColorContext.Provider value={{back, fore}}>
+            <div className={styles.scroller} ref={scrollerRef}>
                 <div className={styles.pageContainer}>
                     <Head>
                         <title>Brandon Tsang</title>
@@ -97,13 +103,13 @@ export default function Index() {
                             color: inherit;
                         }
                     `}</style>
-                    <div className={styles.indicators} />
                     <Title />
                     <About ref={aboutRef} />
                     <Work ref={workRef} />
                     <Footer />
+                    <div className={styles.indicator} ref={indicatorRef} />
                 </div>
-            </ThemeColorContext.Provider>
-        </div>
+            </div>
+        </ThemeColorContext.Provider>
     );
 }
