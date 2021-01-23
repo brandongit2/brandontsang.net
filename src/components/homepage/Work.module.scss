@@ -1,23 +1,15 @@
 .container {
     position: relative;
-    display: grid;
+    display: flex;
+    align-items: center;
+    background: var(--background-color);
 }
 
-@media (max-width: 799px) {
-    .container {
-        grid-template-columns: auto;
-        row-gap: 2rem;
-    }
+.content {
+    height: 70%;
 }
 
 @media (min-width: 800px) {
-    .container {
-        width: 70rem;
-        grid-template-rows: auto;
-        column-gap: 2rem;
-        align-items: center;
-    }
-
     .title {
         position: absolute;
         top: 2rem;
