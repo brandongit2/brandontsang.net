@@ -1,18 +1,13 @@
-import {
-    forwardRef,
-    useEffect,
-    useImperativeHandle,
-    useRef,
-    useState
-} from 'react';
+import {forwardRef, useContext, useEffect, useRef, useState} from 'react';
 
 import {WorkCard} from './';
 import styles from './Work.module.scss';
+import {ThemeColorContext} from '../../contexts/ThemeColors';
+import {useShadow} from '../../hooks/useShadow';
 import indexStyles from '../../pages/index.module.scss';
 
 const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
     const ref = useRef(null);
-    useImperativeHandle(forwardedRef, () => ref.current);
 
     const [currentSection, setCurrentSection] = useState(-1);
 
@@ -28,7 +23,6 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
                     302
             );
             if (newCurrentSection !== currentSection) {
-                console.log(currentSection);
                 setCurrentSection(newCurrentSection);
             }
         }
@@ -39,11 +33,17 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
         };
     }, [currentSection]);
 
-    function isExpanded(idx: number) {}
+    const {back, fore} = useContext(ThemeColorContext);
+    const shadow = useShadow(15, 240, fore, back);
 
     return (
-        <div ref={ref} className={styles.container}>
-            <div className={styles.topPart}>
+        <div ref={forwardedRef} className={styles.container}>
+            <div ref={ref} className={styles.topPart}>
+                <div className={styles.myWorkContainer}>
+                    <h1 className={styles.myWork} style={{textShadow: shadow}}>
+                        My Work
+                    </h1>
+                </div>
                 <div className={styles.workCards}>
                     <WorkCard
                         title="brandontsang.net"

@@ -1,8 +1,8 @@
 import Color from 'color';
 
-export function useShadow(height: number, ...colors: Color[]) {
+export function useShadow(height: number, angle: number, ...colors: Color[]) {
     const shadowsPerPixel = 1.5;
-    const slant = 135 * (Math.PI / 180);
+    const slant = angle * (Math.PI / 180);
 
     let shadow = '';
     let numShadows = height * shadowsPerPixel;

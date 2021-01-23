@@ -9,7 +9,7 @@ export default function Title() {
     const {back, fore} = useContext(ThemeColorContext);
 
     const shadowHeight = process.browser && window.innerWidth < 800 ? 15 : 20;
-    const shadow = useShadow(shadowHeight, fore, back);
+    const shadow = useShadow(shadowHeight, 135, fore, back);
 
     return (
         <div className={styles.container}>
