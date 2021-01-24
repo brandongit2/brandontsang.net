@@ -24,6 +24,8 @@
     position: absolute;
     bottom: 2rem;
     left: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 .arrow {
@@ -33,6 +35,11 @@
     position: relative;
     animation: arrow-movement 1s cubic-bezier(0.36, 0.11, 0.65, 0.93) alternate
         infinite;
+}
+
+.useArrowKeys {
+    opacity: 0.7;
+    font-size: 0.7em;
 }
 
 @keyframes arrow-movement {

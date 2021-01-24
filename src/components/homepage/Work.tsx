@@ -1,7 +1,6 @@
 import {
     forwardRef,
     useContext,
-    useEffect,
     useImperativeHandle,
     useRef,
     useState
@@ -11,8 +10,8 @@ import {WorkCard} from './';
 import styles from './Work.module.scss';
 import {ThemeColorContext} from '../../contexts/ThemeColors';
 import {useShadow} from '../../hooks/useShadow';
-import indexStyles from '../../pages/index.module.scss';
 import {remToPixels} from '../../misc/util';
+import {ScrollEventsContext} from '../../contexts/ScrollEvents';
 
 const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
     const containerRef = useRef(null);
@@ -21,49 +20,36 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
 
     const [currentSection, setCurrentSection] = useState(-1);
 
-    useEffect(() => {
-        const scroller = document.getElementsByClassName(
-            indexStyles.scroller
-        )[0];
+    const {onScroll} = useContext(ScrollEventsContext);
 
-        function handleScroll() {
-            // Check if current section has changed
-            const newCurrentSection = Math.floor(
-                (window.innerWidth / 2 -
-                    containerRef.current.getBoundingClientRect().x -
-                    window.innerWidth * 0.2) /
-                    302
-            );
-            if (newCurrentSection !== currentSection) {
-                setCurrentSection(newCurrentSection);
-            }
-
-            // Parallax pan the work cards
-            if (newCurrentSection >= 0) {
-                contentRef.current.style.left = `${
-                    -window.innerWidth / 2 +
-                    remToPixels(10) +
-                    window.innerWidth * 0.2
-                }px`;
-
-                contentRef.current.style.transform = `translate(${
-                    -(
-                        containerRef.current.getBoundingClientRect().x -
-                        window.innerWidth / 2 +
-                        window.innerWidth * 0.2
-                    ) / 1.5
-                }px, 0px)`;
-            } else {
-                contentRef.current.style.left = '0px';
-                contentRef.current.style.transform = 'unset';
-            }
+    onScroll(() => {
+        // Check if current section has changed
+        const newCurrentSection = Math.floor(
+            (window.innerWidth / 2 -
+                containerRef.current.getBoundingClientRect().x) /
+                302
+        );
+        if (newCurrentSection !== currentSection) {
+            setCurrentSection(newCurrentSection);
         }
 
-        scroller.addEventListener('scroll', handleScroll);
-        return () => {
-            scroller.removeEventListener('scroll', handleScroll);
-        };
-    }, [currentSection]);
+        // Parallax pan the work cards
+        if (newCurrentSection >= 0) {
+            contentRef.current.style.left = `${
+                -window.innerWidth / 2 + remToPixels(10)
+            }px`;
+
+            contentRef.current.style.transform = `translate(${
+                -(
+                    containerRef.current.getBoundingClientRect().x -
+                    window.innerWidth / 2
+                ) / 1.5
+            }px, 0px)`;
+        } else {
+            contentRef.current.style.left = '0px';
+            contentRef.current.style.transform = 'unset';
+        }
+    });
 
     const {back, fore} = useContext(ThemeColorContext);
     const shadow = useShadow(15, 240, fore, back);

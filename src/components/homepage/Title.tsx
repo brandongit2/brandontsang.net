@@ -29,15 +29,20 @@ export default function Title() {
             >
                 UI/UX designer and front-end web developer.
             </h2>
-            <p className={styles.action}>
-                Scroll to read more
+            <div className={styles.action}>
+                <div>
+                    <p>Scroll to read more</p>
+                    <p className={styles.useArrowKeys}>
+                        (Or use your arrow keys)
+                    </p>
+                </div>
                 <ColoredImg
                     src="right-arrow.svg"
                     color="var(--foreground-color)"
                     height="1em"
                     className={styles.arrow}
                 />
-            </p>
+            </div>
         </div>
     );
 }
