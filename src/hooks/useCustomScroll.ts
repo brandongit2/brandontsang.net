@@ -1,5 +1,7 @@
 import {useEffect} from 'react';
 
+import {derivative} from '../misc/util';
+
 let scrollPos = 0;
 let scrollTarget = 0;
 let velocity = 0;
@@ -37,15 +39,65 @@ export function useCustomScroll(
         delete keysPressed[evt.code];
     }
 
+    // Touch scrolling
+    let panningTouch: number | null = null;
+    let prevTouchXPos: number | null = null;
+    let lastThreeTouchXPos: number[] = [];
+    function handleTouchStart(evt: TouchEvent) {
+        evt.preventDefault();
+
+        velocity = 0;
+
+        if (panningTouch === null)
+            panningTouch = evt.changedTouches[0].identifier;
+    }
+
+    function handleTouchMove(evt: TouchEvent) {
+        evt.preventDefault();
+
+        const touch = Array.from(evt.changedTouches).find(
+            ({identifier}) => identifier === panningTouch
+        );
+        if (touch) {
+            if (prevTouchXPos !== null) {
+                scrollTarget += prevTouchXPos - touch.screenX;
+                scrollPos = scrollTarget;
+            }
+            prevTouchXPos = touch.screenX;
+            lastThreeTouchXPos.push(touch.screenX);
+            lastThreeTouchXPos = lastThreeTouchXPos.slice(-3);
+        }
+    }
+
+    function handleTouchEnd(evt: TouchEvent) {
+        const touch = Array.from(evt.changedTouches).find(
+            ({identifier}) => identifier === panningTouch
+        );
+        if (touch) {
+            const velocities = derivative(lastThreeTouchXPos);
+            if (velocities.length > 0)
+                velocity =
+                    -velocities.reduce((prev, cur) => prev + cur) /
+                    lastThreeTouchXPos.length;
+
+            panningTouch = null;
+            prevTouchXPos = null;
+            lastThreeTouchXPos = [];
+        }
+    }
+
     let lastScrollTime = Date.now();
     function scroll() {
         const delta = Date.now() - lastScrollTime;
 
         // Arrow key scrolling
-        if ('ArrowLeft' in keysPressed) {
+        if ('ArrowLeft' in keysPressed && !('ArrowRight' in keysPressed)) {
             velocity -=
                 ((Date.now() - keysPressed.ArrowLeft) / 2000) ** (1 / 3);
-        } else if ('ArrowRight' in keysPressed) {
+        } else if (
+            'ArrowRight' in keysPressed &&
+            !('ArrowLeft' in keysPressed)
+        ) {
             velocity +=
                 ((Date.now() - keysPressed.ArrowRight) / 2000) ** (1 / 3);
         }
@@ -68,10 +120,10 @@ export function useCustomScroll(
             ) {
                 // Slow down scrolling
                 if (velocity > 0) {
-                    velocity -= 0.05 * delta;
+                    velocity -= 0.06 * delta;
                     if (velocity < 0) velocity = 0;
                 } else {
-                    velocity += 0.05 * delta;
+                    velocity += 0.06 * delta;
                     if (velocity > 0) velocity = 0;
                 }
             }
@@ -79,7 +131,7 @@ export function useCustomScroll(
 
         // Mouse wheel scrolling
         if (Math.abs(scrollTarget - scrollPos) > 1) {
-            scrollPos += ((scrollTarget - scrollPos) / 100) * delta;
+            scrollPos += ((scrollTarget - scrollPos) / 50) * delta;
         }
         onScroll(scrollPos);
 
@@ -91,12 +143,18 @@ export function useCustomScroll(
         addEventListener('wheel', handleWheel, {passive: false});
         addEventListener('keydown', handleKeyDown);
         addEventListener('keyup', handleKeyUp);
+        addEventListener('touchstart', handleTouchStart, {passive: false});
+        addEventListener('touchmove', handleTouchMove, {passive: false});
+        addEventListener('touchend', handleTouchEnd);
         scrollLoop = requestAnimationFrame(scroll);
 
         return () => {
             removeEventListener('wheel', handleWheel);
             removeEventListener('keydown', handleKeyDown);
             removeEventListener('keyup', handleKeyUp);
+            removeEventListener('touchstart', handleTouchStart);
+            removeEventListener('touchmove', handleTouchMove);
+            removeEventListener('touchend', handleTouchEnd);
             cancelAnimationFrame(scrollLoop);
         };
     }, []);
