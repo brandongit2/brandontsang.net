@@ -24,13 +24,18 @@ export default function Index() {
     const [back, setBack] = useState(colors.title[0]);
     const [fore, setFore] = useState(colors.title[1]);
 
-    useEffect(() => {
-        // Center indicator on screen
+    function positionIndicatior() {
         indicatorRef.current.style.top = `${
             aboutRef.current.getBoundingClientRect().bottom
         }px`;
+    }
+
+    useEffect(() => {
+        positionIndicatior();
 
         function handleResize() {
+            positionIndicatior();
+
             if (window.innerWidth * window.devicePixelRatio < 800) return;
             document
                 .getElementsByTagName('body')[0]
