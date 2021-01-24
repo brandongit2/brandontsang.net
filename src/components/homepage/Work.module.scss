@@ -41,8 +41,7 @@
 }
 
 .hints {
-    margin-left: 20vw;
-    margin-right: 30rem;
+    margin-right: calc(50vw - 20rem);
     display: grid;
     grid-auto-flow: column;
     column-gap: 2px;

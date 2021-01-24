@@ -5,7 +5,9 @@ import {useEffect, useRef, useState} from 'react';
 import styles from './index.module.scss';
 import {About, Footer, Title, Work} from '../components/homepage';
 import {ThemeColorContext} from '../contexts/ThemeColors';
+import {useCustomScroll} from '../hooks/useCustomScroll';
 import {clamp} from '../misc/util';
+import {ScrollEventsContext} from '../contexts/ScrollEvents';
 
 export default function Index() {
     const aboutRef = useRef(null);
@@ -23,23 +25,40 @@ export default function Index() {
     const [fore, setFore] = useState(colors.title[1]);
 
     useEffect(() => {
-        // Center indicators on screen
+        // Center indicator on screen
         indicatorRef.current.style.top = `${
             aboutRef.current.getBoundingClientRect().bottom
         }px`;
 
-        function handleScroll() {
-            if (window.innerWidth < 800) {
-                var midScreen =
-                    scrollerRef.current.scrollTop + window.innerHeight / 2;
-                var aboutStart = aboutRef.current.offsetTop;
-                var workStart = workRef.current.offsetTop;
-            } else {
-                var midScreen =
-                    scrollerRef.current.scrollLeft + window.innerWidth / 2;
-                var aboutStart = aboutRef.current.offsetLeft;
-                var workStart = workRef.current.offsetLeft;
-            }
+        function handleResize() {
+            if (window.innerWidth * window.devicePixelRatio < 800) return;
+            document
+                .getElementsByTagName('body')[0]
+                .style.setProperty('--vh', `${window.innerHeight}px`);
+        }
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    let callback: () => void;
+    function onScroll(cb: () => void) {
+        callback = cb;
+    }
+    useCustomScroll(
+        () => [0, scrollerRef.current.scrollWidth - window.innerWidth],
+        (pos) => {
+            scrollerRef.current.scroll({
+                left: pos
+            });
+            callback();
+
+            var midScreen =
+                scrollerRef.current.scrollLeft + window.innerWidth / 2;
+            var aboutStart = aboutRef.current.offsetLeft;
+            var workStart = workRef.current.offsetLeft;
 
             let aboutAmt = clamp((midScreen - aboutStart + 75) / 150, 0, 1);
             let workAmt = clamp((midScreen - workStart + 75) / 150, 0, 1);
@@ -56,60 +75,47 @@ export default function Index() {
             setBack(back);
             setFore(fore);
         }
-        let scroller = scrollerRef.current;
-        scroller.addEventListener('scroll', handleScroll);
-
-        function handleResize() {
-            if (window.innerWidth * window.devicePixelRatio < 800) return;
-            document
-                .getElementsByTagName('body')[0]
-                .style.setProperty('--vh', `${window.innerHeight}px`);
-        }
-        window.addEventListener('resize', handleResize);
-
-        return () => {
-            scroller.removeEventListener('scroll', handleScroll);
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+    );
 
     return (
-        <ThemeColorContext.Provider value={{back, fore}}>
-            <div className={styles.scroller} ref={scrollerRef}>
-                <div className={styles.pageContainer}>
-                    <Head>
-                        <title>Brandon Tsang</title>
-                        <meta
-                            name="viewport"
-                            content="initial-scale=1.0, width=device-width"
-                        />
-                    </Head>
-                    <style jsx global>{`
-                        body {
-                            --background-color: ${colors.title[0]};
-                            --foreground-color: ${colors.title[1]};
-                            --vh: ${process.browser
-                                ? `${window.innerHeight}px`
-                                : '100vh'};
+        <ScrollEventsContext.Provider value={{onScroll}}>
+            <ThemeColorContext.Provider value={{back, fore}}>
+                <div className={styles.scroller} ref={scrollerRef}>
+                    <div className={styles.pageContainer}>
+                        <Head>
+                            <title>Brandon Tsang</title>
+                            <meta
+                                name="viewport"
+                                content="initial-scale=1.0, width=device-width"
+                            />
+                        </Head>
+                        <style jsx global>{`
+                            body {
+                                --background-color: ${colors.title[0]};
+                                --foreground-color: ${colors.title[1]};
+                                --vh: ${process.browser
+                                    ? `${window.innerHeight}px`
+                                    : '100vh'};
 
-                            font-family: mostra-nuova;
-                            background: var(--background-color);
-                            color: var(--foreground-color);
-                            overflow: hidden;
-                        }
+                                font-family: mostra-nuova;
+                                background: var(--background-color);
+                                color: var(--foreground-color);
+                                overflow: hidden;
+                            }
 
-                        a:link,
-                        a:visited {
-                            color: inherit;
-                        }
-                    `}</style>
-                    <Title />
-                    <About ref={aboutRef} />
-                    <Work ref={workRef} />
-                    <Footer />
-                    <div className={styles.indicator} ref={indicatorRef} />
+                            a:link,
+                            a:visited {
+                                color: inherit;
+                            }
+                        `}</style>
+                        <Title />
+                        <About ref={aboutRef} />
+                        <Work ref={workRef} />
+                        <Footer />
+                        <div className={styles.indicator} ref={indicatorRef} />
+                    </div>
                 </div>
-            </div>
-        </ThemeColorContext.Provider>
+            </ThemeColorContext.Provider>
+        </ScrollEventsContext.Provider>
     );
 }
