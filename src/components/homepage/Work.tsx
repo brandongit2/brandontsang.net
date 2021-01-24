@@ -1,13 +1,23 @@
-import {forwardRef, useContext, useEffect, useRef, useState} from 'react';
+import {
+    forwardRef,
+    useContext,
+    useEffect,
+    useImperativeHandle,
+    useRef,
+    useState
+} from 'react';
 
 import {WorkCard} from './';
 import styles from './Work.module.scss';
 import {ThemeColorContext} from '../../contexts/ThemeColors';
 import {useShadow} from '../../hooks/useShadow';
 import indexStyles from '../../pages/index.module.scss';
+import {remToPixels} from '../../misc/util';
 
 const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
-    const ref = useRef(null);
+    const containerRef = useRef(null);
+    const contentRef = useRef(null);
+    useImperativeHandle(forwardedRef, () => containerRef.current);
 
     const [currentSection, setCurrentSection] = useState(-1);
 
@@ -17,13 +27,35 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
         )[0];
 
         function handleScroll() {
+            // Check if current section has changed
             const newCurrentSection = Math.floor(
                 (window.innerWidth / 2 -
-                    ref.current.getBoundingClientRect().x) /
+                    containerRef.current.getBoundingClientRect().x -
+                    window.innerWidth * 0.2) /
                     302
             );
             if (newCurrentSection !== currentSection) {
                 setCurrentSection(newCurrentSection);
+            }
+
+            // Parallax pan the work cards
+            if (newCurrentSection >= 0) {
+                contentRef.current.style.left = `${
+                    -window.innerWidth / 2 +
+                    remToPixels(10) +
+                    window.innerWidth * 0.2
+                }px`;
+
+                contentRef.current.style.transform = `translate(${
+                    -(
+                        containerRef.current.getBoundingClientRect().x -
+                        window.innerWidth / 2 +
+                        window.innerWidth * 0.2
+                    ) / 1.5
+                }px, 0px)`;
+            } else {
+                contentRef.current.style.left = '0px';
+                contentRef.current.style.transform = 'unset';
             }
         }
 
@@ -37,8 +69,8 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
     const shadow = useShadow(15, 240, fore, back);
 
     return (
-        <div ref={forwardedRef} className={styles.container}>
-            <div ref={ref} className={styles.topPart}>
+        <div ref={containerRef} className={styles.container}>
+            <div ref={contentRef} className={styles.topPart}>
                 <div className={styles.myWorkContainer}>
                     <h1 className={styles.myWork} style={{textShadow: shadow}}>
                         My Work

@@ -5,30 +5,33 @@
     grid-template-rows: 1fr min-content;
     justify-items: left;
     align-items: end;
-    // padding-right: calc(50vw - 28rem - 2px);
 }
 
 .topPart {
+    position: absolute;
+    left: 0px;
     height: 100%;
     display: flex;
     align-items: center;
+    transition: left 0.5s;
 }
 
 .myWorkContainer {
-    height: 85%;
-    padding: 0px 0.5em;
+    height: calc(85% - 1rem);
+    padding: 0px 1rem;
+    padding-left: 0px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .myWork {
-    font-size: 2.5em;
+    font-size: 4em;
     writing-mode: vertical-lr;
-    text-align: right;
     transform: rotate(180deg);
 }
 
 .workCards {
-    position: relative;
-    left: 0px;
     height: 85%;
     display: grid;
     grid-auto-flow: column;
@@ -37,15 +40,9 @@
     justify-content: left;
 }
 
-.section {
-    width: 300px;
-    display: grid;
-    align-items: stretch;
-    justify-items: stretch;
-    grid-template-rows: 1fr min-content;
-}
-
 .hints {
+    margin-left: 20vw;
+    margin-right: 30rem;
     display: grid;
     grid-auto-flow: column;
     column-gap: 2px;
