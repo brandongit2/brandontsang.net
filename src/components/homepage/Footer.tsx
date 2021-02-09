@@ -22,8 +22,9 @@ export default function Footer() {
                 <a href="https://www.flaticon.com/" title="Flaticon">
                     www.flaticon.com
                 </a>
+                .
             </p>
-            <p>Website by Brandon Tsang</p>
+            <p>Website by Brandon Tsang, 2021.</p>
         </div>
     );
 }
