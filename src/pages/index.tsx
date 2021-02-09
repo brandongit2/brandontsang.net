@@ -7,35 +7,23 @@ import {About, Footer, Title, Work} from '../components/homepage';
 import {ThemeColorContext} from '../contexts/ThemeColors';
 import {useCustomScroll} from '../hooks/useCustomScroll';
 import {clamp} from '../misc/util';
-import {ScrollEventsContext} from '../contexts/ScrollEvents';
 
 export default function Index() {
     const aboutRef = useRef(null);
     const workRef = useRef(null);
     const scrollerRef = useRef(null);
-    const indicatorRef = useRef(null);
 
     const colors = {
         title: [Color('#385168'), Color('#eae607')],
         about: [Color('#45256d'), Color('#45c895')],
-        work: [Color('#6d2d52'), Color('#8ecd51')]
+        work: [Color('#25324B'), Color('#AFC7DE')]
     };
 
     const [back, setBack] = useState(colors.title[0]);
     const [fore, setFore] = useState(colors.title[1]);
 
-    function positionIndicatior() {
-        indicatorRef.current.style.top = `${
-            aboutRef.current.getBoundingClientRect().bottom
-        }px`;
-    }
-
     useEffect(() => {
-        positionIndicatior();
-
         function handleResize() {
-            positionIndicatior();
-
             if (window.innerWidth * window.devicePixelRatio < 800) return;
             document
                 .getElementsByTagName('body')[0]
@@ -48,17 +36,12 @@ export default function Index() {
         };
     }, []);
 
-    let callback: () => void;
-    function onScroll(cb: () => void) {
-        callback = cb;
-    }
     useCustomScroll(
         () => [0, scrollerRef.current.scrollWidth - window.innerWidth],
         (pos) => {
             scrollerRef.current.scroll({
                 left: pos
             });
-            callback();
 
             var midScreen =
                 scrollerRef.current.scrollLeft + window.innerWidth / 2;
@@ -83,44 +66,41 @@ export default function Index() {
     );
 
     return (
-        <ScrollEventsContext.Provider value={{onScroll}}>
-            <ThemeColorContext.Provider value={{back, fore}}>
-                <div className={styles.scroller} ref={scrollerRef}>
-                    <div className={styles.pageContainer}>
-                        <Head>
-                            <title>Brandon Tsang</title>
-                            <meta
-                                name="viewport"
-                                content="initial-scale=1.0, width=device-width"
-                            />
-                        </Head>
-                        <style jsx global>{`
-                            body {
-                                --background-color: ${colors.title[0]};
-                                --foreground-color: ${colors.title[1]};
-                                --vh: ${process.browser
-                                    ? `${window.innerHeight}px`
-                                    : '100vh'};
+        <ThemeColorContext.Provider value={{back, fore}}>
+            <div className={styles.scroller} ref={scrollerRef}>
+                <div className={styles.pageContainer}>
+                    <Head>
+                        <title>Brandon Tsang</title>
+                        <meta
+                            name="viewport"
+                            content="initial-scale=1.0, width=device-width"
+                        />
+                    </Head>
+                    <style jsx global>{`
+                        body {
+                            --background-color: ${colors.title[0]};
+                            --foreground-color: ${colors.title[1]};
+                            --vh: ${process.browser
+                                ? `${window.innerHeight}px`
+                                : '100vh'};
 
-                                font-family: mostra-nuova;
-                                background: var(--background-color);
-                                color: var(--foreground-color);
-                                overflow: hidden;
-                            }
+                            font-family: mostra-nuova;
+                            background: var(--background-color);
+                            color: var(--foreground-color);
+                            overflow: hidden;
+                        }
 
-                            a:link,
-                            a:visited {
-                                color: inherit;
-                            }
-                        `}</style>
-                        <Title />
-                        <About ref={aboutRef} />
-                        <Work ref={workRef} />
-                        <Footer />
-                        <div className={styles.indicator} ref={indicatorRef} />
-                    </div>
+                        a:link,
+                        a:visited {
+                            color: inherit;
+                        }
+                    `}</style>
+                    <Title />
+                    <About ref={aboutRef} />
+                    <Work ref={workRef} />
+                    <Footer />
                 </div>
-            </ThemeColorContext.Provider>
-        </ScrollEventsContext.Provider>
+            </div>
+        </ThemeColorContext.Provider>
     );
 }
