@@ -11,6 +11,7 @@ import {clamp} from "misc/util";
 const Scroller = styled.div`
     width: 100vw;
     height: var(--vh);
+    overflow: auto hidden;
 `;
 
 const PageContainer = styled.div`
@@ -22,6 +23,8 @@ const PageContainer = styled.div`
     border: 2px solid var(--foreground-color);
     box-sizing: border-box;
     width: max-content;
+    font-size: 1.3rem;
+    height: calc(100% - 4rem);
 `;
 
 export default function Index() {

@@ -44,14 +44,12 @@ const Arrow = styled(ColoredImg)`
         infinite;
 
     @keyframes arrow-movement {
-        $movement-amt: 0.1em;
-
         from {
-            left: -$movement-amt;
+            left: -0.1em;
         }
 
         to {
-            left: $movement-amt;
+            left: 0.1em;
         }
     }
 `;
