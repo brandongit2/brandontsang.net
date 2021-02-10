@@ -12,7 +12,7 @@ const Container = styled.div`
     grid-template-rows: 1fr 1fr;
     grid-auto-columns: min-content;
     place-items: stretch;
-    padding: 2rem;
+    padding: 2rem 0px;
     grid-gap: 2rem;
 `;
 
@@ -31,9 +31,21 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
     return (
         <Container ref={forwardedRef}>
             <Header style={{textShadow: shadow}}>My Work</Header>
-            <WorkCard title="brandontsang.net" url="https://brandontsang.net" />
-            <WorkCard title="Texitor" url="https://texitor.brandontsang.net" />
-            <WorkCard title="Frogdromeda" url="https://frogdromeda.com" />
+            <WorkCard
+                url="https://brandontsang.net"
+                title="brandontsang.net"
+                description="My personal portfolio site."
+            />
+            <WorkCard
+                url="https://texitor.brandontsang.net"
+                title="Texitor"
+                description="A new take on WYSIWYG text editors."
+            />
+            <WorkCard
+                url="https://frogdromeda.com"
+                title="Frogdromeda"
+                description="A video game about a frog in outer space."
+            />
         </Container>
     );
 });
