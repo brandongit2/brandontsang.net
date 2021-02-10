@@ -1,3 +1,9 @@
+// This hook takes the boundaries of a scroll container in pixels. It then list-
+// ens for scroll input, left/right arrow keys, and touch input, which change
+// the scroll position. There is an onScroll callback which is called with the
+// current internal scroll position. It is up to the caller to then scroll the
+// page based on the returned scroll position.
+
 import {useEffect} from "react";
 
 import {derivative} from "../misc/util";

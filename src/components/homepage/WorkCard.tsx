@@ -8,13 +8,15 @@ const Container = styled.div`
     width: 40rem;
     display: flex;
     justify-content: stretch;
-    background: white;
-    overflow: hidden;
 `;
 
 const SiteContainer = styled.div`
+    position: relative;
     overflow: hidden;
     flex-grow: 1;
+    margin: 0px 1rem;
+    margin-bottom: 1rem;
+    background: white;
 `;
 
 const Preview = styled.iframe`
@@ -30,9 +32,13 @@ const Info = styled.div`
     left: 0px;
     bottom: 0px;
     z-index: 2;
-    width: calc(100% - 2rem);
-    height: calc(30% - 2rem);
-    padding: 1rem;
+    width: 100%;
+    height: 5rem;
+    padding: 0.5rem 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
 const Shadow = styled.div`
@@ -40,7 +46,18 @@ const Shadow = styled.div`
     left: 0px;
     bottom: 0px;
     width: 100%;
-    height: calc(30% - 160px);
+    height: calc(7rem - 160px);
+`;
+
+const Border = styled.div`
+    position: absolute;
+    z-index: -1;
+    border: 2px solid var(--foreground-color);
+    width: 100%;
+    height: 7rem;
+    left: 0px;
+    bottom: 0px;
+    box-sizing: border-box;
 `;
 
 interface SitePreviewProps {
@@ -48,33 +65,35 @@ interface SitePreviewProps {
 }
 
 function SitePreview({src}: SitePreviewProps) {
+    const {back} = useContext(ThemeColorContext);
+
     return (
         <SiteContainer>
             <Preview src={src} />
+            <Shadow
+                style={{
+                    background: back.string(),
+                    boxShadow: `0px 0px 60px 120px ${back.string()}`,
+                }}
+            />
         </SiteContainer>
     );
 }
 
 interface WorkCardProps {
-    title: string;
     url: string;
+    title: string;
+    description: string;
 }
 
-export default function WorkCard({title, url}: WorkCardProps) {
-    const {back} = useContext(ThemeColorContext);
-
+export default function WorkCard({url, title, description}: WorkCardProps) {
     return (
         <Container>
+            <Border />
             <SitePreview src={url} />
-            <Shadow
-                style={{
-                    background: back.string(),
-                    boxShadow: `0px 0px 70px 140px ${back.string()}`,
-                }}
-            />
             <Info>
                 <h1>{title}</h1>
-                <div></div>
+                <p>{description}</p>
             </Info>
         </Container>
     );

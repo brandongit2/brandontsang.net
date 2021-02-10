@@ -32,7 +32,9 @@ export default function Index() {
     const workRef = useRef(null);
     const scrollerRef = useRef(null);
 
+    // The colors of the different sections of the page.
     const colors = {
+        // [backgroundColor, foregroundColor]
         title: [Color("#385168"), Color("#eae607")],
         about: [Color("#45256d"), Color("#45c895")],
         work: [Color("#25324B"), Color("#AFC7DE")],
@@ -62,6 +64,7 @@ export default function Index() {
                 left: pos,
             });
 
+            // Mix different background colors based on scroll position.
             var midScreen =
                 scrollerRef.current.scrollLeft + window.innerWidth / 2;
             var aboutStart = aboutRef.current.offsetLeft;
