@@ -1,30 +1,69 @@
 import {useContext} from "react";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 import ColoredImg from "../ColoredImg";
 import {ThemeColorContext} from "contexts/ThemeColors";
 import {useShadow} from "hooks/useShadow";
 
 const Container = styled.div`
-    width: calc(100vw - 4.5rem);
-    padding-left: 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     position: relative;
+
+    @media (min-width: 901px) {
+        width: calc(100vw - 4.5rem);
+        margin-left: 2.5rem;
+    }
+
+    @media (max-width: 900px) {
+        height: calc(100vh - 4rem);
+    }
 `;
 
 const TitleText = styled.h1`
     font-weight: 700;
-    font-size: 7em;
+    font-size: 6em;
     line-height: 1em;
     margin-bottom: 0.1em;
     color: var(--foreground-color);
+
+    @media (max-width: 1200px) {
+        font-size: 5em;
+    }
+
+    @media (max-width: 900px) {
+        font-size: 4em;
+    }
+
+    @media (max-width: 800px) {
+        font-size: 3em;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 3em;
+    }
 `;
 
 const SubtitleText = styled.h2`
-    font-size: 3em;
+    font-size: 2.5em;
+
+    @media (max-width: 1200px) {
+        font-size: 2em;
+    }
+
+    @media (max-width: 900px) {
+        font-size: 1.66em;
+    }
+
+    @media (max-width: 800px) {
+        font-size: 1.2em;
+    }
+
+    @media (max-width: 600px) {
+        font-size: 1em;
+    }
 `;
 
 const Hint = styled.div`
@@ -35,23 +74,23 @@ const Hint = styled.div`
     align-items: center;
 `;
 
+const arrowMovement = keyframes`
+    from {
+        left: -0.1em;
+    }
+
+    to {
+        left: 0.1em;
+    }
+`;
+
 const Arrow = styled(ColoredImg)`
     vertical-align: bottom;
     margin-left: calc(0.5em + 0.2em);
     margin-right: 0.2em;
     position: relative;
-    animation: arrow-movement 1s cubic-bezier(0.36, 0.11, 0.65, 0.93) alternate
-        infinite;
-
-    @keyframes arrow-movement {
-        from {
-            left: -0.1em;
-        }
-
-        to {
-            left: 0.1em;
-        }
-    }
+    animation: ${arrowMovement} 1s cubic-bezier(0.36, 0.11, 0.65, 0.93)
+        alternate infinite;
 `;
 
 const UseArrowKeys = styled.p`
@@ -62,7 +101,12 @@ const UseArrowKeys = styled.p`
 export default function Title() {
     const {back, fore} = useContext(ThemeColorContext);
 
-    const shadowHeight = process.browser && window.innerWidth < 800 ? 15 : 20;
+    const shadowHeight =
+        process.browser && window.innerWidth > 1200
+            ? 20
+            : process.browser && window.innerWidth > 600
+            ? 12
+            : 8;
     const shadow = useShadow(shadowHeight, 135, fore, back);
 
     return (
@@ -81,17 +125,19 @@ export default function Title() {
             >
                 UI/UX designer and front-end web developer.
             </SubtitleText>
-            <Hint>
-                <div>
-                    <p>Scroll to read more</p>
-                    <UseArrowKeys>(Or use your arrow keys)</UseArrowKeys>
-                </div>
-                <Arrow
-                    src="right-arrow.svg"
-                    color="var(--foreground-color)"
-                    height="1em"
-                />
-            </Hint>
+            {process.browser && window.innerWidth > 900 ? (
+                <Hint>
+                    <div>
+                        <p>Scroll to read more</p>
+                        <UseArrowKeys>(Or use your arrow keys)</UseArrowKeys>
+                    </div>
+                    <Arrow
+                        src="right-arrow.svg"
+                        color="var(--foreground-color)"
+                        height="1em"
+                    />
+                </Hint>
+            ) : null}
         </Container>
     );
 }

@@ -9,7 +9,10 @@ const Container = styled.div`
     grid-auto-rows: min-content;
     row-gap: 1em;
     align-content: center;
-    width: 40rem;
+
+    @media (min-width: 900px) {
+        width: 40rem;
+    }
 `;
 
 const MontrealDot = styled.div`

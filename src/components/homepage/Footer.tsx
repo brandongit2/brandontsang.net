@@ -3,13 +3,16 @@ import styled from "styled-components";
 const Container = styled.div`
     background: var(--foreground-color);
     color: var(--background-color);
-    width: 20rem;
     padding: 2rem;
     display: grid;
     grid-template-columns: 1fr;
     grid-auto-rows: min-content;
     row-gap: 1em;
     align-content: center;
+
+    @media (min-width: 901px) {
+        width: 20rem;
+    }
 `;
 
 export default function Footer() {

@@ -5,9 +5,16 @@ import {ThemeColorContext} from "contexts/ThemeColors";
 
 const Container = styled.div`
     position: relative;
-    width: 40rem;
     display: flex;
     justify-content: stretch;
+
+    @media (min-width: 901px) {
+        width: 40rem;
+    }
+
+    @media (max-width: 900px) {
+        height: 20rem;
+    }
 `;
 
 const SiteContainer = styled.div`
