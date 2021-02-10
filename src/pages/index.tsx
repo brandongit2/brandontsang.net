@@ -1,12 +1,28 @@
-import Color from 'color';
-import Head from 'next/head';
-import {useEffect, useRef, useState} from 'react';
+import Color from "color";
+import Head from "next/head";
+import {useEffect, useRef, useState} from "react";
+import styled from "styled-components";
 
-import styles from './index.module.scss';
-import {About, Footer, Title, Work} from '../components/homepage';
-import {ThemeColorContext} from '../contexts/ThemeColors';
-import {useCustomScroll} from '../hooks/useCustomScroll';
-import {clamp} from '../misc/util';
+import {About, Footer, Title, Work} from "components/homepage";
+import {ThemeColorContext} from "contexts/ThemeColors";
+import {useCustomScroll} from "hooks/useCustomScroll";
+import {clamp} from "misc/util";
+
+const Scroller = styled.div`
+    width: 100vw;
+    height: var(--vh);
+`;
+
+const PageContainer = styled.div`
+    position: relative;
+    margin: 2rem;
+    display: inline-grid;
+    grid-auto-flow: column;
+    column-gap: 2rem;
+    border: 2px solid var(--foreground-color);
+    box-sizing: border-box;
+    width: max-content;
+`;
 
 export default function Index() {
     const aboutRef = useRef(null);
@@ -14,9 +30,9 @@ export default function Index() {
     const scrollerRef = useRef(null);
 
     const colors = {
-        title: [Color('#385168'), Color('#eae607')],
-        about: [Color('#45256d'), Color('#45c895')],
-        work: [Color('#25324B'), Color('#AFC7DE')]
+        title: [Color("#385168"), Color("#eae607")],
+        about: [Color("#45256d"), Color("#45c895")],
+        work: [Color("#25324B"), Color("#AFC7DE")],
     };
 
     const [back, setBack] = useState(colors.title[0]);
@@ -26,13 +42,13 @@ export default function Index() {
         function handleResize() {
             if (window.innerWidth * window.devicePixelRatio < 800) return;
             document
-                .getElementsByTagName('body')[0]
-                .style.setProperty('--vh', `${window.innerHeight}px`);
+                .getElementsByTagName("body")[0]
+                .style.setProperty("--vh", `${window.innerHeight}px`);
         }
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener("resize", handleResize);
         };
     }, []);
 
@@ -40,7 +56,7 @@ export default function Index() {
         () => [0, scrollerRef.current.scrollWidth - window.innerWidth],
         (pos) => {
             scrollerRef.current.scroll({
-                left: pos
+                left: pos,
             });
 
             var midScreen =
@@ -58,8 +74,8 @@ export default function Index() {
                 .mix(colors.about[1], aboutAmt)
                 .mix(colors.work[1], workAmt);
 
-            document.body.style.setProperty('--background-color', back.hex());
-            document.body.style.setProperty('--foreground-color', fore.hex());
+            document.body.style.setProperty("--background-color", back.hex());
+            document.body.style.setProperty("--foreground-color", fore.hex());
             setBack(back);
             setFore(fore);
         }
@@ -67,8 +83,8 @@ export default function Index() {
 
     return (
         <ThemeColorContext.Provider value={{back, fore}}>
-            <div className={styles.scroller} ref={scrollerRef}>
-                <div className={styles.pageContainer}>
+            <Scroller ref={scrollerRef}>
+                <PageContainer>
                     <Head>
                         <title>Brandon Tsang</title>
                         <meta
@@ -82,7 +98,7 @@ export default function Index() {
                             --foreground-color: ${colors.title[1]};
                             --vh: ${process.browser
                                 ? `${window.innerHeight}px`
-                                : '100vh'};
+                                : "100vh"};
 
                             font-family: mostra-nuova;
                             background: var(--background-color);
@@ -99,8 +115,8 @@ export default function Index() {
                     <About ref={aboutRef} />
                     <Work ref={workRef} />
                     <Footer />
-                </div>
-            </div>
+                </PageContainer>
+            </Scroller>
         </ThemeColorContext.Provider>
     );
 }

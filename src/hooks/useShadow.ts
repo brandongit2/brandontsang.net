@@ -1,10 +1,10 @@
-import Color from 'color';
+import Color from "color";
 
 export function useShadow(height: number, angle: number, ...colors: Color[]) {
     const shadowsPerPixel = 1.5;
     const slant = angle * (Math.PI / 180);
 
-    let shadow = '';
+    let shadow = "";
     let numShadows = height * shadowsPerPixel;
     for (let i = 0; i < numShadows; i++) {
         let prog = i / numShadows;
@@ -19,7 +19,7 @@ export function useShadow(height: number, angle: number, ...colors: Color[]) {
         let color = firstColor.mix(secondColor, colorProg);
 
         let newShadow = `${
-            shadow === '' ? '' : ','
+            shadow === "" ? "" : ","
         }${x}px ${y}px 0px ${color.string()}`;
         shadow += newShadow;
     }

@@ -1,4 +1,4 @@
-import {CSSProperties, ReactNode} from 'react';
+import {CSSProperties, ReactNode} from "react";
 
 export default function ColoredImg({
     src,
@@ -23,30 +23,30 @@ export default function ColoredImg({
                 background: color,
                 mask: `url(/${src}) center/contain no-repeat`,
                 WebkitMask: `url(/${src}) center/contain no-repeat`,
-                display: 'inline-block',
-                position: 'relative',
+                display: "inline-block",
+                position: "relative",
                 width,
                 height,
-                ...style
+                ...style,
             }}
             {...rest}
         >
             <img
                 src={src}
                 style={{
-                    display: 'inline-block',
+                    display: "inline-block",
                     opacity: 0,
                     width,
-                    height
+                    height,
                 }}
             />
             <div
                 style={{
-                    position: 'absolute',
-                    top: '0px',
-                    left: '0px',
-                    width: '100%',
-                    height: '100%'
+                    position: "absolute",
+                    top: "0px",
+                    left: "0px",
+                    width: "100%",
+                    height: "100%",
                 }}
             >
                 {children}

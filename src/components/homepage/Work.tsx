@@ -1,9 +1,9 @@
-import {forwardRef, useContext} from 'react';
-import styled from 'styled-components';
+import {forwardRef, useContext} from "react";
+import styled from "styled-components";
 
-import {WorkCard} from './';
-import {ThemeColorContext} from 'contexts/ThemeColors';
-import {useShadow} from 'hooks/useShadow';
+import {WorkCard} from "./";
+import {ThemeColorContext} from "contexts/ThemeColors";
+import {useShadow} from "hooks/useShadow";
 
 const Container = styled.div`
     position: relative;

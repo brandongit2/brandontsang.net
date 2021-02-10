@@ -1,6 +1,6 @@
-import {useEffect} from 'react';
+import {useEffect} from "react";
 
-import {derivative} from '../misc/util';
+import {derivative} from "../misc/util";
 
 let scrollPos = 0;
 let scrollTarget = 0;
@@ -26,7 +26,7 @@ export function useCustomScroll(
     }
 
     function handleKeyDown(evt: KeyboardEvent) {
-        if (['ArrowLeft', 'ArrowRight'].includes(evt.code))
+        if (["ArrowLeft", "ArrowRight"].includes(evt.code))
             evt.preventDefault();
 
         if (!(evt.code in keysPressed)) {
@@ -91,12 +91,12 @@ export function useCustomScroll(
         const delta = Date.now() - lastScrollTime;
 
         // Arrow key scrolling
-        if ('ArrowLeft' in keysPressed && !('ArrowRight' in keysPressed)) {
+        if ("ArrowLeft" in keysPressed && !("ArrowRight" in keysPressed)) {
             velocity -=
                 ((Date.now() - keysPressed.ArrowLeft) / 2000) ** (1 / 3);
         } else if (
-            'ArrowRight' in keysPressed &&
-            !('ArrowLeft' in keysPressed)
+            "ArrowRight" in keysPressed &&
+            !("ArrowLeft" in keysPressed)
         ) {
             velocity +=
                 ((Date.now() - keysPressed.ArrowRight) / 2000) ** (1 / 3);
@@ -115,8 +115,8 @@ export function useCustomScroll(
             scrollTarget = scrollPos;
 
             if (
-                !('ArrowLeft' in keysPressed) &&
-                !('ArrowRight' in keysPressed)
+                !("ArrowLeft" in keysPressed) &&
+                !("ArrowRight" in keysPressed)
             ) {
                 // Slow down scrolling
                 if (velocity > 0) {
@@ -140,21 +140,21 @@ export function useCustomScroll(
     }
 
     useEffect(() => {
-        addEventListener('wheel', handleWheel, {passive: false});
-        addEventListener('keydown', handleKeyDown);
-        addEventListener('keyup', handleKeyUp);
-        addEventListener('touchstart', handleTouchStart, {passive: false});
-        addEventListener('touchmove', handleTouchMove, {passive: false});
-        addEventListener('touchend', handleTouchEnd);
+        addEventListener("wheel", handleWheel, {passive: false});
+        addEventListener("keydown", handleKeyDown);
+        addEventListener("keyup", handleKeyUp);
+        addEventListener("touchstart", handleTouchStart, {passive: false});
+        addEventListener("touchmove", handleTouchMove, {passive: false});
+        addEventListener("touchend", handleTouchEnd);
         scrollLoop = requestAnimationFrame(scroll);
 
         return () => {
-            removeEventListener('wheel', handleWheel);
-            removeEventListener('keydown', handleKeyDown);
-            removeEventListener('keyup', handleKeyUp);
-            removeEventListener('touchstart', handleTouchStart);
-            removeEventListener('touchmove', handleTouchMove);
-            removeEventListener('touchend', handleTouchEnd);
+            removeEventListener("wheel", handleWheel);
+            removeEventListener("keydown", handleKeyDown);
+            removeEventListener("keyup", handleKeyUp);
+            removeEventListener("touchstart", handleTouchStart);
+            removeEventListener("touchmove", handleTouchMove);
+            removeEventListener("touchend", handleTouchEnd);
             cancelAnimationFrame(scrollLoop);
         };
     }, []);

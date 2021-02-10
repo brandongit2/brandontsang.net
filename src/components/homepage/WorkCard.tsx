@@ -1,4 +1,7 @@
-import styled from 'styled-components';
+import {useContext} from "react";
+import styled from "styled-components";
+
+import {ThemeColorContext} from "contexts/ThemeColors";
 
 const Container = styled.div`
     position: relative;
@@ -38,8 +41,6 @@ const Shadow = styled.div`
     bottom: 0px;
     width: 100%;
     height: calc(30% - 160px);
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 0px 0px 70px 140px rgba(0, 0, 0, 0.8);
 `;
 
 interface SitePreviewProps {
@@ -60,10 +61,17 @@ interface WorkCardProps {
 }
 
 export default function WorkCard({title, url}: WorkCardProps) {
+    const {back} = useContext(ThemeColorContext);
+
     return (
         <Container>
             <SitePreview src={url} />
-            <Shadow />
+            <Shadow
+                style={{
+                    background: back.string(),
+                    boxShadow: `0px 0px 70px 140px ${back.string()}`,
+                }}
+            />
             <Info>
                 <h1>{title}</h1>
                 <div></div>
