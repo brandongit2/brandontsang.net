@@ -8,25 +8,36 @@ import {useShadow} from "hooks/useShadow";
 const Container = styled.div`
     position: relative;
     display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: 1fr 1fr;
-    grid-auto-columns: min-content;
     place-items: stretch;
     padding: 2rem 0px;
     grid-gap: 2rem;
+
+    @media (min-width: 901px) {
+        grid-auto-flow: column;
+        grid-template-rows: 1fr 1fr;
+        grid-auto-columns: min-content;
+    }
 `;
 
 const Header = styled.h1`
-    grid-row: 1 / 3;
     font-size: 4em;
-    writing-mode: vertical-lr;
-    transform: rotate(180deg);
-    align-self: start;
+
+    @media (min-width: 901px) {
+        grid-row: 1 / 3;
+        writing-mode: vertical-lr;
+        transform: rotate(180deg);
+        align-self: start;
+    }
 `;
 
 const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
     const {back, fore} = useContext(ThemeColorContext);
-    const shadow = useShadow(15, 240, fore, back);
+    const shadow = useShadow(
+        15,
+        process.browser && window.innerWidth > 900 ? 240 : 135,
+        fore,
+        back
+    );
 
     return (
         <Container ref={forwardedRef}>

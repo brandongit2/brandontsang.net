@@ -10,27 +10,46 @@ import {clamp} from "misc/util";
 
 const Scroller = styled.div`
     width: 100vw;
-    height: var(--vh);
-    overflow: auto hidden;
+    height: 100vh;
+
+    @media (min-width: 900px) {
+        overflow: auto hidden;
+    }
+
+    @media (max-width: 900px) {
+        overflow: hidden auto;
+    }
 `;
 
 const PageContainer = styled.div`
     position: relative;
-    margin: 2rem;
     display: inline-grid;
-    grid-auto-flow: column;
-    column-gap: 2rem;
-    border: 2px solid var(--foreground-color);
     box-sizing: border-box;
-    width: max-content;
-    font-size: 1.3rem;
-    height: calc(100% - 4rem);
+
+    @media (min-width: 901px) {
+        grid-auto-flow: column;
+        column-gap: 2rem;
+        width: max-content;
+        height: calc(100% - 4rem);
+    }
+
+    @media (max-width: 900px) {
+        grid-auto-flow: row;
+        row-gap: 2rem;
+        padding: 2rem;
+    }
+
+    @media (min-width: 701px) {
+        margin: 2rem;
+        border: 2px solid var(--foreground-color);
+        font-size: 1.3rem;
+    }
 `;
 
 export default function Index() {
-    const aboutRef = useRef(null);
-    const workRef = useRef(null);
-    const scrollerRef = useRef(null);
+    const aboutRef = useRef<HTMLDivElement>(null);
+    const workRef = useRef<HTMLDivElement>(null);
+    const scrollerRef = useRef<HTMLDivElement>(null);
 
     // The colors of the different sections of the page.
     const colors = {
@@ -42,13 +61,13 @@ export default function Index() {
 
     const [back, setBack] = useState(colors.title[0]);
     const [fore, setFore] = useState(colors.title[1]);
+    const [sidewaysScroll, setSidewaysScroll] = useState(
+        process.browser && window.innerWidth > 900
+    );
 
     useEffect(() => {
         function handleResize() {
-            if (window.innerWidth * window.devicePixelRatio < 800) return;
-            document
-                .getElementsByTagName("body")[0]
-                .style.setProperty("--vh", `${window.innerHeight}px`);
+            setSidewaysScroll(process.browser && window.innerWidth > 900);
         }
         window.addEventListener("resize", handleResize);
 
@@ -60,15 +79,24 @@ export default function Index() {
     useCustomScroll(
         () => [0, scrollerRef.current.scrollWidth - window.innerWidth],
         (pos) => {
-            scrollerRef.current.scroll({
-                left: pos,
-            });
+            sidewaysScroll &&
+                scrollerRef.current.scroll({
+                    left: pos,
+                });
 
             // Mix different background colors based on scroll position.
-            var midScreen =
-                scrollerRef.current.scrollLeft + window.innerWidth / 2;
-            var aboutStart = aboutRef.current.offsetLeft;
-            var workStart = workRef.current.offsetLeft;
+            let midScreen, aboutStart, workStart;
+            if (sidewaysScroll) {
+                midScreen =
+                    scrollerRef.current.scrollLeft + window.innerWidth / 2;
+                aboutStart = aboutRef.current.offsetLeft;
+                workStart = workRef.current.offsetLeft;
+            } else {
+                midScreen =
+                    scrollerRef.current.scrollTop + window.innerHeight / 2;
+                aboutStart = aboutRef.current.offsetTop;
+                workStart = workRef.current.offsetTop;
+            }
 
             let aboutAmt = clamp((midScreen - aboutStart + 75) / 150, 0, 1);
             let workAmt = clamp((midScreen - workStart + 75) / 150, 0, 1);
@@ -84,7 +112,8 @@ export default function Index() {
             document.body.style.setProperty("--foreground-color", fore.hex());
             setBack(back);
             setFore(fore);
-        }
+        },
+        sidewaysScroll
     );
 
     return (
