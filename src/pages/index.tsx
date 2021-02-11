@@ -131,10 +131,10 @@ export default function Index() {
                             --background-color: ${colors.title[0]};
                             --foreground-color: ${colors.title[1]};
                             --vw: ${process.browser
-                                ? window.innerWidth
+                                ? `${window.innerWidth}px`
                                 : "100vw"};
                             --vh: ${process.browser
-                                ? window.innerHeight
+                                ? `${window.innerHeight}px`
                                 : "100vh"};
 
                             font-family: mostra-nuova;
