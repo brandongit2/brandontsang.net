@@ -46,16 +46,19 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
                 url="https://brandontsang.net"
                 title="brandontsang.net"
                 description="My personal portfolio site."
+                techStack={["typescript", "react", "nextjs"]}
             />
             <WorkCard
                 url="https://texitor.brandontsang.net"
                 title="Texitor"
                 description="A new take on WYSIWYG text editors."
+                techStack={["typescript", "react", "redux", "firebase"]}
             />
             <WorkCard
                 url="https://frogdromeda.com"
                 title="Frogdromeda"
                 description="A video game about a frog in outer space."
+                techStack={["typescript", "react", "nextjs", "godot"]}
             />
         </Container>
     );

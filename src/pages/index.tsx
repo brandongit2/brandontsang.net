@@ -9,11 +9,11 @@ import {useCustomScroll} from "hooks/useCustomScroll";
 import {clamp} from "misc/util";
 
 const Scroller = styled.div`
-    width: 100vw;
-    height: 100vh;
+    width: var(--vw);
 
     @media (min-width: 900px) {
         overflow: auto hidden;
+        height: var(--vh);
     }
 
     @media (max-width: 900px) {
@@ -92,8 +92,7 @@ export default function Index() {
                 aboutStart = aboutRef.current.offsetLeft;
                 workStart = workRef.current.offsetLeft;
             } else {
-                midScreen =
-                    scrollerRef.current.scrollTop + window.innerHeight / 2;
+                midScreen = window.scrollY + window.innerHeight / 2;
                 aboutStart = aboutRef.current.offsetTop;
                 workStart = workRef.current.offsetTop;
             }
@@ -131,14 +130,13 @@ export default function Index() {
                         body {
                             --background-color: ${colors.title[0]};
                             --foreground-color: ${colors.title[1]};
-                            --vh: ${process.browser
-                                ? `${window.innerHeight}px`
-                                : "100vh"};
+                            --vw: ${window.innerWidth};
+                            --vh: ${window.innerHeight};
 
                             font-family: mostra-nuova;
                             background: var(--background-color);
                             color: var(--foreground-color);
-                            overflow: hidden;
+                            overflow: hidden auto;
                         }
 
                         a:link,
