@@ -14,7 +14,6 @@ const Container = styled.div`
 
     @media (min-width: 901px) {
         width: calc(100vw - 4.5rem);
-        margin-left: 2.5rem;
     }
 
     @media (max-width: 900px) {
@@ -28,6 +27,10 @@ const TitleText = styled.h1`
     line-height: 1em;
     margin-bottom: 0.1em;
     color: var(--foreground-color);
+
+    @media (min-width: 901px) {
+        margin-left: 0.5rem;
+    }
 
     @media (max-width: 1200px) {
         font-size: 5em;
@@ -49,6 +52,10 @@ const TitleText = styled.h1`
 const SubtitleText = styled.h2`
     font-size: 2.5em;
 
+    @media (min-width: 901px) {
+        margin-left: 0.5rem;
+    }
+
     @media (max-width: 1200px) {
         font-size: 2em;
     }
@@ -68,8 +75,7 @@ const SubtitleText = styled.h2`
 
 const Hint = styled.div`
     position: absolute;
-    bottom: 2rem;
-    left: 2rem;
+    bottom: 0px;
     display: flex;
     align-items: center;
 `;

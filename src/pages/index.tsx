@@ -9,11 +9,11 @@ import {useCustomScroll} from "hooks/useCustomScroll";
 import {clamp} from "misc/util";
 
 const Scroller = styled.div`
-    width: var(--vw);
+    width: 100%;
 
     @media (min-width: 900px) {
         overflow: auto hidden;
-        height: var(--vh);
+        height: 100%;
     }
 
     @media (max-width: 900px) {
@@ -25,6 +25,7 @@ const PageContainer = styled.div`
     position: relative;
     display: inline-grid;
     box-sizing: border-box;
+    padding: 2rem;
 
     @media (min-width: 901px) {
         grid-auto-flow: column;
@@ -36,7 +37,6 @@ const PageContainer = styled.div`
     @media (max-width: 900px) {
         grid-auto-flow: row;
         row-gap: 2rem;
-        padding: 2rem;
     }
 
     @media (min-width: 701px) {
@@ -127,20 +127,23 @@ export default function Index() {
                         />
                     </Head>
                     <style jsx global>{`
+                        html {
+                            height: 100%;
+                        }
+
                         body {
                             --background-color: ${colors.title[0]};
                             --foreground-color: ${colors.title[1]};
-                            --vw: ${process.browser
-                                ? `${window.innerWidth}px`
-                                : "100vw"};
-                            --vh: ${process.browser
-                                ? `${window.innerHeight}px`
-                                : "100vh"};
 
                             font-family: mostra-nuova;
                             background: var(--background-color);
                             color: var(--foreground-color);
                             overflow: hidden auto;
+                            height: 100%;
+                        }
+
+                        #__next {
+                            height: 100%;
                         }
 
                         a:link,
