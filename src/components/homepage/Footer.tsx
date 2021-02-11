@@ -13,6 +13,11 @@ const Container = styled.div`
 
     @media (min-width: 901px) {
         width: 20rem;
+        margin-left: 0px;
+    }
+
+    @media (max-width: 900px) {
+        margin-top: 0px;
     }
 `;
 

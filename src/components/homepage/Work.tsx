@@ -9,7 +9,6 @@ const Container = styled.div`
     position: relative;
     display: grid;
     place-items: stretch;
-    padding: 2rem 0px;
     grid-gap: 2rem;
 
     @media (min-width: 901px) {
