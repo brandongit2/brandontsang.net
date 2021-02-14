@@ -1,3 +1,4 @@
+import {browser} from "process";
 import {forwardRef} from "react";
 import styled from "styled-components";
 
@@ -23,7 +24,14 @@ const MontrealDot = styled.div`
     background: red;
     position: absolute;
     top: 84.4%;
-    left: calc(50% + 300px / 1.1826 * 0.35);
+
+    @media (min-width: 701px) {
+        left: calc(50% + 300px / 1.1826 * 0.35);
+    }
+
+    @media (max-width: 700px) {
+        left: calc(50% + 250px / 1.1826 * 0.35);
+    }
 `;
 
 const ContactLinks = styled.div`
@@ -47,7 +55,11 @@ const About = forwardRef<HTMLDivElement>((props, ref) => {
             <ColoredImg
                 src="canada.png"
                 color={"var(--foreground-color)"}
-                height="300px"
+                height={
+                    process.browser && window.innerWidth <= 700
+                        ? "250px"
+                        : "300px"
+                }
             >
                 <MontrealDot />
             </ColoredImg>
