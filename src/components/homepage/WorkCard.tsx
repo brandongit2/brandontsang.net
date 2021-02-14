@@ -4,6 +4,58 @@ import styled from "styled-components";
 import {ThemeColorContext} from "contexts/ThemeColors";
 import ColoredImg from "components/ColoredImg";
 
+const SiteContainer = styled.a`
+    position: relative;
+    overflow: hidden;
+    flex-grow: 1;
+    margin: 0px 1rem;
+    margin-bottom: 1rem;
+    background: white;
+    transform: translateY(0px);
+    transition: transform 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-10px);
+    }
+`;
+
+const Preview = styled.iframe`
+    border: none;
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5) translate(-50%, -50%);
+    pointer-events: none;
+`;
+
+const Shadow = styled.div`
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    height: calc(6.5em - 160px);
+`;
+
+interface SitePreviewProps {
+    src: string;
+}
+
+function SitePreview({src}: SitePreviewProps) {
+    const {back} = useContext(ThemeColorContext);
+
+    return (
+        <SiteContainer href={src}>
+            <Preview src={src} />
+            <Shadow
+                style={{
+                    background: back.string(),
+                    boxShadow: `0px 0px 60px 120px ${back.string()}`,
+                }}
+            />
+        </SiteContainer>
+    );
+}
+
 const Container = styled.div`
     position: relative;
     display: flex;
@@ -16,23 +68,6 @@ const Container = styled.div`
     @media (max-width: 900px) {
         height: 20rem;
     }
-`;
-
-const SiteContainer = styled.div`
-    position: relative;
-    overflow: hidden;
-    flex-grow: 1;
-    margin: 0px 1rem;
-    margin-bottom: 1rem;
-    background: white;
-`;
-
-const Preview = styled.iframe`
-    border: none;
-    width: 200%;
-    height: 200%;
-    transform: scale(0.5) translate(-50%, -50%);
-    pointer-events: none;
 `;
 
 const Info = styled.div`
@@ -55,14 +90,6 @@ const InfoColumn = styled.div`
     justify-content: space-between;
 `;
 
-const Shadow = styled.div`
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    height: calc(6.5em - 160px);
-`;
-
 const Border = styled.div`
     position: absolute;
     z-index: -1;
@@ -74,20 +101,13 @@ const Border = styled.div`
     box-sizing: border-box;
 `;
 
-const Links = styled.div`
-    flex-grow: 1;
-    display: grid;
-    grid-auto-flow: column;
-    align-items: center;
-    justify-content: end;
-    column-gap: 1em;
-`;
-
 const Link = styled.a`
     display: flex;
     align-items: center;
     text-decoration: underline;
     cursor: pointer;
+    margin: auto 0px;
+    align-self: flex-end;
 `;
 
 const IconExternal = styled(ColoredImg)`
@@ -104,26 +124,6 @@ const Tech = styled.img`
     height: 1.3em;
     margin: 0px 0.3em;
 `;
-
-interface SitePreviewProps {
-    src: string;
-}
-
-function SitePreview({src}: SitePreviewProps) {
-    const {back} = useContext(ThemeColorContext);
-
-    return (
-        <SiteContainer>
-            <Preview src={src} />
-            <Shadow
-                style={{
-                    background: back.string(),
-                    boxShadow: `0px 0px 60px 120px ${back.string()}`,
-                }}
-            />
-        </SiteContainer>
-    );
-}
 
 interface WorkCardProps {
     url: string;
@@ -152,24 +152,14 @@ export default function WorkCard({
                     <p>{description}</p>
                 </InfoColumn>
                 <InfoColumn>
-                    <Links>
-                        <Link href={url}>
-                            visit
-                            <IconExternal
-                                src="external-link.svg"
-                                color="var(--foreground-color)"
-                                height="0.6em"
-                            />
-                        </Link>
-                        <Link href={repo}>
-                            code
-                            <IconExternal
-                                src="external-link.svg"
-                                color="var(--foreground-color)"
-                                height="0.6em"
-                            />
-                        </Link>
-                    </Links>
+                    <Link href={repo}>
+                        code
+                        <IconExternal
+                            src="external-link.svg"
+                            color="var(--foreground-color)"
+                            height="0.6em"
+                        />
+                    </Link>
                     <TechContainer>
                         {techStack.includes("typescript") && (
                             <Tech src="typescript-logo.svg" />
