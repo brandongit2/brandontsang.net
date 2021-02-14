@@ -2,6 +2,7 @@ import {useContext} from "react";
 import styled from "styled-components";
 
 import {ThemeColorContext} from "contexts/ThemeColors";
+import ColoredImg from "components/ColoredImg";
 
 const Container = styled.div`
     position: relative;
@@ -39,7 +40,7 @@ const Info = styled.div`
     left: 0px;
     bottom: 0px;
     z-index: 2;
-    width: calc(100% - 3rem);
+    width: calc(100% - 3em);
     height: 4em;
     padding: 0.5em 1.5em;
     margin-bottom: 1em;
@@ -48,7 +49,7 @@ const Info = styled.div`
     justify-content: space-between;
 `;
 
-const InfoLeft = styled.div`
+const InfoColumn = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -71,6 +72,27 @@ const Border = styled.div`
     left: 0px;
     bottom: 0px;
     box-sizing: border-box;
+`;
+
+const Links = styled.div`
+    flex-grow: 1;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: end;
+    column-gap: 1em;
+`;
+
+const Link = styled.a`
+    display: flex;
+    align-items: center;
+    text-decoration: underline;
+    cursor: pointer;
+`;
+
+const IconExternal = styled(ColoredImg)`
+    margin-left: 0.3em;
+    margin-top: 0.3em;
 `;
 
 const TechContainer = styled.div`
@@ -105,6 +127,7 @@ function SitePreview({src}: SitePreviewProps) {
 
 interface WorkCardProps {
     url: string;
+    repo: string;
     title: string;
     description: string;
     techStack: Array<
@@ -114,6 +137,7 @@ interface WorkCardProps {
 
 export default function WorkCard({
     url,
+    repo,
     title,
     description,
     techStack,
@@ -123,30 +147,50 @@ export default function WorkCard({
             <Border />
             <SitePreview src={url} />
             <Info>
-                <InfoLeft>
+                <InfoColumn>
                     <h1>{title}</h1>
                     <p>{description}</p>
-                </InfoLeft>
-                <TechContainer>
-                    {techStack.includes("typescript") && (
-                        <Tech src="typescript-logo.svg" />
-                    )}
-                    {techStack.includes("react") && (
-                        <Tech src="react-logo.svg" />
-                    )}
-                    {techStack.includes("redux") && (
-                        <Tech src="redux-logo.svg" />
-                    )}
-                    {techStack.includes("nextjs") && (
-                        <Tech src="nextjs-logo.svg" />
-                    )}
-                    {techStack.includes("firebase") && (
-                        <Tech src="firebase-logo.svg" />
-                    )}
-                    {techStack.includes("godot") && (
-                        <Tech src="godot-logo.svg" />
-                    )}
-                </TechContainer>
+                </InfoColumn>
+                <InfoColumn>
+                    <Links>
+                        <Link href={url}>
+                            visit
+                            <IconExternal
+                                src="external-link.svg"
+                                color="var(--foreground-color)"
+                                height="0.6em"
+                            />
+                        </Link>
+                        <Link href={repo}>
+                            code
+                            <IconExternal
+                                src="external-link.svg"
+                                color="var(--foreground-color)"
+                                height="0.6em"
+                            />
+                        </Link>
+                    </Links>
+                    <TechContainer>
+                        {techStack.includes("typescript") && (
+                            <Tech src="typescript-logo.svg" />
+                        )}
+                        {techStack.includes("react") && (
+                            <Tech src="react-logo.svg" />
+                        )}
+                        {techStack.includes("redux") && (
+                            <Tech src="redux-logo.svg" />
+                        )}
+                        {techStack.includes("nextjs") && (
+                            <Tech src="nextjs-logo.svg" />
+                        )}
+                        {techStack.includes("firebase") && (
+                            <Tech src="firebase-logo.svg" />
+                        )}
+                        {techStack.includes("godot") && (
+                            <Tech src="godot-logo.svg" />
+                        )}
+                    </TechContainer>
+                </InfoColumn>
             </Info>
         </Container>
     );

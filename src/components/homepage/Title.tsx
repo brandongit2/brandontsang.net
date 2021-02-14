@@ -107,12 +107,13 @@ const UseArrowKeys = styled.p`
 export default function Title() {
     const {back, fore} = useContext(ThemeColorContext);
 
-    const shadowHeight =
-        process.browser && window.innerWidth > 1200
+    const shadowHeight = process.browser
+        ? window.innerWidth > 900
             ? 20
-            : process.browser && window.innerWidth > 600
-            ? 12
-            : 8;
+            : window.innerWidth > 600
+            ? 8
+            : 6
+        : 20;
     const shadow = useShadow(shadowHeight, 135, fore, back);
 
     return (

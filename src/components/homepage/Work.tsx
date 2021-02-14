@@ -19,13 +19,16 @@ const Container = styled.div`
 `;
 
 const Header = styled.h1`
-    font-size: 4em;
-
     @media (min-width: 901px) {
         grid-row: 1 / 3;
         writing-mode: vertical-lr;
         transform: rotate(180deg);
         align-self: start;
+        font-size: 4em;
+    }
+
+    @media (max-width: 900px) {
+        font-size: 3em;
     }
 `;
 
@@ -43,18 +46,21 @@ const Work = forwardRef<HTMLDivElement>((props, forwardedRef) => {
             <Header style={{textShadow: shadow}}>My Work</Header>
             <WorkCard
                 url="https://brandontsang.net"
+                repo="https://github.com/brandongit2/brandontsang.net"
                 title="brandontsang.net"
                 description="My personal portfolio site."
                 techStack={["typescript", "react", "nextjs"]}
             />
             <WorkCard
                 url="https://texitor.brandontsang.net"
+                repo="https://github.com/brandongit2/Texitor"
                 title="Texitor"
                 description="A new take on WYSIWYG text editors."
                 techStack={["typescript", "react", "redux", "firebase"]}
             />
             <WorkCard
                 url="https://frogdromeda.com"
+                repo="https://github.com/frogdromeda"
                 title="Frogdromeda"
                 description="A video game about a frog in outer space."
                 techStack={["typescript", "react", "nextjs", "godot"]}
