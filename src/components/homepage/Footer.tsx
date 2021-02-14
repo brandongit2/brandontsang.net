@@ -12,7 +12,7 @@ const Container = styled.div`
     align-content: center;
 
     @media (min-width: 901px) {
-        width: 20rem;
+        width: max-content;
         margin-left: 0px;
     }
 
@@ -24,27 +24,6 @@ const Container = styled.div`
 export default function Footer() {
     return (
         <Container>
-            <p>
-                Icons made by{" "}
-                <a
-                    href="https://www.flaticon.com/authors/freepik"
-                    title="Freepik"
-                >
-                    Freepik
-                </a>{" "}
-                and{" "}
-                <a
-                    href="https://www.flaticon.com/authors/google"
-                    title="Google"
-                >
-                    Google
-                </a>{" "}
-                from{" "}
-                <a href="https://www.flaticon.com/" title="Flaticon">
-                    www.flaticon.com
-                </a>
-                .
-            </p>
             <p>Website by Brandon Tsang, 2021.</p>
         </Container>
     );

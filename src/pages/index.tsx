@@ -76,44 +76,39 @@ export default function Index() {
         };
     }, []);
 
-    useCustomScroll(
-        () => [0, scrollerRef.current.scrollWidth - window.innerWidth],
-        (pos) => {
-            sidewaysScroll &&
-                scrollerRef.current.scroll({
-                    left: pos,
-                });
+    useCustomScroll((delta) => {
+        sidewaysScroll &&
+            scrollerRef.current.scrollBy({
+                left: delta,
+            });
 
-            // Mix different background colors based on scroll position.
-            let midScreen, aboutStart, workStart;
-            if (sidewaysScroll) {
-                midScreen =
-                    scrollerRef.current.scrollLeft + window.innerWidth / 2;
-                aboutStart = aboutRef.current.offsetLeft;
-                workStart = workRef.current.offsetLeft;
-            } else {
-                midScreen = window.scrollY + window.innerHeight / 2;
-                aboutStart = aboutRef.current.offsetTop;
-                workStart = workRef.current.offsetTop;
-            }
+        // Mix different background colors based on scroll position.
+        let midScreen, aboutStart, workStart;
+        if (sidewaysScroll) {
+            midScreen = scrollerRef.current.scrollLeft + window.innerWidth / 2;
+            aboutStart = aboutRef.current.offsetLeft;
+            workStart = workRef.current.offsetLeft;
+        } else {
+            midScreen = window.scrollY + window.innerHeight / 2;
+            aboutStart = aboutRef.current.offsetTop;
+            workStart = workRef.current.offsetTop;
+        }
 
-            let aboutAmt = clamp((midScreen - aboutStart + 75) / 150, 0, 1);
-            let workAmt = clamp((midScreen - workStart + 75) / 150, 0, 1);
+        let aboutAmt = clamp((midScreen - aboutStart + 75) / 150, 0, 1);
+        let workAmt = clamp((midScreen - workStart + 75) / 150, 0, 1);
 
-            let back = colors.title[0]
-                .mix(colors.about[0], aboutAmt)
-                .mix(colors.work[0], workAmt);
-            let fore = colors.title[1]
-                .mix(colors.about[1], aboutAmt)
-                .mix(colors.work[1], workAmt);
+        let back = colors.title[0]
+            .mix(colors.about[0], aboutAmt)
+            .mix(colors.work[0], workAmt);
+        let fore = colors.title[1]
+            .mix(colors.about[1], aboutAmt)
+            .mix(colors.work[1], workAmt);
 
-            document.body.style.setProperty("--background-color", back.hex());
-            document.body.style.setProperty("--foreground-color", fore.hex());
-            setBack(back);
-            setFore(fore);
-        },
-        sidewaysScroll
-    );
+        document.body.style.setProperty("--background-color", back.hex());
+        document.body.style.setProperty("--foreground-color", fore.hex());
+        setBack(back);
+        setFore(fore);
+    }, sidewaysScroll);
 
     return (
         <ThemeColorContext.Provider value={{back, fore}}>

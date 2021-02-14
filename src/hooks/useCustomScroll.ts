@@ -9,14 +9,14 @@ import {useEffect} from "react";
 import {derivative} from "../misc/util";
 
 let scrollPos = 0;
+let prevScrollPos = 0;
 let scrollTarget = 0;
 let velocity = 0;
 let keysPressed: {[key: string]: number} = {};
 let scrollLoop: number;
 
 export function useCustomScroll(
-    bounds: () => [number, number],
-    onScroll: (pos: number) => void,
+    onScroll: (delta: number) => void,
     enabled = true
 ) {
     useEffect(() => {
@@ -28,9 +28,6 @@ export function useCustomScroll(
             } else {
                 scrollTarget += evt.deltaY * 0.8;
             }
-
-            if (scrollTarget < 0) scrollTarget = 0;
-            if (scrollTarget > bounds()[1]) scrollTarget = bounds()[1];
         }
 
         function handleKeyDown(evt: KeyboardEvent) {
@@ -45,53 +42,6 @@ export function useCustomScroll(
         function handleKeyUp(evt: KeyboardEvent) {
             evt.preventDefault();
             delete keysPressed[evt.code];
-        }
-
-        // Touch scrolling
-        let panningTouch: number | null = null;
-        let prevTouchXPos: number | null = null;
-        let lastThreeTouchXPos: number[] = [];
-        function handleTouchStart(evt: TouchEvent) {
-            evt.preventDefault();
-
-            velocity = 0;
-
-            if (panningTouch === null)
-                panningTouch = evt.changedTouches[0].identifier;
-        }
-
-        function handleTouchMove(evt: TouchEvent) {
-            evt.preventDefault();
-
-            const touch = Array.from(evt.changedTouches).find(
-                ({identifier}) => identifier === panningTouch
-            );
-            if (touch) {
-                if (prevTouchXPos !== null) {
-                    scrollTarget += prevTouchXPos - touch.screenX;
-                    scrollPos = scrollTarget;
-                }
-                prevTouchXPos = touch.screenX;
-                lastThreeTouchXPos.push(touch.screenX);
-                lastThreeTouchXPos = lastThreeTouchXPos.slice(-3);
-            }
-        }
-
-        function handleTouchEnd(evt: TouchEvent) {
-            const touch = Array.from(evt.changedTouches).find(
-                ({identifier}) => identifier === panningTouch
-            );
-            if (touch) {
-                const velocities = derivative(lastThreeTouchXPos);
-                if (velocities.length > 0)
-                    velocity =
-                        -velocities.reduce((prev, cur) => prev + cur) /
-                        lastThreeTouchXPos.length;
-
-                panningTouch = null;
-                prevTouchXPos = null;
-                lastThreeTouchXPos = [];
-            }
         }
 
         let lastScrollTime = Date.now();
@@ -119,13 +69,6 @@ export function useCustomScroll(
                 if (Math.abs(velocity) > 0.1) {
                     scrollPos += velocity * 0.05 * delta;
 
-                    if (scrollPos < bounds()[0]) {
-                        scrollPos = bounds()[0];
-                        velocity = 0;
-                    } else if (scrollPos > bounds()[1]) {
-                        scrollPos = bounds()[1];
-                        velocity = 0;
-                    }
                     scrollTarget = scrollPos;
 
                     if (
@@ -149,8 +92,9 @@ export function useCustomScroll(
                 }
             }
 
-            onScroll(scrollPos);
+            onScroll(scrollPos - prevScrollPos);
 
+            prevScrollPos = scrollPos;
             lastScrollTime = Date.now();
             scrollLoop = requestAnimationFrame(scroll);
         }
@@ -159,9 +103,6 @@ export function useCustomScroll(
             addEventListener("wheel", handleWheel, {passive: false});
             addEventListener("keydown", handleKeyDown);
             addEventListener("keyup", handleKeyUp);
-            addEventListener("touchstart", handleTouchStart, {passive: false});
-            addEventListener("touchmove", handleTouchMove, {passive: false});
-            addEventListener("touchend", handleTouchEnd);
         }
         scrollLoop = requestAnimationFrame(scroll);
 
@@ -169,9 +110,6 @@ export function useCustomScroll(
             removeEventListener("wheel", handleWheel);
             removeEventListener("keydown", handleKeyDown);
             removeEventListener("keyup", handleKeyUp);
-            removeEventListener("touchstart", handleTouchStart);
-            removeEventListener("touchmove", handleTouchMove);
-            removeEventListener("touchend", handleTouchEnd);
             cancelAnimationFrame(scrollLoop);
         };
     }, [enabled, onScroll]);
