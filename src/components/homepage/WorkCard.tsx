@@ -76,18 +76,40 @@ const Info = styled.div`
     bottom: 0px;
     z-index: 2;
     width: calc(100% - 3em);
-    height: 4em;
     padding: 0.5em 1.5em;
     margin-bottom: 1em;
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+
+    @media (min-width: 701px) {
+        height: 4em;
+    }
+
+    @media (max-width: 700px) {
+        height: 6.8em;
+        flex-direction: column;
+    }
 `;
 
-const InfoColumn = styled.div`
+const InfoLeft = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+`;
+
+const InfoRight = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (min-width: 701px) {
+        align-items: flex-end;
+    }
+
+    @media (max-width: 700px) {
+        flex-grow: 1;
+    }
 `;
 
 const Border = styled.div`
@@ -99,6 +121,10 @@ const Border = styled.div`
     left: 0px;
     bottom: 0px;
     box-sizing: border-box;
+
+    @media (max-width: 700px) {
+        height: 9em;
+    }
 `;
 
 const Link = styled.a`
@@ -107,7 +133,6 @@ const Link = styled.a`
     text-decoration: underline;
     cursor: pointer;
     margin: auto 0px;
-    align-self: flex-end;
 `;
 
 const IconExternal = styled(ColoredImg)`
@@ -116,13 +141,16 @@ const IconExternal = styled(ColoredImg)`
 `;
 
 const TechContainer = styled.div`
-    align-self: flex-end;
-    display: flex;
+    width: min-content;
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 0.5em;
+    justify-content: right;
+    margin-top: 0.5em;
 `;
 
 const Tech = styled.img`
     height: 1.3em;
-    margin: 0px 0.3em;
 `;
 
 interface WorkCardProps {
@@ -147,11 +175,11 @@ export default function WorkCard({
             <Border />
             <SitePreview src={url} />
             <Info>
-                <InfoColumn>
+                <InfoLeft>
                     <h1>{title}</h1>
                     <p>{description}</p>
-                </InfoColumn>
-                <InfoColumn>
+                </InfoLeft>
+                <InfoRight>
                     <Link href={repo}>
                         code
                         <IconExternal
@@ -180,7 +208,7 @@ export default function WorkCard({
                             <Tech src="godot-logo.svg" />
                         )}
                     </TechContainer>
-                </InfoColumn>
+                </InfoRight>
             </Info>
         </Container>
     );
