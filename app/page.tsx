@@ -8,28 +8,24 @@ import type {NextPage} from "next"
 
 import StaticName from "./StaticName"
 import {Canvas} from "~/components/clientWrapped/reactThreeFiber"
+import {WebGLRenderer} from "three"
+import {ReactElement} from "react"
 
 // eslint-disable-next-line @typescript-eslint/quotes
 const anton = Anton({weight: "400"})
 
-const Index: NextPage = () => {
+const Home = (): ReactElement | null => {
 	return (
 		<div className="h-full border-8 border-white grid grid-rows-[1fr_auto]">
 			<div className="grid grid-cols-[2fr_1fr]">
 				<div className="relative">
 					<div className="absolute inset-0">
-						<Canvas id="name-canvas">
-							<OrthographicCamera
-								makeDefault
-								zoom={1}
-								left={-1}
-								right={1}
-								top={1}
-								bottom={-1}
-								near={0}
-								far={10}
-								position={[0, 0, 5]}
-							/>
+						<Canvas
+							flat
+							linear
+							gl={(canvas) => new WebGLRenderer({canvas, context: canvas.getContext("webgl2") ?? undefined})}
+						>
+							<OrthographicCamera makeDefault near={0} position={[0, 0, 5]} />
 							<StaticName />
 						</Canvas>
 					</div>
@@ -53,4 +49,4 @@ const Index: NextPage = () => {
 	)
 }
 
-export default Index
+export default Home
