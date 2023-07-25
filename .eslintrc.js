@@ -75,7 +75,7 @@ module.exports = {
 				"react/jsx-curly-brace-presence": `warn`,
 				"react/jsx-no-useless-fragment": [`warn`, {allowExpressions: true}],
 				"react/no-unused-prop-types": `warn`,
-				"react/no-unknown-property": [`warn`, {ignore: [`args`, `count`, `map`, `onUpdate`, `position`, `rotation`]}],
+				"react/no-unknown-property": `off`,
 				"react/prop-types": `off`,
 				"react/self-closing-comp": `off`,
 			},
