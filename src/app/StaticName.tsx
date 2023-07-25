@@ -3,8 +3,9 @@ import {useFrame, useThree} from "@react-three/fiber"
 import {useEffect, useRef, useState} from "react"
 
 import type {ReactElement} from "react"
+import type {ShaderMaterial} from "three"
+
 import StaticMaterial from "./StaticMaterial"
-import {ShaderMaterial} from "three"
 
 const nameMapAspect = 2132 / 1322 // Dimensions of name-map.png
 
@@ -12,11 +13,7 @@ const StaticName = (): ReactElement | null => {
 	const nameMap = useTexture(`/name-map.png`)
 
 	// Fit the name box in the canvas
-	const [nameBoxHeight, setNameBoxHeight] = useState(0)
 	const viewport = useThree((state) => state.viewport)
-	useEffect(() => {
-		setNameBoxHeight(viewport.aspect > nameMapAspect ? viewport.height : viewport.width / nameMapAspect)
-	}, [viewport.aspect, viewport.height, viewport.width])
 
 	// Update time uniform
 	const staticRef = useRef<ShaderMaterial | null>(null)
@@ -26,9 +23,14 @@ const StaticName = (): ReactElement | null => {
 	})
 
 	return (
-		<mesh scale={[nameBoxHeight * nameMapAspect, nameBoxHeight, 1]}>
+		<mesh>
 			<planeGeometry />
-			<staticMaterial key={StaticMaterial.key} nameMap={nameMap} ref={staticRef} />
+			<staticMaterial
+				key={StaticMaterial.key}
+				textureMap={nameMap}
+				viewportResolution={[viewport.width, viewport.height]}
+				ref={staticRef}
+			/>
 		</mesh>
 	)
 }
