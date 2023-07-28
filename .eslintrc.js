@@ -14,7 +14,6 @@ module.exports = {
 		"import/no-duplicates": `error`,
 		"import/no-named-as-default": `off`,
 		"import/no-unresolved": `off`,
-		"import/no-unused-modules": [`warn`, {unusedExports: true, ignoreExports: [`**/*.tsx`]}],
 		"import/order": [
 			`warn`,
 			{
@@ -66,8 +65,8 @@ module.exports = {
 		},
 		{
 			files: [`**/*.jsx`, `**/*.tsx`],
-			plugins: [`react`, `react-hooks`],
-			extends: [`plugin:react/recommended`, `plugin:react-hooks/recommended`, `plugin:react/jsx-runtime`],
+			plugins: [`react`],
+			extends: [`plugin:react/recommended`, `plugin:react/jsx-runtime`],
 			rules: {
 				"react/button-has-type": `warn`,
 				"react/display-name": `warn`,

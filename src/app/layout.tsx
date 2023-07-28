@@ -15,7 +15,7 @@ type Props = {
 export default function RootLayout({children}: Props): ReactElement | null {
 	return (
 		<html lang="en" className={clsx(figtree.className, `h-full`)}>
-			<body className="h-full bg-fuchsia-950">{children}</body>
+			<body className="h-full bg-[#2A022C]">{children}</body>
 		</html>
 	)
 }

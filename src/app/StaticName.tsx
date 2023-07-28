@@ -1,17 +1,14 @@
-import {useTexture} from "@react-three/drei"
-import {useFrame, useThree} from "@react-three/fiber"
-import {useEffect, useRef, useState} from "react"
+import {useFrame, useLoader, useThree} from "@react-three/fiber"
+import {useMemo, useRef} from "react"
+import {type ShaderMaterial} from "three"
+import createGeometry from "three-bmfont-text"
 
 import type {ReactElement} from "react"
-import type {ShaderMaterial} from "three"
 
 import StaticMaterial from "./StaticMaterial"
-
-const nameMapAspect = 2132 / 1322 // Dimensions of name-map.png
+import BMFontLoader from "@/helpers/BMFontLoader"
 
 const StaticName = (): ReactElement | null => {
-	const nameMap = useTexture(`/name-map.png`)
-
 	// Fit the name box in the canvas
 	const viewport = useThree((state) => state.viewport)
 
@@ -22,15 +19,50 @@ const StaticName = (): ReactElement | null => {
 		staticRef.current.uniforms.time.value += delta
 	})
 
+	const font = useLoader(BMFontLoader, `/Righteous-Regular.fnt`)
+	const geometry = useMemo(() => createGeometry({width: 300, align: `right`, font: font}), [font])
+
+	// useLoader(BMFontLoader, `/Righteous-Regular.fnt`)
+
+	// useEffect(() => {
+	// 	const loader = new TextureLoader()
+
+	// 	loader.load(
+	// 		`/Righteous-Regular.png`,
+	// 		(texture) => {
+	// 			// in this function you get the texture
+	// 			setFontAtlas(texture)
+	// 		},
+	// 		(xhr) => {
+	// 			// called while loading is progressing
+	// 			console.log((xhr.loaded / xhr.total) * 100 + `% loaded`)
+	// 		},
+	// 		(error) => {
+	// 			// called when loading has errors
+	// 			console.error(`An error occurred:`, error)
+	// 		},
+	// 	)
+	// }, [])
+
+	// const textGeometry = useMemo(() => {
+	// 	const geometry = createGeometry({
+	// 		font: font,
+	// 		size: 0.5,
+	// 		flipY: fontAtlas?.flipY,
+	// 	})
+	// 	geometry.update(`Your Text`)
+	// 	return geometry
+	// }, [font, fontAtlas])
+	// console.log(textGeometry)
+
+	// useEffect(() => {
+	// 	fontAtlas.needsUpdate = true
+	// }, [fontAtlas])
+
 	return (
 		<mesh>
 			<planeGeometry />
-			<staticMaterial
-				key={StaticMaterial.key}
-				textureMap={nameMap}
-				viewportResolution={[viewport.width, viewport.height]}
-				ref={staticRef}
-			/>
+			<staticMaterial key={StaticMaterial.key} viewportResolution={[viewport.width, viewport.height]} ref={staticRef} />
 		</mesh>
 	)
 }
