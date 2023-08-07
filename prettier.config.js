@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import("prettier").Options} */
+const config = {
 	printWidth: 120,
 	tabWidth: 2,
 	useTabs: true,
@@ -6,3 +7,5 @@ module.exports = {
 	singleQuote: false,
 	bracketSpacing: false,
 }
+
+export default config
