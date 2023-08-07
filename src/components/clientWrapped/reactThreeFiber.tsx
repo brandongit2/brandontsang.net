@@ -1,3 +1,5 @@
+// Makes the <Canvas> component a client component.
+
 "use client"
 
 import {Canvas as _Canvas} from "@react-three/fiber"
