@@ -8,7 +8,7 @@ import LinkedinIcon from "@public/linkedin.svg"
 
 export default function Home(): ReactElement | null {
 	return (
-		<div className="h-full border-4 border-yellow-300 grid grid-cols-[2fr_1fr]">
+		<div className="h-[calc(100%-0.5rem)] m-1 rounded-md bg-[#2a022c] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
 				<div className="relative">
 					<div className="absolute inset-0">
@@ -43,7 +43,7 @@ export default function Home(): ReactElement | null {
 				</div>
 			</div>
 
-			<div className="px-6 py-12 flex flex-col gap-4 overflow-auto min-h-0">
+			<div className="p-6 flex flex-col gap-4 overflow-auto min-h-0">
 				<p className="text-sm opacity-80">
 					Hey! I am a Toronto-based full-stack JavaScript developer who loves building unique and challenging user
 					interfaces.{` `}

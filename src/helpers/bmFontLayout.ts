@@ -26,14 +26,13 @@ export default function bmFontLayout(font: BMFont[`font`], str: string): CharDat
 		)
 
 		cursorX += glyph.xoffset
-		if (cursorX < 0) cursorX = 0
 		charData.push({
 			u: glyph.x / font.common.scaleW,
 			v: 1 - (glyph.y + glyph.height) / font.common.scaleH,
 			width: glyph.width / font.common.scaleW,
 			height: glyph.height / font.common.scaleH,
 			dstU: cursorX / font.common.scaleW,
-			dstV: 1 - (cursorY + glyph.yoffset + glyph.height) / font.common.scaleH,
+			dstV: 1 - (cursorY + glyph.height - 12) / font.common.scaleH,
 		})
 		cursorX -= glyph.xoffset
 		cursorX += glyph.xadvance + (kerning?.amount ?? 0)
