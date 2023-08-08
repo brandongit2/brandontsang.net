@@ -20,7 +20,7 @@ export type FancyNameClientProps = {
 export default function FancyNameClient({font}: FancyNameClientProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
 	useEffect(() => {
-		gl.setClearColor(0x000000, 0)
+		gl.setClearColor(0x000fff, 1)
 	}, [gl])
 
 	const radiantRef = useRef<ShaderMaterial | null>(null)
