@@ -1,21 +1,19 @@
 import type {ReactElement} from "react"
 
-import CanvasSetup from "./CanvasSetup"
-import StaticName from "./FancyName.server"
-import {Canvas} from "@/components/clientWrapped/reactThreeFiber"
+import loadFont from "./loadFont"
+import NameCanvas from "./NameCanvas"
 import GithubIcon from "@public/github.svg"
 import LinkedinIcon from "@public/linkedin.svg"
 
-export default function Home(): ReactElement | null {
+export default async function Home(): Promise<ReactElement | null> {
+	const font = await loadFont()
+
 	return (
 		<div className="h-[calc(100%-0.5rem)] m-1 rounded-md bg-[#2a022c] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
 				<div className="relative">
 					<div className="absolute inset-0">
-						<Canvas flat linear gl={{alpha: true, premultipliedAlpha: false}}>
-							<CanvasSetup />
-							<StaticName />
-						</Canvas>
+						<NameCanvas font={font} />
 					</div>
 				</div>
 				<div className="m-16 flex gap-16 justify-end">
@@ -41,6 +39,7 @@ export default function Home(): ReactElement | null {
 						3
 					</button>
 				</div>
+				di
 			</div>
 
 			<div className="p-6 flex flex-col gap-4 overflow-auto min-h-0">

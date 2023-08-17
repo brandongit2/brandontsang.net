@@ -4,7 +4,7 @@ import {DataTexture, FloatType, NearestFilter, RedFormat, Texture} from "three"
 
 import glsl from "@/helpers/glsl"
 
-export type SdfStringBuilderMaterialUniforms = {
+export type TextLayoutMaterialUniforms = {
 	sdfMap: Texture
 	sdfMapDimensions: [number, number]
 	charData: Texture
@@ -16,13 +16,13 @@ charData.minFilter = NearestFilter
 charData.magFilter = NearestFilter
 charData.needsUpdate = true
 
-const SdfStringBuilderMaterial = shaderMaterial(
+const TextLayoutMaterial = shaderMaterial(
 	{
 		sdfMap: new Texture(),
 		sdfMapDimensions: [512, 512],
 		charData,
 		string: [],
-	} satisfies SdfStringBuilderMaterialUniforms,
+	} satisfies TextLayoutMaterialUniforms,
 	glsl`
     out vec2 f_uv;
 
@@ -39,11 +39,9 @@ const SdfStringBuilderMaterial = shaderMaterial(
     uniform sampler2D charData;
     uniform int string[32];
 
-    #define scale 1.0
-
     void main() {
       float maxAlpha = 0.0;
-      vec2 uv = vec2(f_uv.x / scale, (f_uv.y - 1.0) / scale + 1.0);
+      vec2 uv = vec2(f_uv.x, f_uv.y);
 
       for (int i = 0; i < 32; i++) {
         float u = texelFetch(charData, ivec2(i * 6, 0), 0).r;
@@ -66,15 +64,15 @@ const SdfStringBuilderMaterial = shaderMaterial(
   `,
 )
 
-extend({SdfStringBuilderMaterial})
+extend({TextLayoutMaterial})
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace JSX {
 		interface IntrinsicElements {
-			sdfStringBuilderMaterial: SdfStringBuilderMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
+			textLayoutMaterial: TextLayoutMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
 		}
 	}
 }
 
-export default SdfStringBuilderMaterial
+export default TextLayoutMaterial
