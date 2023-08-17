@@ -5,15 +5,15 @@ import {DataTexture, Vector3} from "three"
 
 import type {BMFont} from "@/types/BMFont"
 
-import SdfStringBuilderMaterial from "./SdfStringBuilderMaterial"
+import TextLayoutMaterial from "./TextLayoutMaterial"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
-export type SdfSceneProps = {
+export type TextLayoutProps = {
 	font: BMFont[`font`]
 	text: string
 }
 
-const SdfScene = forwardRef<Camera, SdfSceneProps>(function SdfSceneWithRef({font, text}, ref) {
+const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRef({font, text}, ref) {
 	const sdfMap = useTexture(`/Righteous-Regular-sdf.png`)
 	sdfMap.generateMipmaps = false
 	sdfMap.minFilter = NearestFilter
@@ -51,8 +51,8 @@ const SdfScene = forwardRef<Camera, SdfSceneProps>(function SdfSceneWithRef({fon
 			<OrthographicCamera ref={ref} left={-0.5} right={0.5} top={0.5} bottom={-0.5} position={new Vector3(0, 0, 5)} />
 			<mesh>
 				<planeGeometry />
-				<sdfStringBuilderMaterial
-					key={SdfStringBuilderMaterial.key}
+				<textLayoutMaterial
+					key={TextLayoutMaterial.key}
 					sdfMap={sdfMap}
 					sdfMapDimensions={[512, 512]}
 					charData={charData}
@@ -63,4 +63,4 @@ const SdfScene = forwardRef<Camera, SdfSceneProps>(function SdfSceneWithRef({fon
 	)
 })
 
-export default SdfScene
+export default TextLayout

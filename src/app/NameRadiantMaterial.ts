@@ -6,12 +6,11 @@ import glsl from "@/helpers/glsl"
 
 export type NameRadiantMaterialUniforms = {
 	time: number
-	scale: number
 	sdfMap: Texture
 }
 
 const NameRadiantMaterial = shaderMaterial(
-	{time: 0, scale: 1, sdfMap: new Texture()} satisfies NameRadiantMaterialUniforms,
+	{time: 0, sdfMap: new Texture()} satisfies NameRadiantMaterialUniforms,
 	glsl`
     out vec2 vUv;
 
@@ -25,10 +24,10 @@ const NameRadiantMaterial = shaderMaterial(
 
     uniform sampler2D sdfMap;
     uniform float time;
-    uniform float scale;
 
     void main() {
-      float dist = max(texture2D(sdfMap, vec2(vUv.x / scale, (vUv.y - 1.0) / scale + 1.0)).a - 0.02, 0.0);
+      float tex = texture2D(sdfMap, vec2(vUv.x, vUv.y)).a;
+      float dist = max(tex - 0.02, 0.0);
       float fade = fract(-time * 0.3 - dist * 5.0) * 0.6;
       fade *= pow(dist, 0.5);
 

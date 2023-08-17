@@ -4,12 +4,12 @@ import {Texture} from "three"
 
 import glsl from "@/helpers/glsl"
 
-export type NameMaterialUniforms = {
+export type NameTextMaterialUniforms = {
 	msdfMap: Texture
 }
 
-const NameMaterial = shaderMaterial(
-	{msdfMap: new Texture()} satisfies NameMaterialUniforms,
+const NameTextMaterial = shaderMaterial(
+	{msdfMap: new Texture()} satisfies NameTextMaterialUniforms,
 	glsl`
     out vec2 vUv;
 
@@ -38,15 +38,15 @@ const NameMaterial = shaderMaterial(
   `,
 )
 
-extend({NameMaterial})
+extend({NameTextMaterial})
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace JSX {
 		interface IntrinsicElements {
-			nameMaterial: NameMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
+			nameTextMaterial: NameTextMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
 		}
 	}
 }
 
-export default NameMaterial
+export default NameTextMaterial

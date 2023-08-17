@@ -13,6 +13,8 @@ export default function bmFontLayout(font: BMFont[`font`], str: string): CharDat
 	let charData: CharData[] = []
 	let cursorX = 0
 	let cursorY = 0
+	let xOffset = 0
+	let yOffset = 0
 	for (let i = 0; i < str.length; i++) {
 		const char = str[i]
 		if (char === `\n`) {
@@ -26,17 +28,24 @@ export default function bmFontLayout(font: BMFont[`font`], str: string): CharDat
 		)
 
 		cursorX += glyph.xoffset
+		if (cursorX < 0) xOffset = Math.max(xOffset, -cursorX)
+		if (cursorY < 0) yOffset = Math.max(yOffset, -cursorY)
 		charData.push({
 			u: glyph.x / font.common.scaleW,
 			v: 1 - (glyph.y + glyph.height) / font.common.scaleH,
 			width: glyph.width / font.common.scaleW,
 			height: glyph.height / font.common.scaleH,
 			dstU: cursorX / font.common.scaleW,
-			dstV: 1 - (cursorY + glyph.height - 12) / font.common.scaleH,
+			dstV: 1 - (cursorY + glyph.height) / font.common.scaleH,
 		})
 		cursorX -= glyph.xoffset
 		cursorX += glyph.xadvance + (kerning?.amount ?? 0)
 	}
+
+	charData.forEach((data) => {
+		data.dstU += xOffset / font.common.scaleW
+		data.dstV += yOffset / font.common.scaleH
+	})
 
 	return charData
 }
