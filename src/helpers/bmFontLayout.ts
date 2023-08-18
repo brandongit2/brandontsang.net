@@ -29,7 +29,7 @@ export default function bmFontLayout(font: BMFont[`font`], str: string): CharDat
 
 			cursorX += glyph.xoffset
 			cursorX -= glyph.xadvance
-			if (cursorX + glyph.width > 0) xOffset = Math.max(xOffset, cursorX)
+			if (cursorX + glyph.width > 0) xOffset = Math.max(xOffset, cursorX + glyph.width)
 			if (cursorY < 0) yOffset = Math.max(yOffset, -cursorY)
 			charData.push({
 				u: glyph.x / font.common.scaleW,
@@ -53,8 +53,8 @@ export default function bmFontLayout(font: BMFont[`font`], str: string): CharDat
 		data.dstV += yOffset / font.common.scaleH
 	})
 
-	const textWidth = Math.max(...charData.map((c) => c.dstU + c.width)) - Math.min(...charData.map((c) => c.dstU))
-
+	// Everything so far has generated the text just left of x=0. Push it to the right.
+	const textWidth = -Math.min(...charData.map((c) => c.dstU))
 	charData.forEach((data) => {
 		data.dstU += textWidth
 	})
