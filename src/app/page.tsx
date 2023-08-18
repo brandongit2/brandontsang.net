@@ -1,6 +1,6 @@
 import type {ReactElement} from "react"
 
-import loadFont from "./loadFont"
+import {loadFont} from "./loadFont"
 import NameCanvas from "./NameCanvas"
 import GithubIcon from "@public/github.svg"
 import LinkedinIcon from "@public/linkedin.svg"
@@ -11,7 +11,7 @@ export default async function Home(): Promise<ReactElement | null> {
 	return (
 		<div className="h-[calc(100%-0.5rem)] m-1 rounded-md bg-[#2a022c] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
-				<div className="relative">
+				<div className="relative max-w-[40rem] justify-self-end w-full">
 					<div className="absolute inset-0">
 						<NameCanvas font={font} />
 					</div>

@@ -19,27 +19,31 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 	sdfMap.minFilter = NearestFilter
 	sdfMap.wrapS = sdfMap.wrapT = ClampToEdgeWrapping
 
-	// Repeating pattern of six floats.
-	// Float 6n:   u
-	// Float 6n+1: v
-	// Float 6n+2: width
-	// Float 6n+3: height
-	// Float 6n+4: dstU
-	// Float 6n+5: dstV
-	const buffer = new Float32Array(Object.keys(font.chars.char).length * 6)
+	// Repeating pattern of eight floats.
+	// Float 8n:   u
+	// Float 8n+1: v
+	// Float 8n+2: width
+	// Float 8n+3: height
+	// Float 8n+4: dstU
+	// Float 8n+5: dstV
+	// Float 8n+6: dstWidth
+	// Float 8n+7: dstHeight
+	const buffer = new Float32Array(Object.keys(font.chars.char).length * 8)
 	const strLayout = bmFontLayout(font, text)
 	for (let i = 0; i < strLayout.length; i++) {
 		const charData = strLayout[i]
 
-		const idx = i * 6
+		const idx = i * 8
 		buffer[idx] = charData.u
 		buffer[idx + 1] = charData.v
 		buffer[idx + 2] = charData.width
 		buffer[idx + 3] = charData.height
 		buffer[idx + 4] = charData.dstU
 		buffer[idx + 5] = charData.dstV
+		buffer[idx + 6] = charData.dstWidth
+		buffer[idx + 7] = charData.dstHeight
 	}
-	const charData = new DataTexture(buffer, Object.keys(font.chars.char).length * 6, 1, RedFormat, FloatType)
+	const charData = new DataTexture(buffer, Object.keys(font.chars.char).length * 8, 1, RedFormat, FloatType)
 	charData.minFilter = NearestFilter
 	charData.magFilter = NearestFilter
 	charData.needsUpdate = true
