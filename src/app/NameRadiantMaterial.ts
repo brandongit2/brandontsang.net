@@ -29,8 +29,8 @@ const NameRadiantMaterial = shaderMaterial(
       float tex = texture2D(sdfMap, vec2(vUv.x, vUv.y)).a;
       float dist = max(tex - 0.02, 0.0);
 
-      float steepness = 30.0 * dist;
-      float fade = fract(-time * 0.5 - (1.0 - dist) * steepness) * 0.6;
+      float steepness = 20.0;
+      float fade = fract(-time * 0.3 - dist * steepness) * 0.6;
 
       float dimmingFactor = 0.3;
       fade *= pow(dist, dimmingFactor);
