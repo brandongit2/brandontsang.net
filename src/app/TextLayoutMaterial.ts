@@ -44,15 +44,18 @@ const TextLayoutMaterial = shaderMaterial(
       vec2 uv = vec2(f_uv.x, f_uv.y);
 
       for (int i = 0; i < 32; i++) {
-        float u = texelFetch(charData, ivec2(i * 6, 0), 0).r;
-        float v = texelFetch(charData, ivec2(i * 6 + 1, 0), 0).r;
-        float width = texelFetch(charData, ivec2(i * 6 + 2, 0), 0).r;
-        float height = texelFetch(charData, ivec2(i * 6 + 3, 0), 0).r;
-        float dstU = texelFetch(charData, ivec2(i * 6 + 4, 0), 0).r;
-        float dstV = texelFetch(charData, ivec2(i * 6 + 5, 0), 0).r;
+        int idx = i * 8;
+        float u = texelFetch(charData, ivec2(idx, 0), 0).r;
+        float v = texelFetch(charData, ivec2(idx + 1, 0), 0).r;
+        float width = texelFetch(charData, ivec2(idx + 2, 0), 0).r;
+        float height = texelFetch(charData, ivec2(idx + 3, 0), 0).r;
+        float dstU = texelFetch(charData, ivec2(idx + 4, 0), 0).r;
+        float dstV = texelFetch(charData, ivec2(idx + 5, 0), 0).r;
+        float dstWidth = texelFetch(charData, ivec2(idx + 6, 0), 0).r;
+        float dstHeight = texelFetch(charData, ivec2(idx + 7, 0), 0).r;
 
-        bool insideX = (uv.x >= dstU) && (uv.x <= (dstU + width));
-        bool insideY = (uv.y >= dstV) && (uv.y <= (dstV + height));
+        bool insideX = (uv.x >= dstU) && (uv.x <= (dstU + dstWidth));
+        bool insideY = (uv.y >= dstV) && (uv.y <= (dstV + dstHeight));
         if (!insideX || !insideY) continue;
 
         float glyph = texture2D(sdfMap, vec2(u + uv.x - dstU, uv.y + v - dstV)).a;

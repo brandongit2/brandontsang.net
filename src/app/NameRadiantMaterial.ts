@@ -28,8 +28,12 @@ const NameRadiantMaterial = shaderMaterial(
     void main() {
       float tex = texture2D(sdfMap, vec2(vUv.x, vUv.y)).a;
       float dist = max(tex - 0.02, 0.0);
-      float fade = fract(-time * 0.3 - dist * 5.0) * 0.6;
-      fade *= pow(dist, 0.5);
+
+      float steepness = 30.0 * dist;
+      float fade = fract(-time * 0.5 - (1.0 - dist) * steepness) * 0.6;
+
+      float dimmingFactor = 0.3;
+      fade *= pow(dist, dimmingFactor);
 
       vec3 purple = vec3(0.17, 0.01, 0.17);
       vec3 yellow = vec3(0.991, 0.88, 0.28);

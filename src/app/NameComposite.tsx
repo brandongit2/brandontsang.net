@@ -2,8 +2,8 @@
 
 import {OrthographicCamera, useFBO, useTexture} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
-import {useRef, type ReactElement, useMemo, forwardRef, useState} from "react"
-import {BufferGeometry, Scene, BufferAttribute, Vector3} from "three"
+import {useRef, type ReactElement, useMemo, forwardRef} from "react"
+import {Scene, Vector3} from "three"
 import {type ShaderMaterial, type Camera} from "three"
 
 import type {BMFont} from "@/types/BMFont"
@@ -32,16 +32,8 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		radiantRef.current.uniforms.time.value += delta
 	})
 
-	const text = `BRANDON\nTSANG`
-
-	const msdfMap = useTexture(`/Righteous-Regular.png`)
-
-	const fboScene = useMemo(() => {
-		const scene = new Scene()
-		return scene
-	}, [])
+	const fboScene = useMemo(() => new Scene(), [])
 	const cam = useRef<Camera>(null)
-
 	const target = useFBO()
 	useFrame(() => {
 		if (!cam.current) return
@@ -51,29 +43,21 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		gl.setRenderTarget(null)
 	})
 
+	const text = `BRANDON\nTSANG`
+	const msdfMap = useTexture(`/Righteous-Regular-msdf.png`)
 	const strLayout = useMemo(() => bmFontLayout(font, text), [font, text])
-
-	const textGeom = useMemo(() => {
-		const geom = new BufferGeometry()
-
+	const {vertices, uvs, indices} = useMemo(() => {
 		const vertices = []
-		const indices = []
 		const uvs = []
+		const indices = []
 		for (let i = 0; i < strLayout.length; i++) {
 			const char = strLayout[i]
 			vertices.push(
 				...[
-					[char.dstU, char.dstV + char.height, 0], // top left, 0
-					[char.dstU + char.width, char.dstV + char.height, 0], // top right, 1
+					[char.dstU, char.dstV + char.dstHeight, 0], // top left, 0
+					[char.dstU + char.dstWidth, char.dstV + char.dstHeight, 0], // top right, 1
 					[char.dstU, char.dstV, 0], // bottom left, 2
-					[char.dstU + char.width, char.dstV, 0], // bottom right, 3
-				].flat(),
-			)
-			const idx = i * 4
-			indices.push(
-				...[
-					[idx + 0, idx + 2, idx + 1],
-					[idx + 2, idx + 3, idx + 1],
+					[char.dstU + char.dstWidth, char.dstV, 0], // bottom right, 3
 				].flat(),
 			)
 			uvs.push(
@@ -84,30 +68,31 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 					[char.u + char.width, char.v], // bottom right, 3
 				].flat(),
 			)
+			const idx = i * 4
+			indices.push(
+				...[
+					[idx + 0, idx + 2, idx + 1],
+					[idx + 2, idx + 3, idx + 1],
+				].flat(),
+			)
 		}
 
-		geom.setAttribute(`position`, new BufferAttribute(new Float32Array(vertices), 3))
-		geom.setIndex(indices)
-		geom.setAttribute(`uv`, new BufferAttribute(new Float32Array(uvs), 2))
-
-		return geom
+		return {
+			vertices: new Float32Array(vertices),
+			uvs: new Float32Array(uvs),
+			indices: new Uint16Array(indices),
+		}
 	}, [strLayout])
 
-	let maxWidth = 400 // pixels
-	const textDims = useMemo(
-		() => ({
-			width: Math.max(...strLayout.map((char) => char.dstU + char.width)),
-			height: Math.max(...strLayout.map((char) => 1 - char.dstV)),
-		}),
-		[strLayout],
-	)
+	const textWidth = Math.max(...strLayout.map((char) => char.dstU + char.width))
+	const textHeight = Math.max(...strLayout.map((char) => 1 - char.dstV))
 
 	const canvasAspect = canvasWidth / canvasHeight
-	const textAspect = textDims.width / textDims.height
-	const viewportWidth = textAspect > canvasAspect ? textDims.width : textDims.height * canvasAspect
-	const viewportHeight = textAspect > canvasAspect ? textDims.width / canvasAspect : textDims.height
-	const xOffset = (viewportWidth - textDims.width) / 2
-	const yOffset = (viewportHeight - textDims.height) / 2
+	const textAspect = textWidth / textHeight
+	const viewportWidth = textAspect > canvasAspect ? textWidth : textHeight * canvasAspect
+	const viewportHeight = textAspect > canvasAspect ? textWidth / canvasAspect : textHeight
+	const xOffset = (viewportWidth - textWidth) / 2
+	const yOffset = (viewportHeight - textHeight) / 2
 
 	return (
 		<>
@@ -124,7 +109,12 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 				<planeGeometry />
 				<nameRadiantMaterial key={NameRadiantMaterial.key} time={0} sdfMap={target.texture} ref={radiantRef} />
 			</mesh>
-			<mesh geometry={textGeom}>
+			<mesh>
+				<bufferGeometry>
+					<bufferAttribute attach="attributes-position" args={[vertices, 3]} />
+					<bufferAttribute attach="attributes-uv" args={[uvs, 2]} />
+					<bufferAttribute attach="index" args={[indices, 1]} />
+				</bufferGeometry>
 				<nameTextMaterial key={NameTextMaterial.key} msdfMap={msdfMap} transparent />
 			</mesh>
 		</>
