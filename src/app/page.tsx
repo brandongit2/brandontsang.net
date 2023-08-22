@@ -1,19 +1,20 @@
 import type {ReactElement} from "react"
 
-import {loadFont} from "./loadFont"
+import {loadMsdfFont, loadSdfFont} from "./loadFont"
 import NameCanvas from "./NameCanvas"
 import GithubIcon from "@public/github.svg"
 import LinkedinIcon from "@public/linkedin.svg"
 
 export default async function Home(): Promise<ReactElement | null> {
-	const font = await loadFont()
+	const msdfFont = await loadMsdfFont()
+	const sdfFont = await loadSdfFont()
 
 	return (
-		<div className="h-[calc(100%-0.5rem)] m-1 rounded-md bg-[#2a022c] grid grid-cols-[2fr_1fr]">
+		<div className="h-[calc(100%-0.75rem)] m-1.5 rounded-md bg-[--bg-color] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
 				<div className="relative max-w-[80rem] justify-self-end w-full">
 					<div className="absolute inset-0">
-						<NameCanvas font={font} />
+						<NameCanvas msdfFont={msdfFont} sdfFont={sdfFont} />
 					</div>
 				</div>
 				<div className="m-16 flex gap-16 justify-end">
@@ -39,11 +40,10 @@ export default async function Home(): Promise<ReactElement | null> {
 						3
 					</button>
 				</div>
-				di
 			</div>
 
 			<div className="p-6 flex flex-col gap-4 overflow-auto min-h-0">
-				<p className="text-sm opacity-80">
+				<p>
 					Hey! I am a Toronto-based full-stack JavaScript developer who loves building unique and challenging user
 					interfaces.{` `}
 					<span className="opacity-30">
@@ -62,7 +62,7 @@ export default async function Home(): Promise<ReactElement | null> {
 						2021 I dropped out of university and was hired as a software developer full-time.
 					</span>
 				</p>
-				<p className="text-sm opacity-80">
+				<p>
 					<span className="opacity-30">
 						So what am I doing now? I&apos;ve worked in several SaaS companies building very fulfilling products, and
 						now I&apos;m looking for a work experience which will really allow me to flex my creative muscles.

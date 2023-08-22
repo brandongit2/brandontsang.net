@@ -29,15 +29,15 @@ const NameRadiantMaterial = shaderMaterial(
       float tex = texture2D(sdfMap, vec2(vUv.x, vUv.y)).a;
       float dist = max(tex - 0.02, 0.0);
 
-      float steepness = 20.0;
+      float steepness = 4.0;
       float fade = fract(-time * 0.3 - dist * steepness) * 0.6;
+      // float fade = fract(0.46 - dist * steepness) * 0.6;
 
       float dimmingFactor = 0.3;
       fade *= pow(dist, dimmingFactor);
 
-      vec3 purple = vec3(0.17, 0.01, 0.17);
-      vec3 yellow = vec3(0.991, 0.88, 0.28);
-      pc_fragColor = vec4(yellow, fade);
+      vec3 fore = vec3(0.991, 0.88, 0.28);
+      pc_fragColor = vec4(fore, fade);
     }
   `,
 )

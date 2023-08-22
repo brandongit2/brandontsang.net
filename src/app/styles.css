@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+	--bg-color: #224f25;
+	--text-color: #fbff78;
+}
+
+@font-face {
+	font-family: "Righteous";
+	src: url("/Righteous-Regular.ttf");
+}

@@ -8,13 +8,14 @@ import type {ReactElement} from "react"
 import FinalName from "./FinalName"
 
 export type NameCanvasProps = {
-	font: BMFont["font"]
+	msdfFont: BMFont
+	sdfFont: BMFont
 }
 
-export default function NameCanvas({font}: NameCanvasProps): ReactElement | null {
+export default function NameCanvas({msdfFont, sdfFont}: NameCanvasProps): ReactElement | null {
 	return (
 		<Canvas flat linear gl={{alpha: true, premultipliedAlpha: false}}>
-			<FinalName font={font} />
+			<FinalName msdfFont={msdfFont} sdfFont={sdfFont} />
 		</Canvas>
 	)
 }
