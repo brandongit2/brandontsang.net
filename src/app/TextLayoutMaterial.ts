@@ -6,9 +6,8 @@ import glsl from "@/helpers/glsl"
 
 export type TextLayoutMaterialUniforms = {
 	sdfMap: Texture
-	sdfMapDimensions: [number, number]
 	charData: Texture
-	string: number[]
+	stringLength: number
 }
 
 const charData = new DataTexture(new Float32Array(1), 1, 1, RedFormat, FloatType)
@@ -19,9 +18,8 @@ charData.needsUpdate = true
 const TextLayoutMaterial = shaderMaterial(
 	{
 		sdfMap: new Texture(),
-		sdfMapDimensions: [512, 512],
 		charData,
-		string: [],
+		stringLength: 1,
 	} satisfies TextLayoutMaterialUniforms,
 	glsl`
     out vec2 f_uv;
@@ -35,15 +33,14 @@ const TextLayoutMaterial = shaderMaterial(
     in vec2 f_uv;
 
     uniform sampler2D sdfMap;
-    uniform vec2 sdfMapDimensions;
     uniform sampler2D charData;
-    uniform int string[32];
+    uniform int stringLength;
 
     void main() {
       float maxAlpha = 0.0;
       vec2 uv = vec2(f_uv.x, f_uv.y);
 
-      for (int i = 0; i < 32; i++) {
+      for (int i = 0; i < stringLength; i++) {
         int idx = i * 8;
         float u = texelFetch(charData, ivec2(idx, 0), 0).r;
         float v = texelFetch(charData, ivec2(idx + 1, 0), 0).r;
@@ -58,7 +55,7 @@ const TextLayoutMaterial = shaderMaterial(
         bool insideY = (uv.y >= dstV) && (uv.y <= (dstV + dstHeight));
         if (!insideX || !insideY) continue;
 
-        float glyph = texture2D(sdfMap, vec2(u + uv.x - dstU, uv.y + v - dstV)).a;
+        float glyph = texture2D(sdfMap, vec2((uv.x - dstU) * width / dstWidth + u, (uv.y - dstV) * height / dstHeight + v)).a;
         if (glyph > maxAlpha) maxAlpha = glyph;
       }
 

@@ -3,17 +3,14 @@ import {forwardRef} from "react"
 import {NearestFilter, type Camera, RedFormat, FloatType, ClampToEdgeWrapping} from "three"
 import {DataTexture, Vector3} from "three"
 
-import type {BMFont} from "@/types/BMFont"
-
 import TextLayoutMaterial from "./TextLayoutMaterial"
-import bmFontLayout from "@/helpers/bmFontLayout"
+import {TextLayout} from "@/helpers/bmFontLayout"
 
 export type TextLayoutProps = {
-	font: BMFont[`font`]
-	text: string
+	textLayout: TextLayout
 }
 
-const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRef({font, text}, ref) {
+const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRef({textLayout}, ref) {
 	const sdfMap = useTexture(`/Righteous-Regular-sdf.png`)
 	sdfMap.generateMipmaps = false
 	sdfMap.minFilter = NearestFilter
@@ -28,10 +25,10 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 	// Float 8n+5: dstV
 	// Float 8n+6: dstWidth
 	// Float 8n+7: dstHeight
-	const buffer = new Float32Array(Object.keys(font.chars.char).length * 8)
-	const strLayout = bmFontLayout(font, text)
-	for (let i = 0; i < strLayout.length; i++) {
-		const charData = strLayout[i]
+	const {layout} = textLayout
+	const buffer = new Float32Array(layout.length * 8)
+	for (let i = 0; i < layout.length; i++) {
+		const charData = layout[i]
 
 		const idx = i * 8
 		buffer[idx] = charData.u
@@ -43,12 +40,10 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 		buffer[idx + 6] = charData.dstWidth
 		buffer[idx + 7] = charData.dstHeight
 	}
-	const charData = new DataTexture(buffer, Object.keys(font.chars.char).length * 8, 1, RedFormat, FloatType)
+	const charData = new DataTexture(buffer, layout.length * 8, 1, RedFormat, FloatType)
 	charData.minFilter = NearestFilter
 	charData.magFilter = NearestFilter
 	charData.needsUpdate = true
-
-	const stringIds = text.split(``).map((char) => font.chars.char.findIndex((c) => c.id === char.codePointAt(0)))
 
 	return (
 		<>
@@ -58,9 +53,8 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 				<textLayoutMaterial
 					key={TextLayoutMaterial.key}
 					sdfMap={sdfMap}
-					sdfMapDimensions={[512, 512]}
 					charData={charData}
-					string={stringIds}
+					stringLength={layout.length}
 				/>
 			</mesh>
 		</>

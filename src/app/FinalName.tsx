@@ -3,7 +3,7 @@
 import {OrthographicCamera, useFBO} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useMemo, type ReactElement, useRef} from "react"
-import {Scene, Vector3} from "three"
+import {Scene} from "three"
 
 import type {BMFont} from "@/types/BMFont"
 import type {Camera} from "three"
@@ -12,10 +12,11 @@ import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
 
 export type FinalNameProps = {
-	font: BMFont["font"]
+	msdfFont: BMFont
+	sdfFont: BMFont
 }
 
-export default function FinalName({font}: FinalNameProps): ReactElement | null {
+export default function FinalName({msdfFont, sdfFont}: FinalNameProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
 
 	const fboScene = useMemo(() => {
@@ -46,8 +47,8 @@ export default function FinalName({font}: FinalNameProps): ReactElement | null {
 				far={50}
 				position={[0, 0, 5]}
 			/>
-			{createPortal(<NameComposite ref={cam} font={font} />, fboScene)}
-			<mesh position={new Vector3(0.5, 0.5, 0)}>
+			{createPortal(<NameComposite ref={cam} msdfFont={msdfFont} sdfFont={sdfFont} />, fboScene)}
+			<mesh position={[0.5, 0.5, 0]}>
 				<planeGeometry />
 				<staticEffectMaterial key={StaticEffectMaterial.key} time={0} nameMap={target.texture} />
 			</mesh>

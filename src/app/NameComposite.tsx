@@ -3,7 +3,7 @@
 import {OrthographicCamera, useFBO, useTexture} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useRef, type ReactElement, useMemo, forwardRef} from "react"
-import {Scene, Vector3} from "three"
+import {Scene} from "three"
 import {type ShaderMaterial, type Camera} from "three"
 
 import type {BMFont} from "@/types/BMFont"
@@ -14,16 +14,14 @@ import TextLayout from "./TextLayout"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
 export type NameCompositeProps = {
-	font: BMFont[`font`]
+	msdfFont: BMFont
+	sdfFont: BMFont
 }
 
 const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompositeWithRef(
-	{font},
+	{msdfFont, sdfFont},
 	ref,
 ): ReactElement | null {
-	const {
-		size: {width: canvasWidth, height: canvasHeight},
-	} = useThree()
 	const gl = useThree((state) => state.gl)
 
 	const radiantRef = useRef<ShaderMaterial | null>(null)
@@ -43,15 +41,45 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		gl.setRenderTarget(null)
 	})
 
-	const text = `BRANDON\nTSANG`
+	const text = `BRANDON\nTsang`
 	const msdfMap = useTexture(`/Righteous-Regular-msdf.png`)
-	const strLayout = useMemo(() => bmFontLayout(font, text), [font, text])
+	const sdfTextLayout = useMemo(() => {
+		const layout = bmFontLayout(sdfFont, text)
+		return layout
+	}, [sdfFont, text])
+	const msdfTextLayout = useMemo(() => {
+		const layout = bmFontLayout(msdfFont, text)
+		const sdfLetterE = sdfFont.chars.find((c) => c.char === `E`)!
+		const msdfLetterE = msdfFont.chars.find((c) => c.char === `E`)!
+		const horzFactor = sdfLetterE.xadvance / sdfTextLayout.texelW / (msdfLetterE.xadvance / layout.texelW)
+		const vertFactor = sdfFont.info.size / sdfTextLayout.texelH / (msdfFont.info.size / layout.texelH)
+		layout.layout.forEach((char) => {
+			char.dstU -= msdfFont.info.padding[0] / layout.texelW
+			char.dstV = char.dstV - 1 + msdfFont.info.padding[0] / layout.texelH
+			char.dstWidth *= horzFactor
+			char.dstHeight *= vertFactor
+			char.dstU *= horzFactor
+			char.dstV *= vertFactor
+			char.dstU += sdfFont.info.padding[0] / sdfTextLayout.texelW
+			char.dstV = char.dstV + 1 - sdfFont.info.padding[0] / sdfTextLayout.texelH
+		})
+		return layout
+	}, [
+		msdfFont,
+		sdfFont.chars,
+		sdfFont.info.padding,
+		sdfFont.info.size,
+		sdfTextLayout.texelH,
+		sdfTextLayout.texelW,
+		text,
+	])
+
 	const {vertices, uvs, indices} = useMemo(() => {
 		const vertices = []
 		const uvs = []
 		const indices = []
-		for (let i = 0; i < strLayout.length; i++) {
-			const char = strLayout[i]
+		for (let i = 0; i < msdfTextLayout.layout.length; i++) {
+			const char = msdfTextLayout.layout[i]
 			vertices.push(
 				...[
 					[char.dstU, char.dstV + char.dstHeight, 0], // top left, 0
@@ -82,33 +110,23 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 			uvs: new Float32Array(uvs),
 			indices: new Uint16Array(indices),
 		}
-	}, [strLayout])
-
-	const textWidth = Math.max(...strLayout.map((char) => char.dstU + char.width))
-	const textHeight = Math.max(...strLayout.map((char) => 1 - char.dstV))
-
-	const canvasAspect = canvasWidth / canvasHeight
-	const textAspect = textWidth / textHeight
-	const viewportWidth = textAspect > canvasAspect ? textWidth : textHeight * canvasAspect
-	const viewportHeight = textAspect > canvasAspect ? textWidth / canvasAspect : textHeight
-	const xOffset = (viewportWidth - textWidth) / 2
-	const yOffset = (viewportHeight - textHeight) / 2
+	}, [msdfTextLayout.layout])
 
 	return (
 		<>
-			<OrthographicCamera
-				ref={ref}
-				left={-xOffset}
-				right={viewportWidth - xOffset}
-				top={1 + yOffset}
-				bottom={1 - viewportHeight + yOffset}
-				position={new Vector3(0, 0, 5)}
-			/>
-			{createPortal(<TextLayout ref={cam} font={font} text={text} />, fboScene)}
-			<mesh position={new Vector3(0.5, 0.5, 0)}>
-				<planeGeometry />
+			<OrthographicCamera ref={ref} left={0} right={1} top={1} bottom={0} position={[0, 0, 5]} />
+			{createPortal(<TextLayout ref={cam} textLayout={sdfTextLayout} />, fboScene)}
+			<mesh>
+				<planeGeometry>
+					<bufferAttribute
+						attach="attributes-position"
+						args={[new Float32Array([0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0]), 3]}
+					/>
+					<bufferAttribute attach="attributes-uv" args={[new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), 2]} />
+				</planeGeometry>
 				<nameRadiantMaterial key={NameRadiantMaterial.key} time={0} sdfMap={target.texture} ref={radiantRef} />
 			</mesh>
+			{/* <mesh scale={[0.965, 0.417, 1]} position={[0.289, 0.297, 0]}> */}
 			<mesh>
 				<bufferGeometry>
 					<bufferAttribute attach="attributes-position" args={[vertices, 3]} />
