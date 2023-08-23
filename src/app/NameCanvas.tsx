@@ -2,20 +2,20 @@
 
 import {Canvas} from "@react-three/fiber"
 
-import type {BMFont} from "@/types/BMFont"
+import type {FontAtlas} from "@/types/FontAtlas"
 import type {ReactElement} from "react"
 
 import FinalName from "./FinalName"
 
 export type NameCanvasProps = {
-	msdfFont: BMFont
-	sdfFont: BMFont
+	msdfFontAtlas: FontAtlas
+	sdfFontAtlas: FontAtlas
 }
 
-export default function NameCanvas({msdfFont, sdfFont}: NameCanvasProps): ReactElement | null {
+export default function NameCanvas({msdfFontAtlas, sdfFontAtlas}: NameCanvasProps): ReactElement | null {
 	return (
 		<Canvas flat linear gl={{alpha: true, premultipliedAlpha: false}}>
-			<FinalName msdfFont={msdfFont} sdfFont={sdfFont} />
+			<FinalName msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 		</Canvas>
 	)
 }

@@ -1,20 +1,20 @@
 import type {ReactElement} from "react"
 
-import {loadMsdfFont, loadSdfFont} from "./loadFont"
+import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./loadFontAtlas"
 import NameCanvas from "./NameCanvas"
 import GithubIcon from "@public/github.svg"
 import LinkedinIcon from "@public/linkedin.svg"
 
 export default async function Home(): Promise<ReactElement | null> {
-	const msdfFont = await loadMsdfFont()
-	const sdfFont = await loadSdfFont()
+	const msdfFontAtlas = await loadMsdfFontAtlas()
+	const sdfFontAtlas = await loadSdfFontAtlas()
 
 	return (
 		<div className="h-[calc(100%-0.75rem)] m-1.5 rounded-md bg-[--bg-color] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
 				<div className="relative max-w-[80rem] justify-self-end w-full">
 					<div className="absolute inset-0">
-						<NameCanvas msdfFont={msdfFont} sdfFont={sdfFont} />
+						<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 					</div>
 				</div>
 				<div className="m-16 flex gap-16 justify-end">

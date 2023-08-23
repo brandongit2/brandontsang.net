@@ -3,10 +3,10 @@
 import {OrthographicCamera, useFBO, useTexture} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useRef, type ReactElement, useMemo, forwardRef} from "react"
-import {Scene} from "three"
+import {FloatType, RedFormat, Scene} from "three"
 import {type ShaderMaterial, type Camera} from "three"
 
-import type {BMFont} from "@/types/BMFont"
+import type {FontAtlas} from "@/types/FontAtlas"
 
 import NameRadiantMaterial from "./NameRadiantMaterial"
 import NameTextMaterial from "./NameTextMaterial"
@@ -14,12 +14,12 @@ import TextLayout from "./TextLayout"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
 export type NameCompositeProps = {
-	msdfFont: BMFont
-	sdfFont: BMFont
+	msdfFontAtlas: FontAtlas
+	sdfFontAtlas: FontAtlas
 }
 
 const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompositeWithRef(
-	{msdfFont, sdfFont},
+	{msdfFontAtlas, sdfFontAtlas},
 	ref,
 ): ReactElement | null {
 	const gl = useThree((state) => state.gl)
@@ -32,7 +32,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 
 	const fboScene = useMemo(() => new Scene(), [])
 	const cam = useRef<Camera>(null)
-	const target = useFBO()
+	const target = useFBO({type: FloatType, format: RedFormat})
 	useFrame(() => {
 		if (!cam.current) return
 
@@ -41,34 +41,28 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		gl.setRenderTarget(null)
 	})
 
-	const text = `BRANDON\nTsang`
+	const text = `BRANDON\nTSANG`
 	const msdfMap = useTexture(`/Righteous-Regular-msdf.png`)
-	const sdfTextLayout = useMemo(() => {
-		const layout = bmFontLayout(sdfFont, text)
-		return layout
-	}, [sdfFont, text])
+	const sdfTextLayout = useMemo(() => bmFontLayout(sdfFontAtlas, text), [sdfFontAtlas, text])
 	const msdfTextLayout = useMemo(() => {
-		const layout = bmFontLayout(msdfFont, text)
-		const sdfLetterE = sdfFont.chars.find((c) => c.char === `E`)!
-		const msdfLetterE = msdfFont.chars.find((c) => c.char === `E`)!
-		const horzFactor = sdfLetterE.xadvance / sdfTextLayout.texelW / (msdfLetterE.xadvance / layout.texelW)
-		const vertFactor = sdfFont.info.size / sdfTextLayout.texelH / (msdfFont.info.size / layout.texelH)
+		const layout = bmFontLayout(msdfFontAtlas, text)
 		layout.layout.forEach((char) => {
-			char.dstU -= msdfFont.info.padding[0] / layout.texelW
-			char.dstV = char.dstV - 1 + msdfFont.info.padding[0] / layout.texelH
-			char.dstWidth *= horzFactor
-			char.dstHeight *= vertFactor
-			char.dstU *= horzFactor
-			char.dstV *= vertFactor
-			char.dstU += sdfFont.info.padding[0] / sdfTextLayout.texelW
-			char.dstV = char.dstV + 1 - sdfFont.info.padding[0] / sdfTextLayout.texelH
+			char.dstU -= layout.paddingLeft / layout.texelW
+			char.dstV -= layout.paddingBottom / layout.texelH
+
+			char.dstU *= layout.texelW / sdfTextLayout.texelW
+			char.dstWidth *= layout.texelW / sdfTextLayout.texelW
+			char.dstV *= layout.texelH / sdfTextLayout.texelH
+			char.dstHeight *= layout.texelH / sdfTextLayout.texelH
+
+			char.dstU += sdfTextLayout.paddingLeft / sdfTextLayout.texelW
+			char.dstV += sdfTextLayout.paddingBottom / sdfTextLayout.texelH
 		})
 		return layout
 	}, [
-		msdfFont,
-		sdfFont.chars,
-		sdfFont.info.padding,
-		sdfFont.info.size,
+		msdfFontAtlas,
+		sdfTextLayout.paddingBottom,
+		sdfTextLayout.paddingLeft,
 		sdfTextLayout.texelH,
 		sdfTextLayout.texelW,
 		text,
@@ -115,7 +109,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 	return (
 		<>
 			<OrthographicCamera ref={ref} left={0} right={1} top={1} bottom={0} position={[0, 0, 5]} />
-			{createPortal(<TextLayout ref={cam} textLayout={sdfTextLayout} />, fboScene)}
+			{createPortal(<TextLayout ref={cam} sdfFontAtlas={sdfFontAtlas} sdfTextLayout={sdfTextLayout} />, fboScene)}
 			<mesh>
 				<planeGeometry>
 					<bufferAttribute
@@ -124,7 +118,13 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 					/>
 					<bufferAttribute attach="attributes-uv" args={[new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), 2]} />
 				</planeGeometry>
-				<nameRadiantMaterial key={NameRadiantMaterial.key} time={0} sdfMap={target.texture} ref={radiantRef} />
+				<nameRadiantMaterial
+					key={NameRadiantMaterial.key}
+					time={0}
+					sdfMap={target.texture}
+					premultipliedAlpha={false}
+					ref={radiantRef}
+				/>
 			</mesh>
 			{/* <mesh scale={[0.965, 0.417, 1]} position={[0.289, 0.297, 0]}> */}
 			<mesh>
@@ -133,7 +133,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 					<bufferAttribute attach="attributes-uv" args={[uvs, 2]} />
 					<bufferAttribute attach="index" args={[indices, 1]} />
 				</bufferGeometry>
-				<nameTextMaterial key={NameTextMaterial.key} msdfMap={msdfMap} transparent />
+				<nameTextMaterial key={NameTextMaterial.key} msdfMap={msdfMap} transparent premultipliedAlpha={false} />
 			</mesh>
 		</>
 	)

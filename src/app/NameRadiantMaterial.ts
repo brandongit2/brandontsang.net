@@ -16,6 +16,7 @@ const NameRadiantMaterial = shaderMaterial(
 
     void main() {
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      // vUv = uv * 0.05 + vec2(0.35, 0.35);
       vUv = uv;
     }
   `,
@@ -26,12 +27,11 @@ const NameRadiantMaterial = shaderMaterial(
     uniform float time;
 
     void main() {
-      float tex = texture2D(sdfMap, vec2(vUv.x, vUv.y)).a;
+      float tex = texture2D(sdfMap, vUv).r;
       float dist = max(tex - 0.02, 0.0);
 
-      float steepness = 4.0;
-      float fade = fract(-time * 0.3 - dist * steepness) * 0.6;
-      // float fade = fract(0.46 - dist * steepness) * 0.6;
+      float steepness = 8.0;
+      float fade = fract(-dist * steepness - time * 0.4);
 
       float dimmingFactor = 0.3;
       fade *= pow(dist, dimmingFactor);
