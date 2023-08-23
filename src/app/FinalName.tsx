@@ -1,22 +1,22 @@
 "use client"
 
-import {OrthographicCamera, useFBO} from "@react-three/drei"
+import {OrthographicCamera, PerformanceMonitor, useFBO} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useMemo, type ReactElement, useRef} from "react"
 import {Scene} from "three"
 
-import type {BMFont} from "@/types/BMFont"
+import type {FontAtlas} from "@/types/FontAtlas"
 import type {Camera} from "three"
 
 import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
 
 export type FinalNameProps = {
-	msdfFont: BMFont
-	sdfFont: BMFont
+	msdfFontAtlas: FontAtlas
+	sdfFontAtlas: FontAtlas
 }
 
-export default function FinalName({msdfFont, sdfFont}: FinalNameProps): ReactElement | null {
+export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
 
 	const fboScene = useMemo(() => {
@@ -47,11 +47,17 @@ export default function FinalName({msdfFont, sdfFont}: FinalNameProps): ReactEle
 				far={50}
 				position={[0, 0, 5]}
 			/>
-			{createPortal(<NameComposite ref={cam} msdfFont={msdfFont} sdfFont={sdfFont} />, fboScene)}
+			{createPortal(<NameComposite ref={cam} msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />, fboScene)}
 			<mesh position={[0.5, 0.5, 0]}>
 				<planeGeometry />
-				<staticEffectMaterial key={StaticEffectMaterial.key} time={0} nameMap={target.texture} />
+				<staticEffectMaterial
+					key={StaticEffectMaterial.key}
+					time={0}
+					nameMap={target.texture}
+					premultipliedAlpha={false}
+				/>
 			</mesh>
+			<PerformanceMonitor />
 		</>
 	)
 }

@@ -22,15 +22,15 @@ const TextLayoutMaterial = shaderMaterial(
 		stringLength: 1,
 	} satisfies TextLayoutMaterialUniforms,
 	glsl`
-    out vec2 f_uv;
+    out vec2 vUv;
 
     void main() {
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      f_uv = uv;
+      vUv = uv;
     }
   `,
 	glsl`
-    in vec2 f_uv;
+    in vec2 vUv;
 
     uniform sampler2D sdfMap;
     uniform sampler2D charData;
@@ -38,7 +38,7 @@ const TextLayoutMaterial = shaderMaterial(
 
     void main() {
       float maxAlpha = 0.0;
-      vec2 uv = vec2(f_uv.x, f_uv.y);
+      vec2 uv = vec2(vUv.x, vUv.y);
 
       for (int i = 0; i < stringLength; i++) {
         int idx = i * 8;
@@ -55,11 +55,11 @@ const TextLayoutMaterial = shaderMaterial(
         bool insideY = (uv.y >= dstV) && (uv.y <= (dstV + dstHeight));
         if (!insideX || !insideY) continue;
 
-        float glyph = texture2D(sdfMap, vec2((uv.x - dstU) * width / dstWidth + u, (uv.y - dstV) * height / dstHeight + v)).a;
+        float glyph = texture2D(sdfMap, vec2((uv.x - dstU) * width / dstWidth + u, (uv.y - dstV) * height / dstHeight + v)).r;
         if (glyph > maxAlpha) maxAlpha = glyph;
       }
 
-      pc_fragColor = vec4(1.0, 1.0, 1.0, maxAlpha);
+      pc_fragColor = vec4(maxAlpha, 1.0, 1.0, 1.0);
     }
   `,
 )
