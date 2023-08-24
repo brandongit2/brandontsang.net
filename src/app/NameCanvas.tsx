@@ -14,7 +14,7 @@ export type NameCanvasProps = {
 
 export default function NameCanvas({msdfFontAtlas, sdfFontAtlas}: NameCanvasProps): ReactElement | null {
 	return (
-		<Canvas flat linear gl={{alpha: true, premultipliedAlpha: false}}>
+		<Canvas flat legacy linear gl={{premultipliedAlpha: false}}>
 			<FinalName msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 		</Canvas>
 	)

@@ -27,7 +27,8 @@ const StaticEffectMaterial = shaderMaterial(
 
     void main() {
 			vec4 color = texture2D(nameMap, vUv);
-      pc_fragColor = color;
+			vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
+      pc_fragColor = vec4(mix(bgColor, color.rgb, color.a), 1.0);
     }
   `,
 )

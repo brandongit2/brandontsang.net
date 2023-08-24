@@ -9,6 +9,7 @@ import {type ShaderMaterial, type Camera} from "three"
 import type {FontAtlas} from "@/types/FontAtlas"
 
 import NameRadiantMaterial from "./NameRadiantMaterial"
+import NameShadowMaterial from "./NameShadowMaterial"
 import NameTextMaterial from "./NameTextMaterial"
 import TextLayout from "./TextLayout"
 import bmFontLayout from "@/helpers/bmFontLayout"
@@ -126,7 +127,21 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 					ref={radiantRef}
 				/>
 			</mesh>
-			{/* <mesh scale={[0.965, 0.417, 1]} position={[0.289, 0.297, 0]}> */}
+			<mesh>
+				<planeGeometry>
+					<bufferAttribute
+						attach="attributes-position"
+						args={[new Float32Array([0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0]), 3]}
+					/>
+					<bufferAttribute attach="attributes-uv" args={[new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), 2]} />
+				</planeGeometry>
+				<nameShadowMaterial
+					key={NameShadowMaterial.key}
+					sdfMap={target.texture}
+					premultipliedAlpha={false}
+					transparent
+				/>
+			</mesh>
 			<mesh>
 				<bufferGeometry>
 					<bufferAttribute attach="attributes-position" args={[vertices, 3]} />
