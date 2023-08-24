@@ -30,9 +30,9 @@ const NameRadiantMaterial = shaderMaterial(
       float dist = 1.0 - tex * 2.0;
       dist = -1.0 / (50.0 * (dist - 1.035)) + 0.445 * dist - 0.02;
 
-      float steepness = 6.0;
-      float speed = 0.02;
-      float spacing = 0.8; // Relative to size of wave
+      float steepness = 8.0;
+      float speed = 0.016;
+      float spacing = 0.9; // Relative to size of wave
       float fade = fract((dist - time * speed) * steepness);
       fade *= fade;
       fade = max((fract(fade) - 1.0) * spacing + 1.0, 0.2);
