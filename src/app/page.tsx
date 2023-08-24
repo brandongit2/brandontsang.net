@@ -1,7 +1,8 @@
 import type {ReactElement} from "react"
 
-import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./loadFontAtlas"
-import NameCanvas from "./NameCanvas"
+import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
+import NameCanvas from "./(name-canvas)/NameCanvas"
+import NavLink from "./NavLink"
 import GithubIcon from "@public/github.svg"
 import LinkedinIcon from "@public/linkedin.svg"
 
@@ -17,28 +18,21 @@ export default async function Home(): Promise<ReactElement | null> {
 						<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 					</div>
 				</div>
-				<div className="m-16 flex gap-16 justify-end isolate">
-					<button
-						type="button"
-						style={{background: `radial-gradient(circle, rgba(74,4,78,1) 30%, rgba(253,224,71,1) 60%)`}}
-						className="w-12 h-12 text-lg font-bold grid place-items-center rounded-full"
-					>
-						1
-					</button>
-					<button
-						type="button"
-						style={{background: `radial-gradient(circle, rgba(74,4,78,1) 30%, rgba(253,224,71,1) 60%)`}}
-						className="w-12 h-12 text-lg font-bold grid place-items-center rounded-full"
-					>
-						2
-					</button>
-					<button
-						type="button"
-						style={{background: `radial-gradient(circle, rgba(74,4,78,1) 30%, rgba(253,224,71,1) 60%)`}}
-						className="w-12 h-12 text-lg font-bold grid place-items-center rounded-full"
-					>
-						3
-					</button>
+				<div className="grid py-16 relative grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr] isolate">
+					<div className="absolute w-full border-dashed -translate-y-1/2 border-2 h-px opacity-40 border-[--text-color] top-1/2" />
+					<div className="absolute top-1/2 -translate-y-1/2 left-full w-4 h-4 rounded bg-[--text-color] opacity-40" />
+
+					<div />
+					<NavLink href="/">main page</NavLink>
+					<div />
+					<NavLink href="/" subtext="PROJECT">
+						sprintzero
+					</NavLink>
+					<div />
+					<NavLink href="/" subtext="PROJECT">
+						hemlane marketing site
+					</NavLink>
+					<div />
 				</div>
 			</div>
 

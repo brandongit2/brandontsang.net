@@ -57,7 +57,7 @@ export default function bmFontLayout(font: FontAtlas, str: string): TextLayout {
 		}
 
 		cursorX = 0
-		cursorY -= font.metrics.lineHeight
+		cursorY -= font.metrics.lineHeight * 0.7
 	})
 
 	const leftmostCharacter = minBy(charData, (c) => c.dstU)!
