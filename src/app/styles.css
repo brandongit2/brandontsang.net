@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 :root {
-	--bg-color: #224f25;
-	--text-color: #fbff78;
+	--bg-color: oklch(38.42% 0.085 144.97);
+	--text-color: oklch(97.1% 0.157178 110.543363);
 }
