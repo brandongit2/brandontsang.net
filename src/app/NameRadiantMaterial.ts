@@ -16,7 +16,6 @@ const NameRadiantMaterial = shaderMaterial(
 
     void main() {
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-      // vUv = uv * 0.05 + vec2(0.35, 0.35);
       vUv = uv;
     }
   `,
@@ -28,15 +27,20 @@ const NameRadiantMaterial = shaderMaterial(
 
     void main() {
       float tex = texture2D(sdfMap, vUv).r;
-      float dist = max(tex - 0.02, 0.0);
+      float dist = 1.0 - tex * 2.0;
+      dist = -1.0 / (50.0 * (dist - 1.035)) + 0.445 * dist - 0.02;
 
-      float steepness = 8.0;
-      float fade = fract(-dist * steepness - time * 0.4);
+      float steepness = 7.0;
+      float speed = 0.02;
+      float spacing = 0.8;
+      float fade = fract((dist - time * speed) * steepness);
+      fade *= fade;
+      fade = max((fract(fade) - 1.0) * spacing + 1.0, 0.2);
 
-      float dimmingFactor = 0.3;
-      fade *= pow(dist, dimmingFactor);
+      float dimmingFactor = 0.7;
+      fade *= max(0.99 - dist, 0.0) * dimmingFactor;
 
-      vec3 fore = vec3(0.991, 0.88, 0.28);
+      vec3 fore = vec3(0.98431, 1.0, 0.47059);
       pc_fragColor = vec4(fore, fade);
     }
   `,
