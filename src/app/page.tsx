@@ -10,14 +10,14 @@ export default async function Home(): Promise<ReactElement | null> {
 	const sdfFontAtlas = await loadSdfFontAtlas()
 
 	return (
-		<div className="h-[calc(100%-0.75rem)] m-1.5 rounded-md bg-[--bg-color] grid grid-cols-[2fr_1fr]">
+		<div className="h-[calc(100%-0.75rem)] m-1.5 rounded-md overflow-hidden bg-[--bg-color] grid grid-cols-[2fr_1fr]">
 			<div className="grid grid-rows-[1fr_auto]">
-				<div className="relative max-w-[80rem] justify-self-end w-full">
-					<div className="absolute inset-0">
+				<div className="relative w-full isolate">
+					<div className="absolute -inset-32">
 						<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 					</div>
 				</div>
-				<div className="m-16 flex gap-16 justify-end">
+				<div className="m-16 flex gap-16 justify-end isolate">
 					<button
 						type="button"
 						style={{background: `radial-gradient(circle, rgba(74,4,78,1) 30%, rgba(253,224,71,1) 60%)`}}
@@ -42,7 +42,7 @@ export default async function Home(): Promise<ReactElement | null> {
 				</div>
 			</div>
 
-			<div className="p-6 flex flex-col gap-4 overflow-auto min-h-0">
+			<div className="p-6 flex flex-col gap-4 overflow-auto min-h-0 isolate">
 				<p>
 					Hey! I am a Toronto-based full-stack JavaScript developer who loves building unique and challenging user
 					interfaces.{` `}

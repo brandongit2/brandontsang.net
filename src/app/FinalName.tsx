@@ -10,6 +10,9 @@ import type {Camera} from "three"
 
 import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
+import bmFontLayout from "@/helpers/bmFontLayout"
+
+const canvasMargin = -128
 
 export type FinalNameProps = {
 	msdfFontAtlas: FontAtlas
@@ -18,6 +21,9 @@ export type FinalNameProps = {
 
 export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
+	const {width: canvasWidth, height: canvasHeight} = useThree((state) => state.viewport)
+	const canvasWidthWithoutMargin = canvasWidth + canvasMargin * 2
+	const canvasHeightWithoutMargin = canvasHeight + canvasMargin * 2
 
 	const fboScene = useMemo(() => {
 		const scene = new Scene()
@@ -34,6 +40,37 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 		gl.setRenderTarget(null)
 	})
 
+	const text = `BRANDON\nTSANG`
+	const sdfTextLayout = useMemo(() => bmFontLayout(sdfFontAtlas, text), [sdfFontAtlas, text])
+	const msdfTextLayout = useMemo(() => {
+		const layout = bmFontLayout(msdfFontAtlas, text)
+		layout.layout.forEach((char) => {
+			char.dstU -= layout.paddingLeft / layout.texelW
+			char.dstV -= layout.paddingBottom / layout.texelH
+
+			char.dstU *= layout.texelW / sdfTextLayout.texelW
+			char.dstWidth *= layout.texelW / sdfTextLayout.texelW
+			char.dstV *= layout.texelH / sdfTextLayout.texelH
+			char.dstHeight *= layout.texelH / sdfTextLayout.texelH
+
+			char.dstU += sdfTextLayout.paddingLeft / sdfTextLayout.texelW
+			char.dstV += sdfTextLayout.paddingBottom / sdfTextLayout.texelH
+		})
+		return layout
+	}, [
+		msdfFontAtlas,
+		sdfTextLayout.paddingBottom,
+		sdfTextLayout.paddingLeft,
+		sdfTextLayout.texelH,
+		sdfTextLayout.texelW,
+		text,
+	])
+
+	const canvasAspect = canvasWidthWithoutMargin / canvasHeightWithoutMargin
+	const canvasMarginProportionalX = canvasMargin / canvasWidthWithoutMargin
+	const canvasMarginProportionalY = canvasMargin / canvasHeightWithoutMargin
+	const textAspect = sdfTextLayout.texelW / sdfTextLayout.texelH
+
 	return (
 		<>
 			<OrthographicCamera
@@ -47,14 +84,43 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 				far={50}
 				position={[0, 0, 5]}
 			/>
-			{createPortal(<NameComposite ref={cam} msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />, fboScene)}
+			{createPortal(
+				<NameComposite
+					ref={cam}
+					sdfFontAtlas={sdfFontAtlas}
+					msdfTextLayout={msdfTextLayout}
+					sdfTextLayout={sdfTextLayout}
+				/>,
+				fboScene,
+			)}
 			<mesh position={[0.5, 0.5, 0]}>
-				<planeGeometry />
+				<planeGeometry>
+					<bufferAttribute
+						attach="attributes-uv"
+						args={[
+							new Float32Array([
+								canvasMarginProportionalX,
+								1 - canvasMarginProportionalY,
+								1 - canvasMarginProportionalX,
+								1 - canvasMarginProportionalY,
+								canvasMarginProportionalX,
+								canvasMarginProportionalY,
+								1 - canvasMarginProportionalX,
+								canvasMarginProportionalY,
+							]),
+							2,
+						]}
+					/>
+				</planeGeometry>
 				<staticEffectMaterial
 					key={StaticEffectMaterial.key}
 					time={0}
 					nameMap={target.texture}
 					premultipliedAlpha={false}
+					canvasAspect={canvasAspect}
+					textAspect={textAspect}
+					marginWidth={-canvasMarginProportionalX}
+					marginHeight={-canvasMarginProportionalY}
 				/>
 			</mesh>
 			<PerformanceMonitor />
