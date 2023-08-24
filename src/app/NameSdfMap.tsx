@@ -6,7 +6,7 @@ import {DataTexture} from "three"
 
 import type {FontAtlas} from "@/types/FontAtlas"
 
-import TextLayoutMaterial from "./TextLayoutMaterial"
+import NameSdfMapMaterial from "./NameSdfMapMaterial"
 import {TextLayout} from "@/helpers/bmFontLayout"
 
 export type TextLayoutProps = {
@@ -72,8 +72,8 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 			<OrthographicCamera ref={ref} left={-0.5} right={0.5} top={0.5} bottom={-0.5} position={[0, 0, 5]} />
 			<mesh>
 				<planeGeometry />
-				<textLayoutMaterial
-					key={TextLayoutMaterial.key}
+				<nameSdfMapMaterial
+					key={NameSdfMapMaterial.key}
 					sdfMap={sdfMap}
 					charData={charData}
 					stringLength={sdfTextLayout.layout.length}

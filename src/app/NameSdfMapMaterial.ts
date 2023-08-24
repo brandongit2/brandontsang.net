@@ -4,7 +4,7 @@ import {DataTexture, FloatType, NearestFilter, RedFormat, Texture} from "three"
 
 import glsl from "@/helpers/glsl"
 
-export type TextLayoutMaterialUniforms = {
+export type NameSdfMapMaterialUniforms = {
 	sdfMap: Texture
 	charData: Texture
 	stringLength: number
@@ -15,12 +15,12 @@ charData.minFilter = NearestFilter
 charData.magFilter = NearestFilter
 charData.needsUpdate = true
 
-const TextLayoutMaterial = shaderMaterial(
+const NameSdfMapMaterial = shaderMaterial(
 	{
 		sdfMap: new Texture(),
 		charData,
 		stringLength: 1,
-	} satisfies TextLayoutMaterialUniforms,
+	} satisfies NameSdfMapMaterialUniforms,
 	glsl`
     out vec2 vUv;
 
@@ -64,15 +64,15 @@ const TextLayoutMaterial = shaderMaterial(
   `,
 )
 
-extend({TextLayoutMaterial})
+extend({NameSdfMapMaterial})
 
 declare global {
 	// eslint-disable-next-line @typescript-eslint/no-namespace
 	namespace JSX {
 		interface IntrinsicElements {
-			textLayoutMaterial: TextLayoutMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
+			nameSdfMapMaterial: NameSdfMapMaterialUniforms & JSX.IntrinsicElements["shaderMaterial"]
 		}
 	}
 }
 
-export default TextLayoutMaterial
+export default NameSdfMapMaterial

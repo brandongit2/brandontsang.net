@@ -6,21 +6,21 @@ import {useRef, type ReactElement, useMemo, forwardRef} from "react"
 import {FloatType, RedFormat, Scene} from "three"
 import {type ShaderMaterial, type Camera} from "three"
 
+import type {TextLayout} from "@/helpers/bmFontLayout"
 import type {FontAtlas} from "@/types/FontAtlas"
 
 import NameRadiantMaterial from "./NameRadiantMaterial"
-import NameShadowMaterial from "./NameShadowMaterial"
+import NameSdfMap from "./NameSdfMap"
 import NameTextMaterial from "./NameTextMaterial"
-import TextLayout from "./TextLayout"
-import bmFontLayout from "@/helpers/bmFontLayout"
 
 export type NameCompositeProps = {
-	msdfFontAtlas: FontAtlas
 	sdfFontAtlas: FontAtlas
+	msdfTextLayout: TextLayout
+	sdfTextLayout: TextLayout
 }
 
 const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompositeWithRef(
-	{msdfFontAtlas, sdfFontAtlas},
+	{sdfFontAtlas, msdfTextLayout, sdfTextLayout},
 	ref,
 ): ReactElement | null {
 	const gl = useThree((state) => state.gl)
@@ -42,32 +42,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		gl.setRenderTarget(null)
 	})
 
-	const text = `BRANDON\nTSANG`
 	const msdfMap = useTexture(`/Righteous-Regular-msdf.png`)
-	const sdfTextLayout = useMemo(() => bmFontLayout(sdfFontAtlas, text), [sdfFontAtlas, text])
-	const msdfTextLayout = useMemo(() => {
-		const layout = bmFontLayout(msdfFontAtlas, text)
-		layout.layout.forEach((char) => {
-			char.dstU -= layout.paddingLeft / layout.texelW
-			char.dstV -= layout.paddingBottom / layout.texelH
-
-			char.dstU *= layout.texelW / sdfTextLayout.texelW
-			char.dstWidth *= layout.texelW / sdfTextLayout.texelW
-			char.dstV *= layout.texelH / sdfTextLayout.texelH
-			char.dstHeight *= layout.texelH / sdfTextLayout.texelH
-
-			char.dstU += sdfTextLayout.paddingLeft / sdfTextLayout.texelW
-			char.dstV += sdfTextLayout.paddingBottom / sdfTextLayout.texelH
-		})
-		return layout
-	}, [
-		msdfFontAtlas,
-		sdfTextLayout.paddingBottom,
-		sdfTextLayout.paddingLeft,
-		sdfTextLayout.texelH,
-		sdfTextLayout.texelW,
-		text,
-	])
 
 	const {vertices, uvs, indices} = useMemo(() => {
 		const vertices = []
@@ -110,7 +85,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 	return (
 		<>
 			<OrthographicCamera ref={ref} left={0} right={1} top={1} bottom={0} position={[0, 0, 5]} />
-			{createPortal(<TextLayout ref={cam} sdfFontAtlas={sdfFontAtlas} sdfTextLayout={sdfTextLayout} />, fboScene)}
+			{createPortal(<NameSdfMap ref={cam} sdfFontAtlas={sdfFontAtlas} sdfTextLayout={sdfTextLayout} />, fboScene)}
 			<mesh>
 				<planeGeometry>
 					<bufferAttribute
@@ -125,21 +100,6 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 					sdfMap={target.texture}
 					premultipliedAlpha={false}
 					ref={radiantRef}
-				/>
-			</mesh>
-			<mesh>
-				<planeGeometry>
-					<bufferAttribute
-						attach="attributes-position"
-						args={[new Float32Array([0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0]), 3]}
-					/>
-					<bufferAttribute attach="attributes-uv" args={[new Float32Array([0, 1, 1, 1, 0, 0, 1, 0]), 2]} />
-				</planeGeometry>
-				<nameShadowMaterial
-					key={NameShadowMaterial.key}
-					sdfMap={target.texture}
-					premultipliedAlpha={false}
-					transparent
 				/>
 			</mesh>
 			<mesh>
