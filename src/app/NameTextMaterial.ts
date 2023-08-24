@@ -29,7 +29,7 @@ const NameTextMaterial = shaderMaterial(
 
     void main() {
       vec3 color = texture2D(msdfMap, vUv).rgb;
-      vec3 fore = vec3(0.98431, 1.0, 0.47059);
+      vec3 fore = vec3(0.98039, 1.0, 0.38431); // More saturated version of text colour
       float d = median(color.r, color.g, color.b) - 0.5;
       float w = clamp(d / fwidth(d) + 0.5, 0.0, 1.0);
       pc_fragColor = vec4(fore, w);
