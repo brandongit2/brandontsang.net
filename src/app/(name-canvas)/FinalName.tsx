@@ -12,7 +12,7 @@ import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
-const canvasMargin = -128
+const canvasMargin = -256
 
 export type FinalNameProps = {
 	msdfFontAtlas: FontAtlas
