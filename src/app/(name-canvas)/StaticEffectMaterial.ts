@@ -42,6 +42,14 @@ const StaticEffectMaterial = shaderMaterial(
 
 		float extraScale = 1.2;
 
+		float easeInCubic(float t) {
+			return t * t * t;
+		}
+
+		float easeInExpo(float t) {
+			return pow(2.0, 10.0 * (t - 1.0));
+		}
+
     void main() {
 			float scaleX = canvasAspect > textAspect ? 1.0 : textAspect / canvasAspect;
 			float scaleY = canvasAspect > textAspect ? canvasAspect / textAspect : 1.0;
@@ -58,8 +66,10 @@ const StaticEffectMaterial = shaderMaterial(
 			} else {
 				distFromSafeArea = length(vec2(max(distFromSafeAreaX, 0.0), max(distFromSafeAreaY, 0.0)));
 			}
-			distFromSafeArea = smoothstep(0.0, 1.0, sqrt(distFromSafeArea));
-			color.a = mix(color.a, 0.0, max(distFromSafeArea, 0.0));
+
+			// Feather down to near transparent and plateau
+			float feather = smoothstep(-0.6, 0.4, distFromSafeArea) * 0.9;
+			color.a = mix(color.a, 0.0, feather);
 
 			vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
 			vec3 fakeOpacity = mix(bgColor, color.rgb, color.a);
