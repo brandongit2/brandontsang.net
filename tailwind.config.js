@@ -5,6 +5,7 @@ module.exports = {
 		extend: {
 			colors: {
 				bg: `var(--bg-color)`,
+				text: `var(--text-color)`,
 			},
 		},
 	},

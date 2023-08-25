@@ -3,7 +3,6 @@
 import clsx from "clsx"
 import {motion} from "framer-motion"
 import localFont from "next/font/local"
-import {usePathname} from "next/navigation"
 
 import type {ReactElement} from "react"
 
@@ -19,9 +18,6 @@ export type NavLinkProps = {
 }
 
 export default function NavLink({href, children, subtext}: NavLinkProps): ReactElement | null {
-	const pathname = usePathname()
-	console.log(pathname)
-
 	return (
 		<MotionLink
 			href={href}
