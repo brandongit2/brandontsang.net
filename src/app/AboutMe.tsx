@@ -56,7 +56,7 @@ export default function AboutMe(): ReactElement | null {
 				rel="noreferrer"
 				className="mt-4 flex items-center gap-4"
 			>
-				<GithubIcon className="fill-[--text-color] text-3xl" />
+				<GithubIcon className="fill-text text-3xl" />
 				<p className="underline">brandongit2</p>
 			</a>
 			<a
@@ -65,7 +65,7 @@ export default function AboutMe(): ReactElement | null {
 				rel="noreferrer"
 				className="flex items-center gap-4"
 			>
-				<LinkedinIcon className="fill-[--text-color] text-3xl" />
+				<LinkedinIcon className="fill-text text-3xl" />
 				<p className="underline">brandontsang2</p>
 			</a>
 		</div>
