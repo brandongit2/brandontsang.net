@@ -35,7 +35,7 @@ export default async function Home(): Promise<ReactElement | null> {
 				</div>
 			</div>
 
-			<div className="isolate">
+			<div className="isolate min-h-0">
 				<AboutMe />
 			</div>
 		</div>

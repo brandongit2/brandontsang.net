@@ -5,7 +5,7 @@ import LinkedinIcon from "@public/linkedin.svg"
 
 export default function AboutMe(): ReactElement | null {
 	return (
-		<div className="flex min-h-0 flex-col items-start gap-4 overflow-auto p-6">
+		<div className="flex h-full flex-col items-start gap-4 overflow-auto p-6">
 			<p>
 				Hey! I am a Toronto-based frontend web developer who loves building unique and challenging user interfaces.{` `}
 				<span className="opacity-30">
@@ -24,8 +24,10 @@ export default function AboutMe(): ReactElement | null {
 					statistics; all of these topics are more accessible to me because of it, and it&apos;s always fun being able
 					to use these every now and then.
 				</span>
+				{` `}
 				Something I&apos;m very proud of is my ability to learn new technologies quickly. All my development knowledge
 				was completely self-taught, and I&apos;m always staying on top of the latest technologies and features.
+				{` `}
 				<span className="opacity-30">
 					My journey began in high school when I was trying to create a graphing calculator. Needing reusable
 					components, I found React and began learning it without really knowing what it was. But after a ton of
