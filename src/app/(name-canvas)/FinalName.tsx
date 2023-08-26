@@ -1,6 +1,6 @@
 "use client"
 
-import {OrthographicCamera, PerformanceMonitor, useFBO} from "@react-three/drei"
+import {OrthographicCamera, useFBO} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useMemo, type ReactElement, useRef} from "react"
 import {Scene} from "three"
@@ -10,9 +10,11 @@ import type {Camera} from "three"
 
 import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
+import {useScreenToTextSpaceMatrix} from "./transformMatrices"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
-const canvasMargin = -256
+const canvasMarginSize = 256
+const extraScale = 1.2
 
 export type FinalNameProps = {
 	msdfFontAtlas: FontAtlas
@@ -22,13 +24,8 @@ export type FinalNameProps = {
 export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
 	const {width: canvasWidth, height: canvasHeight} = useThree((state) => state.viewport)
-	const canvasWidthWithoutMargin = canvasWidth + canvasMargin * 2
-	const canvasHeightWithoutMargin = canvasHeight + canvasMargin * 2
 
-	const fboScene = useMemo(() => {
-		const scene = new Scene()
-		return scene
-	}, [])
+	const fboScene = useMemo(() => new Scene(), [])
 	const cam = useRef<Camera>(null)
 
 	const target = useFBO()
@@ -66,10 +63,14 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 		text,
 	])
 
-	const canvasAspect = canvasWidthWithoutMargin / canvasHeightWithoutMargin
-	const canvasMarginProportionalX = canvasMargin / canvasWidthWithoutMargin
-	const canvasMarginProportionalY = canvasMargin / canvasHeightWithoutMargin
 	const textAspect = sdfTextLayout.texelW / sdfTextLayout.texelH
+	const screenToTextSpaceMatrix = useScreenToTextSpaceMatrix(
+		canvasWidth,
+		canvasHeight,
+		textAspect,
+		extraScale,
+		canvasMarginSize,
+	)
 
 	return (
 		<>
@@ -94,36 +95,18 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 				fboScene,
 			)}
 			<mesh position={[0.5, 0.5, 0]}>
-				<planeGeometry>
-					<bufferAttribute
-						attach="attributes-uv"
-						args={[
-							new Float32Array([
-								canvasMarginProportionalX,
-								1 - canvasMarginProportionalY,
-								1 - canvasMarginProportionalX,
-								1 - canvasMarginProportionalY,
-								canvasMarginProportionalX,
-								canvasMarginProportionalY,
-								1 - canvasMarginProportionalX,
-								canvasMarginProportionalY,
-							]),
-							2,
-						]}
-					/>
-				</planeGeometry>
+				<planeGeometry />
 				<staticEffectMaterial
 					key={StaticEffectMaterial.key}
 					time={0}
 					nameMap={target.texture}
+					canvasWidth={canvasWidth}
+					canvasHeight={canvasHeight}
+					marginSize={canvasMarginSize}
+					screenToTextSpaceMatrix={screenToTextSpaceMatrix}
 					premultipliedAlpha={false}
-					canvasAspect={canvasAspect}
-					textAspect={textAspect}
-					marginWidth={-canvasMarginProportionalX}
-					marginHeight={-canvasMarginProportionalY}
 				/>
 			</mesh>
-			<PerformanceMonitor />
 		</>
 	)
 }
