@@ -38,7 +38,6 @@ const NameSdfMapMaterial = shaderMaterial(
 
     void main() {
       float maxAlpha = 0.0;
-      vec2 uv = vec2(vUv.x, vUv.y);
 
       for (int i = 0; i < stringLength; i++) {
         int idx = i * 8;
@@ -51,14 +50,15 @@ const NameSdfMapMaterial = shaderMaterial(
         float dstWidth = texelFetch(charData, ivec2(idx + 6, 0), 0).r;
         float dstHeight = texelFetch(charData, ivec2(idx + 7, 0), 0).r;
 
-        bool insideX = (uv.x >= dstU) && (uv.x <= (dstU + dstWidth));
-        bool insideY = (uv.y >= dstV) && (uv.y <= (dstV + dstHeight));
+        bool insideX = (vUv.x >= dstU) && (vUv.x <= (dstU + dstWidth));
+        bool insideY = (vUv.y >= dstV) && (vUv.y <= (dstV + dstHeight));
         if (!insideX || !insideY) continue;
 
-        float glyph = texture2D(sdfMap, vec2((uv.x - dstU) * width / dstWidth + u, (uv.y - dstV) * height / dstHeight + v)).r;
+        float glyph = texture2D(sdfMap, vec2((vUv.x - dstU) * width / dstWidth + u, (vUv.y - dstV) * height / dstHeight + v)).r;
         if (glyph > maxAlpha) maxAlpha = glyph;
       }
 
+      float transitionProg = 0.5;
       pc_fragColor = vec4(maxAlpha, 1.0, 1.0, 1.0);
     }
   `,

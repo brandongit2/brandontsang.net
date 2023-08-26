@@ -1,26 +1,26 @@
 import {shaderMaterial} from "@react-three/drei"
 import {extend} from "@react-three/fiber"
-import {Texture} from "three"
+import {Matrix3, Texture} from "three"
 
 import glsl from "@/helpers/glsl"
 
 export type StaticEffectMaterialUniforms = {
 	time: number
 	nameMap: Texture
-	canvasAspect: number
-	textAspect: number
-	marginWidth: number
-	marginHeight: number
+	canvasWidth: number
+	canvasHeight: number
+	marginSize: number
+	screenToTextSpaceMatrix: Matrix3
 }
 
 const StaticEffectMaterial = shaderMaterial(
 	{
 		time: 0,
 		nameMap: new Texture(),
-		canvasAspect: 1,
-		textAspect: 1,
-		marginWidth: 1,
-		marginHeight: 1,
+		canvasWidth: 1,
+		canvasHeight: 1,
+		marginSize: 1,
+		screenToTextSpaceMatrix: new Matrix3(),
 	} satisfies StaticEffectMaterialUniforms,
 	glsl`
     out vec2 vUv;
@@ -35,40 +35,30 @@ const StaticEffectMaterial = shaderMaterial(
 
     uniform float time;
 		uniform sampler2D nameMap;
-		uniform float textAspect;
-		uniform float canvasAspect;
-		uniform float marginWidth;
-		uniform float marginHeight;
-
-		float extraScale = 1.2;
-
-		float easeInCubic(float t) {
-			return t * t * t;
-		}
-
-		float easeInExpo(float t) {
-			return pow(2.0, 10.0 * (t - 1.0));
-		}
+		uniform float canvasWidth;
+		uniform float canvasHeight;
+		uniform float marginSize;
+		uniform mat3 screenToTextSpaceMatrix;
 
     void main() {
-			float scaleX = canvasAspect > textAspect ? 1.0 : textAspect / canvasAspect;
-			float scaleY = canvasAspect > textAspect ? canvasAspect / textAspect : 1.0;
-			scaleX *= extraScale;
-			scaleY *= extraScale;
-			vec4 color = texture2D(nameMap, (vUv - vec2(0.5, 0.5)) * vec2(1.0 / scaleX, 1.0 / scaleY) + vec2(0.5, 0.5));
+			vec2 xy = vUv * vec2(canvasWidth, canvasHeight);
+			vec3 textUv = screenToTextSpaceMatrix * vec3(xy, 1.0);
+			vec4 color = texture2D(nameMap, textUv.xy);
 
 			// Shade margins
-			float distFromSafeAreaX = (abs(vUv.x - 0.5) - 0.5) / marginWidth;
-			float distFromSafeAreaY = (abs(vUv.y - 0.5) - 0.5) / marginHeight;
+			float distFromSafeAreaX = (abs(xy.x - canvasWidth / 2.0) - (canvasWidth / 2.0) - marginSize) / marginSize;
+			float distFromSafeAreaY = (abs(xy.y - canvasHeight / 2.0) - (canvasHeight / 2.0) - marginSize) / marginSize;
 			float distFromSafeArea;
 			if (distFromSafeAreaX < 0.0 && distFromSafeAreaY < 0.0) {
+				// Inside safe area
 				distFromSafeArea = max(distFromSafeAreaX, distFromSafeAreaY);
 			} else {
+				// Outside safe area; round corners
 				distFromSafeArea = length(vec2(max(distFromSafeAreaX, 0.0), max(distFromSafeAreaY, 0.0)));
 			}
 
 			// Feather down to near transparent and plateau
-			float feather = smoothstep(-0.6, 0.4, distFromSafeArea) * 0.9;
+			float feather = smoothstep(-0.2, 0.2, distFromSafeArea) * 0.8;
 			color.a = mix(color.a, 0.0, feather);
 
 			vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
