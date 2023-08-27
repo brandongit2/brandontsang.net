@@ -7,10 +7,11 @@ import glsl from "@/helpers/glsl"
 export type NameRadiantMaterialUniforms = {
 	time: number
 	sdfMap: Texture
+	transitionProg?: number
 }
 
 const NameRadiantMaterial = shaderMaterial(
-	{time: 0, sdfMap: new Texture()} satisfies NameRadiantMaterialUniforms,
+	{time: 0, sdfMap: new Texture(), transitionProg: 0} satisfies NameRadiantMaterialUniforms,
 	glsl`
     out vec2 vUv;
 
@@ -24,25 +25,33 @@ const NameRadiantMaterial = shaderMaterial(
 
     uniform sampler2D sdfMap;
     uniform float time;
+    uniform float transitionProg;
 
     void main() {
       float tex = texture2D(sdfMap, vUv).r; // tex is 0.5 at text, going to 0.0 at edge
       float dist = max(1.0 - tex * 2.0, 0.0); // dist is 0.0 at text, going to 1.0 at edge
       // Make the waves denser closer to the edge. Plug into graphing calculator to see.
-      float weightedDist = -1.0 / (50.0 * (dist - 1.035)) + 0.445 * dist;
+      // float weightedDist = -1.0 / (50.0 * (dist - 1.035)) + 0.445 * dist;
+      float weightedDist = dist;
 
-      float steepness = 40.0;
+      // float steepness = mix(40.0, 4.0, transitionProg);
+      // float speed = mix(0.016, 0.16, transitionProg);
+      float steepness = 20.0;
       float speed = 0.016;
       float spacing = 0.9; // Relative to size of wave
       float fade = fract((weightedDist - time * speed) * steepness);
       fade *= fade;
       fade = max((fract(fade) - 1.0) * spacing + 1.0, 0.2);
 
+      // Max alpha gets lower the larger dist is
       float dimmingFactor = 0.5;
       fade *= max(1.0 - weightedDist, 0.0) * dimmingFactor;
+      if (dist < 0.0001) fade = 0.5;
 
-      vec3 fore = vec3(0.98431, 1.0, 0.47059);
-      pc_fragColor = vec4(fore, fade);
+      vec3 textColor = vec3(0.98431, 1.0, 0.47059);
+      vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
+			vec3 fakeOpacity = mix(bgColor, textColor, fade);
+      pc_fragColor = vec4(fakeOpacity, 1.0);
     }
   `,
 )

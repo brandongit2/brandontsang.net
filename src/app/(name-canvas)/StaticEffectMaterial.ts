@@ -46,23 +46,22 @@ const StaticEffectMaterial = shaderMaterial(
 			vec4 color = texture2D(nameMap, textUv.xy);
 
 			// Shade margins
-			float distFromSafeAreaX = (abs(xy.x - canvasWidth / 2.0) - (canvasWidth / 2.0) - marginSize) / marginSize;
-			float distFromSafeAreaY = (abs(xy.y - canvasHeight / 2.0) - (canvasHeight / 2.0) - marginSize) / marginSize;
+			vec2 distFromSafeCorner = abs(xy - vec2(canvasWidth, canvasHeight) / 2.0) - vec2(canvasWidth, canvasHeight) / 2.0 + vec2(marginSize);
 			float distFromSafeArea;
-			if (distFromSafeAreaX < 0.0 && distFromSafeAreaY < 0.0) {
+			if (distFromSafeCorner.x < 0.0 && distFromSafeCorner.y < 0.0) {
 				// Inside safe area
-				distFromSafeArea = max(distFromSafeAreaX, distFromSafeAreaY);
+				distFromSafeArea = max(distFromSafeCorner.x, distFromSafeCorner.y);
 			} else {
 				// Outside safe area; round corners
-				distFromSafeArea = length(vec2(max(distFromSafeAreaX, 0.0), max(distFromSafeAreaY, 0.0)));
+				distFromSafeArea = length(max(distFromSafeCorner, vec2(0.0)));
 			}
 
 			// Feather down to near transparent and plateau
-			float feather = smoothstep(-0.2, 0.2, distFromSafeArea) * 0.8;
+			float feather = smoothstep(-30.0, 50.0, distFromSafeArea) * 0.8;
 			color.a = mix(color.a, 0.0, feather);
 
 			vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
-			vec3 fakeOpacity = mix(bgColor, color.rgb, color.a);
+			vec3 fakeOpacity = mix(color.rgb, bgColor, feather);
       pc_fragColor = vec4(fakeOpacity, 1.0);
     }
   `,

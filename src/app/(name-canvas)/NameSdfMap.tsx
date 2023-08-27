@@ -1,20 +1,52 @@
+"use client"
+
 import {OrthographicCamera} from "@react-three/drei"
-import {useLoader} from "@react-three/fiber"
-import {forwardRef, useMemo} from "react"
-import {NearestFilter, type Camera, RedFormat, FloatType, FileLoader, LinearFilter} from "three"
+import {useLoader, useThree} from "@react-three/fiber"
+import {forwardRef, useEffect, useMemo, useRef} from "react"
+import {
+	NearestFilter,
+	type Camera,
+	RedFormat,
+	FloatType,
+	FileLoader,
+	LinearFilter,
+	type Matrix3,
+	type ShaderMaterial,
+} from "three"
 import {DataTexture} from "three"
 
 import type {FontAtlas} from "@/types/FontAtlas"
 
 import NameSdfMapMaterial from "./NameSdfMapMaterial"
 import {TextLayout} from "@/helpers/bmFontLayout"
+import {useGlobalStore} from "@/helpers/useGlobalStore"
 
 export type TextLayoutProps = {
 	sdfFontAtlas: FontAtlas
 	sdfTextLayout: TextLayout
+	marginSize: number
+	textToScreenSpaceMatrix: Matrix3
 }
 
-const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRef({sdfFontAtlas, sdfTextLayout}, ref) {
+const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRef(
+	{sdfFontAtlas, sdfTextLayout, marginSize, textToScreenSpaceMatrix},
+	ref,
+) {
+	const {width: canvasWidth, height: canvasHeight} = useThree((state) => state.viewport)
+	const transitionProg = useGlobalStore((store) => store.transitionProg)
+
+	const sdfMapRef = useRef<ShaderMaterial | null>(null)
+	useEffect(() => {
+		if (transitionProg === 0) return
+
+		const unsubscribe = transitionProg.on(`change`, (latest) => {
+			if (!sdfMapRef.current) return
+			sdfMapRef.current.uniforms.transitionProg.value = latest
+		})
+
+		return () => unsubscribe()
+	}, [transitionProg])
+
 	const sdfMapData = useLoader(FileLoader, `/Karrik-Regular-sdf.bin`, (loader) => {
 		loader.setResponseType(`arraybuffer`)
 	})
@@ -77,7 +109,12 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 					sdfMap={sdfMap}
 					charData={charData}
 					stringLength={sdfTextLayout.layout.length}
+					canvasWidth={canvasWidth}
+					canvasHeight={canvasHeight}
+					marginSize={marginSize}
+					textToScreenSpaceMatrix={textToScreenSpaceMatrix}
 					premultipliedAlpha={false}
+					ref={sdfMapRef}
 				/>
 			</mesh>
 		</>
