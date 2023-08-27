@@ -4,7 +4,7 @@ import {OrthographicCamera, useFBO, useTexture} from "@react-three/drei"
 import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useRef, type ReactElement, useMemo, forwardRef} from "react"
 import {FloatType, RedFormat, Scene} from "three"
-import {type ShaderMaterial, type Camera} from "three"
+import {type ShaderMaterial, type Camera, type Matrix3} from "three"
 
 import type {TextLayout} from "@/helpers/bmFontLayout"
 import type {FontAtlas} from "@/types/FontAtlas"
@@ -12,23 +12,34 @@ import type {FontAtlas} from "@/types/FontAtlas"
 import NameRadiantMaterial from "./NameRadiantMaterial"
 import NameSdfMap from "./NameSdfMap"
 import NameTextMaterial from "./NameTextMaterial"
+import {useGlobalStore} from "@/helpers/useGlobalStore"
 
 export type NameCompositeProps = {
 	sdfFontAtlas: FontAtlas
 	msdfTextLayout: TextLayout
 	sdfTextLayout: TextLayout
+	marginSize: number
+	textToScreenSpaceMatrix: Matrix3
 }
 
 const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompositeWithRef(
-	{sdfFontAtlas, msdfTextLayout, sdfTextLayout},
+	{sdfFontAtlas, msdfTextLayout, sdfTextLayout, marginSize, textToScreenSpaceMatrix},
 	ref,
 ): ReactElement | null {
 	const gl = useThree((state) => state.gl)
+	const transitionProg = useGlobalStore((store) => store.transitionProg)
 
 	const radiantRef = useRef<ShaderMaterial | null>(null)
 	useFrame((state, delta) => {
-		if (!radiantRef.current) return
+		if (!radiantRef.current || transitionProg === 0) return
 		radiantRef.current.uniforms.time.value += delta
+
+		const unsubscribe = transitionProg.on(`change`, (latest) => {
+			if (!radiantRef.current) return
+			radiantRef.current.uniforms.transitionProg.value = latest
+		})
+
+		return () => unsubscribe()
 	})
 
 	const fboScene = useMemo(() => new Scene(), [])
@@ -85,7 +96,16 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 	return (
 		<>
 			<OrthographicCamera ref={ref} left={0} right={1} top={1} bottom={0} position={[0, 0, 5]} />
-			{createPortal(<NameSdfMap ref={cam} sdfFontAtlas={sdfFontAtlas} sdfTextLayout={sdfTextLayout} />, fboScene)}
+			{createPortal(
+				<NameSdfMap
+					ref={cam}
+					sdfFontAtlas={sdfFontAtlas}
+					sdfTextLayout={sdfTextLayout}
+					marginSize={marginSize}
+					textToScreenSpaceMatrix={textToScreenSpaceMatrix}
+				/>,
+				fboScene,
+			)}
 			<mesh>
 				<planeGeometry>
 					<bufferAttribute

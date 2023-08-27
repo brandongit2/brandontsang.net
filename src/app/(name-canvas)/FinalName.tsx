@@ -10,7 +10,7 @@ import type {Camera} from "three"
 
 import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
-import {useScreenToTextSpaceMatrix} from "./transformMatrices"
+import {useScreenToTextSpaceMatrix, useTextToScreenSpaceMatrix} from "./transformMatrices"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
 const canvasMarginSize = 256
@@ -64,6 +64,13 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 	])
 
 	const textAspect = sdfTextLayout.texelW / sdfTextLayout.texelH
+	const textToScreenSpaceMatrix = useTextToScreenSpaceMatrix(
+		canvasWidth,
+		canvasHeight,
+		textAspect,
+		extraScale,
+		canvasMarginSize,
+	)
 	const screenToTextSpaceMatrix = useScreenToTextSpaceMatrix(
 		canvasWidth,
 		canvasHeight,
@@ -91,6 +98,8 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 					sdfFontAtlas={sdfFontAtlas}
 					msdfTextLayout={msdfTextLayout}
 					sdfTextLayout={sdfTextLayout}
+					marginSize={canvasMarginSize}
+					textToScreenSpaceMatrix={textToScreenSpaceMatrix}
 				/>,
 				fboScene,
 			)}
