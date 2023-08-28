@@ -53,7 +53,7 @@ const NameComposite = forwardRef<Camera, NameCompositeProps>(function NameCompos
 		gl.setRenderTarget(null)
 	})
 
-	const msdfMap = useTexture(`/Karrik-Regular-msdf.png`)
+	const msdfMap = useTexture(`/bmfont/Karrik-Regular-msdf.png`)
 
 	const {vertices, uvs, indices} = useMemo(() => {
 		const vertices = []
