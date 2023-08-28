@@ -4,8 +4,8 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
-				bg: `var(--bg-color)`,
-				text: `var(--text-color)`,
+				bg: `oklch(var(--bg-color) / <alpha-value>)`,
+				text: `oklch(var(--text-color) / <alpha-value>)`,
 			},
 		},
 	},

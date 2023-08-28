@@ -47,7 +47,7 @@ const TextLayout = forwardRef<Camera, TextLayoutProps>(function TextLayoutWithRe
 		return () => unsubscribe()
 	}, [transitionProg])
 
-	const sdfMapData = useLoader(FileLoader, `/Karrik-Regular-sdf.bin`, (loader) => {
+	const sdfMapData = useLoader(FileLoader, `/bmfont/Karrik-Regular-sdf.bin`, (loader) => {
 		loader.setResponseType(`arraybuffer`)
 	})
 	const sdfMap = useMemo(() => {
