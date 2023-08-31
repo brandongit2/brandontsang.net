@@ -6,6 +6,7 @@ import Bg from "./Bg"
 import FramerMotionLogo from "./FramerMotionLogo"
 import NextJsLogo from "./NextJsLogo"
 import ReactLogo from "./ReactLogo"
+import Under from "./Under"
 import cloudFirestoreLogo from "@public/icons/cloud-firestore.png"
 import sprintZeroLogo from "@public/icons/sprintzero.png"
 import typescriptLogo from "@public/icons/typescript.png"
@@ -39,9 +40,10 @@ export const QaTree: QABlock = {
 			answer: (
 				<div className="flex flex-col gap-2 text-justify">
 					<p className="indent-8">
-						The key feature of the project was a unique tool known as the Story Map. The Story Map organized all user
-						stories of the project into groups called <em>features</em>, and those into groups called <em>epics</em>.
-						The result was a three-tier tree structure, as you can see in the gallery to the left.
+						The key feature of the project was a unique tool known as the{` `}
+						<strong className="font-semibold">Story Map</strong>. The Story Map organized all user stories of the
+						project into groups called <em>features</em>, and those into groups called{` `}
+						<em>epics</em>. The result was a three-tier tree structure, as you can see in the gallery to the left.
 					</p>
 					<p className="indent-8">
 						Users were able to <Bg>freely rearrange the tree</Bg>, changing the order of stories, features, and epics,
@@ -56,7 +58,7 @@ export const QaTree: QABlock = {
 				{
 					question: `How did you implement that?`,
 					answer: (
-						<p>
+						<p className="text-justify">
 							Implementing the Story Map required significant knowledge of DOM measurement and manipulation. To move
 							items around the tree meant I had to handle the drag-and-drop all while the DOM element itself was
 							constantly being destroyed and recreated by React. Thankfully, there&apos;s a library called{` `}
@@ -70,25 +72,26 @@ export const QaTree: QABlock = {
 						{
 							question: `Wow, that sounds complicated. How did you store the state of the tree?`,
 							answer: (
-								<p>
+								<p className="text-justify">
 									Managing the state of the tree was a big challenge. After a lot of trial-and-error, I settled on
-									having a flat data structure, where every item simply keeps a record of its parent. This technique,
-									called <Bg>&ldquo;normalization&rdquo;</Bg>, was remarkably simple to traverse and manipulate. When
-									combined with a big list of utility functions for operating on the tree, it became practically
-									impossible to corrupt the story map&apos;s structure.
+									having a <strong className="font-semibold">flat data structure</strong>, where every item simply keeps
+									a record of its parent. This technique, called <Bg>&ldquo;normalization&rdquo;</Bg>, made the tree
+									remarkably simple to traverse and manipulate. When combined with a big list of utility functions for
+									operating on the tree, it became practically impossible to corrupt the story map&apos;s structure.
 								</p>
 							),
 						},
 						{
 							question: `You said changes would update in real-time? How did you do that?`,
 							answer: (
-								<p>
+								<p className="text-justify">
 									The real-time updates were possible using Firebase&apos;s <Bg>Cloud Firestore</Bg> database. Cloud
 									Firestore is a NoSQL database that&apos;s well-known for its real-time capabilities, meaning it can
-									push updates to all users of a document instantly, resolving conflicts and even handling offline
-									changes. I did still have to manage conflicts from reconciling Cloud Firestore&apos;s state with the
-									user&apos;s local state, but my big utility function list made that a breeze. We used Cloud
-									Firestore&apos;s real-time updates to enable collaborative editing{` `}
+									push updates to all users of a document <strong className="font-semibold">instantly</strong>,
+									resolving conflicts and even <strong className="font-semibold">handling offline changes</strong>. I
+									did still have to manage conflicts from reconciling Cloud Firestore&apos;s state with the user&apos;s
+									local state, but my big utility function list made that a breeze. We used Cloud Firestore&apos;s
+									real-time updates to enable collaborative editing{` `}
 									<Bg>throughout almost the entire app</Bg>. It&apos;s one of my favourite things about SprintZero.
 								</p>
 							),
@@ -135,10 +138,10 @@ export const QaTree: QABlock = {
 										{expandedPanels.has(0) && (
 											<div className="relative flex items-stretch text-base">
 												<div className="my-2 ml-[34px] mr-[18px] w-px shrink-0 bg-white/60" />
-												<p className="min-w-0 grow font-extralight leading-snug tracking-wide">
+												<p className="mb-4 mt-2 min-w-0 grow text-justify font-extralight leading-snug tracking-wide">
 													Pretty much everything I code is in TypeScript these days. I led a migration from JavaScript
 													to TypeScript in the SprintZero codebase. As part of a project-wide renovation, I saw the
-													opportunity to <Bg>drastically improve the fragility</Bg> of the code. Before I worked on the
+													opportunity to <Bg>drastically reduce the fragility</Bg> of the code. Before I worked on the
 													project, several other developers had each had a go at building different parts of the app.
 													And when one developer leaves, they take with them the conventions and knowledge they had
 													accrued. TypeScript serves as <Bg>implicit code documentation</Bg>, lessening the impact of
@@ -171,8 +174,36 @@ export const QaTree: QABlock = {
 												)
 											}
 										>
-											(see {expandedPanels.has(1) ? `less` : `more`})
+											{expandedPanels.has(0) ? `(see less)` : `(see more)`}
 										</button>
+										{expandedPanels.has(1) && (
+											<div className="relative flex items-stretch text-base">
+												<div className="my-2 ml-[34px] mr-[18px] w-px shrink-0 bg-white/60" />
+												<div className="mb-4 mt-2 flex grow flex-col gap-2 text-justify font-extralight leading-snug tracking-wide">
+													<p>
+														React has been my go-to since day one. For the <Bg>nearly five years</Bg> I&apos;ve been
+														using it, there has never been a time when I tried to do something it wasn&apos;t capable
+														of. This is thanks in large part to the{` `}
+														<strong className="font-semibold">extensive ecosystem</strong> of libraries built around it.
+														I think that one of the big reasons React has been around so{` `}
+														<span className="opacity-50">(comparatively)</span> long is that the ecosystem allows the
+														entire development community as a whole to determine{` `}
+														<em>what React is</em>. By picking and choosing different libraries to use with React over
+														time, React can stay the exact same, but{` `}
+														<Under>how we use it is able to evolve with our ever-changing needs.</Under>
+													</p>
+													<p>
+														And now with the introduction of <Bg>React Server Components</Bg>, React is making another
+														huge leap. We took advantage of Server Components with Next.js 13 in SprintZero, and the
+														experience was amazing. Although we didn&apos;t do much data fetching ourselves because of
+														Cloud Firestore, giving some components direct access to the backend&mdash;not to mention
+														allowing them to be <code className="-mx-0.5 bg-black/20 px-0.5 text-[0.9em]">async</code>
+														&mdash;was an{` `}
+														<Bg>honest game-changer</Bg> in the development and user experiences.
+													</p>
+												</div>
+											</div>
+										)}
 									</li>
 									<li>
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
@@ -196,8 +227,46 @@ export const QaTree: QABlock = {
 												)
 											}
 										>
-											(see {expandedPanels.has(2) ? `less` : `more`})
+											{expandedPanels.has(2) ? `(see less)` : `(see more)`}
 										</button>
+										{expandedPanels.has(2) && (
+											<div className="relative flex items-stretch text-base">
+												<div className="my-2 ml-[34px] mr-[18px] w-px shrink-0 bg-white/60" />
+												<div className="mb-4 mt-2 flex grow flex-col gap-2 text-justify font-extralight leading-snug tracking-wide">
+													<p>
+														I still remember the age of React development where you had to stick with the limitations of
+														{` `}
+														<span className="font-normal text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.2_1_0)_40%)]">
+															Create React App 🪦
+														</span>
+														, or jump 500 m straight into the horrors of Webpack configuration. I began using Next.js in
+														2018 solely because I didn&apos;t want to set up the bundling and preprocessing myself.
+													</p>
+													<p>
+														But since then, Next.js has become so much more than that. It pioneered the art of{` `}
+														<strong className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
+															server-side rendering
+														</strong>
+														{` `}
+														in React, employed a ridiculously simple but powerful{` `}
+														<strong className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
+															file-based routing
+														</strong>
+														{` `}
+														system, and brought{` `}
+														<strong className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
+															hot module reload
+														</strong>
+														{` `}
+														(HMR) to the masses. Now with the introduction of Next.js 13, it has{` `}
+														<Bg>completely overhauled</Bg> its routing system, allowing for things complex routing
+														techniques and animated route transitions. Not to mention, Vercel&mdash;the creators of
+														Next.js&mdash;have partnered with the React team to help build out and{` `}
+														<Bg>take full advantage</Bg> of React Server Components.
+													</p>
+												</div>
+											</div>
+										)}
 									</li>
 									<li>
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
@@ -217,14 +286,37 @@ export const QaTree: QABlock = {
 											onClick={() =>
 												setExpandedPanels(
 													produce((panels) => {
-														if (panels.has(0)) panels.delete(0)
-														else panels.add(0)
+														if (panels.has(3)) panels.delete(3)
+														else panels.add(3)
 													}),
 												)
 											}
 										>
-											(see more)
+											{expandedPanels.has(3) ? `(see less)` : `(see more)`}
 										</button>
+										{expandedPanels.has(3) && (
+											<div className="relative flex items-stretch text-base">
+												<div className="my-2 ml-[34px] mr-[18px] w-px shrink-0 bg-white/60" />
+												<div className="mb-4 mt-2 flex grow flex-col gap-2 text-justify font-extralight leading-snug tracking-wide">
+													<p>
+														Developer resources were quite strained on this project. We ultimately had to focus our
+														efforts on the frontend since that had the most impact on the user. We obviously
+														couldn&apos;t skimp on the backend either, and that&apos;s where{` `}
+														<strong className="font-semibold">Firebase</strong>, specifically{` `}
+														<strong className="font-semibold">Cloud Firestore</strong>, comes in.
+													</p>
+													<p>
+														Cloud Firestore provides <Bg>much more than a database</Bg>; it is also a solution for{` `}
+														<Under>querying the database</Under>, pushing and listening for{` `}
+														<Under>real-time updates</Under>, making updates{` `}
+														<Under>optimistically</Under>, and even{` `}
+														<Under>RBAC</Under>
+														{` `}
+														<span className="text-sm opacity-50">(role-based access control)</span>.
+													</p>
+												</div>
+											</div>
+										)}
 									</li>
 									<li>
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
@@ -242,14 +334,42 @@ export const QaTree: QABlock = {
 											onClick={() =>
 												setExpandedPanels(
 													produce((panels) => {
-														if (panels.has(2)) panels.delete(2)
-														else panels.add(2)
+														if (panels.has(4)) panels.delete(4)
+														else panels.add(4)
 													}),
 												)
 											}
 										>
-											(see more)
+											{expandedPanels.has(4) ? `(see less)` : `(see more)`}
 										</button>
+										{expandedPanels.has(4) && (
+											<div className="relative flex items-stretch text-base">
+												<div className="my-2 ml-[34px] mr-[18px] w-px shrink-0 bg-white/60" />
+												<div className="mb-4 mt-2 flex grow flex-col gap-2 text-justify font-extralight leading-snug tracking-wide">
+													<p>
+														Last but not least, probably my favourite library of all time.{` `}
+														<strong className="font-semibold">Framer Motion</strong> is a React animation library that
+														practically enables <Bg>real-life magic</Bg>.{` `}
+														<strong className="font-semibold">Layout animations</strong> enable elements to{` `}
+														<em>automatically</em> 🧙 animate their position when the CSS layout changes; components can
+														{` `}
+														<Under>maintain their identity</Under>
+														{` `}
+														and animate between <Under>completely separate parts</Under> of the DOM; you can define{` `}
+														<Under>your own animating values</Under>
+														{` `}
+														<span className="opacity-50">(as plain numbers and even interpolated CSS strings!!!)</span>
+														{` `}
+														and imperatively animate them... It&apos;s hard to explain the amount of flexibility and
+														power this library affords me as an animation-hungry web developer.
+													</p>
+													<p>
+														And of course, this library was used substantially throughout SprintZero, in parts{` `}
+														<Bg>enabling actual functionality</Bg> that was crucial to the app&apos;s workflow.
+													</p>
+												</div>
+											</div>
+										)}
 									</li>
 								</ul>
 							</div>
