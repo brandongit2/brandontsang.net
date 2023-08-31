@@ -79,11 +79,5 @@ module.exports = {
 				"react/self-closing-comp": `off`,
 			},
 		},
-		{
-			files: [`**/*.ts`],
-			rules: {
-				"@typescript-eslint/explicit-module-boundary-types": `warn`,
-			},
-		},
 	],
 }
