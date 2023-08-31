@@ -103,7 +103,7 @@ export default function QABlockRender({qaBlock}: QABlockRenderProps): ReactEleme
 	}, 10)
 
 	return (
-		<MotionConfig transition={{layout: {type: `spring`, velocity: -150, ...springVarHelper(150, 0.6)}}}>
+		<MotionConfig transition={{layout: {type: `spring`, velocity: -180, ...springVarHelper(150, 0.6)}}}>
 			<motion.div
 				className="relative font-extralight leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)] [&_*]:invisible [&_[data-visible]]:visible"
 				layout="position"
