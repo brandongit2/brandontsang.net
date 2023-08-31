@@ -1,3 +1,4 @@
+import {motion} from "framer-motion"
 import {enableMapSet, produce} from "immer"
 import Image from "next/image"
 import {useState, type ReactNode} from "react"
@@ -22,7 +23,7 @@ export type QABlock = {
 export const QaTree: QABlock = {
 	question: `What is SprintZero?`,
 	answer: (
-		<p className="text-justify">
+		<p className="hyphens text-justify">
 			<Image
 				src={sprintZeroLogo}
 				alt=""
@@ -38,11 +39,11 @@ export const QaTree: QABlock = {
 		{
 			question: `Tell me more about the product.`,
 			answer: (
-				<div className="flex flex-col gap-2 text-justify">
+				<div className="hyphens flex flex-col gap-2 text-justify">
 					<p className="indent-8">
 						The key feature of the project was a unique tool known as the{` `}
-						<strong className="font-semibold">Story Map</strong>. The Story Map organized all user stories of the
-						project into groups called <em>features</em>, and those into groups called{` `}
+						<strong className="font-semibold">Story&nbsp;Map</strong>. The Story&nbsp;Map organized all user stories of
+						the project into groups called <em>features</em>, and those into groups called{` `}
 						<em>epics</em>. The result was a three-tier tree structure, as you can see in the gallery to the left.
 					</p>
 					<p className="indent-8">
@@ -58,9 +59,9 @@ export const QaTree: QABlock = {
 				{
 					question: `How did you implement that?`,
 					answer: (
-						<p className="text-justify">
-							Implementing the Story Map required significant knowledge of DOM measurement and manipulation. To move
-							items around the tree meant I had to handle the drag-and-drop all while the DOM element itself was
+						<p className="hyphens text-justify">
+							Implementing the Story&nbsp;Map required significant knowledge of DOM measurement and manipulation. To
+							move items around the tree meant I had to handle the drag-and-drop all while the DOM element itself was
 							constantly being destroyed and recreated by React. Thankfully, there&apos;s a library called{` `}
 							<Bg>Framer Motion</Bg>
 							{` `}
@@ -72,19 +73,19 @@ export const QaTree: QABlock = {
 						{
 							question: `Wow, that sounds complicated. How did you store the state of the tree?`,
 							answer: (
-								<p className="text-justify">
+								<p className="hyphens text-justify">
 									Managing the state of the tree was a big challenge. After a lot of trial-and-error, I settled on
 									having a <strong className="font-semibold">flat data structure</strong>, where every item simply keeps
 									a record of its parent. This technique, called <Bg>&ldquo;normalization&rdquo;</Bg>, made the tree
 									remarkably simple to traverse and manipulate. When combined with a big list of utility functions for
-									operating on the tree, it became practically impossible to corrupt the story map&apos;s structure.
+									operating on the tree, it became practically impossible to corrupt the Story Map&apos;s structure.
 								</p>
 							),
 						},
 						{
 							question: `You said changes would update in real-time? How did you do that?`,
 							answer: (
-								<p className="text-justify">
+								<p className="hyphens text-justify">
 									The real-time updates were possible using Firebase&apos;s <Bg>Cloud Firestore</Bg> database. Cloud
 									Firestore is a NoSQL database that&apos;s well-known for its real-time capabilities, meaning it can
 									push updates to all users of a document <strong className="font-semibold">instantly</strong>,
@@ -104,10 +105,10 @@ export const QaTree: QABlock = {
 						const [expandedPanels, setExpandedPanels] = useState<Set<number>>(new Set())
 
 						return (
-							<div>
+							<motion.div layout="position" className="hyphens">
 								<p>Here&apos;s a partial list of technologies I used to build SprintZero:</p>
 								<ul className="mt-2 list-inside list-disc pl-4 text-lg">
-									<li>
+									<motion.li layout="position">
 										<div className="inline">
 											<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
 												<Image
@@ -149,8 +150,8 @@ export const QaTree: QABlock = {
 												</p>
 											</div>
 										)}
-									</li>
-									<li>
+									</motion.li>
+									<motion.li layout="position">
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
 											<ReactLogo
 												className="h-[1.2em] w-[1.2em]"
@@ -194,9 +195,9 @@ export const QaTree: QABlock = {
 													</p>
 													<p>
 														And now with the introduction of <Bg>React Server Components</Bg>, React is making another
-														huge leap. We took advantage of Server Components with Next.js 13 in SprintZero, and the
-														experience was amazing. Although we didn&apos;t do much data fetching ourselves because of
-														Cloud Firestore, giving some components direct access to the backend&mdash;not to mention
+														huge leap. We took advantage of Server Components with Next.js&nbsp;13 in SprintZero, and
+														the experience was amazing. Although we didn&apos;t do much data fetching ourselves because
+														of Cloud Firestore, giving some components direct access to the backend&mdash;not to mention
 														allowing them to be <code className="-mx-0.5 bg-black/20 px-0.5 text-[0.9em]">async</code>
 														&mdash;was an{` `}
 														<Bg>honest game-changer</Bg> in the development and user experiences.
@@ -204,8 +205,8 @@ export const QaTree: QABlock = {
 												</div>
 											</div>
 										)}
-									</li>
-									<li>
+									</motion.li>
+									<motion.li layout="position">
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
 											<NextJsLogo
 												className="h-[1.1em] w-[1.2em]"
@@ -237,10 +238,11 @@ export const QaTree: QABlock = {
 														I still remember the age of React development where you had to stick with the limitations of
 														{` `}
 														<span className="font-normal text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.2_1_0)_40%)]">
-															Create React App 🪦
+															Create React App&nbsp;🪦
 														</span>
-														, or jump 500 m straight into the horrors of Webpack configuration. I began using Next.js in
-														2018 solely because I didn&apos;t want to set up the bundling and preprocessing myself.
+														, or jump 500&nbsp;m straight into the horrors of Webpack configuration. I began using
+														Next.js in 2018 solely because I didn&apos;t want to set up the bundling and preprocessing
+														myself.
 													</p>
 													<p>
 														But since then, Next.js has become so much more than that. It pioneered the art of{` `}
@@ -258,7 +260,7 @@ export const QaTree: QABlock = {
 															hot module reload
 														</strong>
 														{` `}
-														(HMR) to the masses. Now with the introduction of Next.js 13, it has{` `}
+														(HMR) to the masses. Now with the introduction of Next.js&nbsp;13, it has{` `}
 														<Bg>completely overhauled</Bg> its routing system, allowing for things complex routing
 														techniques and animated route transitions. Not to mention, Vercel&mdash;the creators of
 														Next.js&mdash;have partnered with the React team to help build out and{` `}
@@ -267,8 +269,8 @@ export const QaTree: QABlock = {
 												</div>
 											</div>
 										)}
-									</li>
-									<li>
+									</motion.li>
+									<motion.li layout="position">
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
 											<Image
 												src={cloudFirestoreLogo}
@@ -317,8 +319,8 @@ export const QaTree: QABlock = {
 												</div>
 											</div>
 										)}
-									</li>
-									<li>
+									</motion.li>
+									<motion.li layout="position">
 										<div className="w-1.2 inline-flex translate-y-0.5 justify-center align-baseline">
 											<FramerMotionLogo
 												className="h-[1.1em] w-[1.2em]"
@@ -351,7 +353,8 @@ export const QaTree: QABlock = {
 														<strong className="font-semibold">Framer Motion</strong> is a React animation library that
 														practically enables <Bg>real-life magic</Bg>.{` `}
 														<strong className="font-semibold">Layout animations</strong> enable elements to{` `}
-														<em>automatically</em> 🧙 animate their position when the CSS layout changes; components can
+														<em>automatically</em>&nbsp;🧙 animate their position when the CSS layout changes;
+														components can
 														{` `}
 														<Under>maintain their identity</Under>
 														{` `}
@@ -370,9 +373,9 @@ export const QaTree: QABlock = {
 												</div>
 											</div>
 										)}
-									</li>
+									</motion.li>
 								</ul>
-							</div>
+							</motion.div>
 						)
 					},
 				},
@@ -381,33 +384,45 @@ export const QaTree: QABlock = {
 		{
 			question: `Who did you work with on the project?`,
 			answer: (
-				<p>
-					My involvement with the project began when the founder, whom I knew from a previous company I had worked at,
-					contacted me one day to see if I could help build out the story map feature. I ended up working very closely
-					with him; he played the role of product designer, and I was the primary engineer on the project. Besides the
-					founder, he had a co-founder who was also a senior developer. However his background was mainly in
-					Java/enterprise, so his contribution was primarily technical/backend guidance. There was also a junior
-					developer, but worked part-time and his contribution was largely tangential to mine. I did collaborate with
-					both on several occasions, but a bulk of the project was engineered by me.
-				</p>
+				<div className="hyphens flex flex-col gap-2 text-justify">
+					<p className="indent-8">
+						I worked primarily and extensively with the founder of the project, who acted as product designer. I knew
+						him from a previous company I had worked at, and he contacted me one day to see if I could help build out
+						the story map feature. From then, I was the <Bg>primary engineer</Bg> on the project.
+					</p>
+					<p className="indent-8">
+						Besides the founder, I worked somewhat with a co-founder who was also a senior developer. However his
+						background was mainly in Java/enterprise, so his contribution was primarily technical and backend guidance.
+						I also worked with a junior developer, but he worked part-time and his contribution was largely tangential
+						to mine. I did collaborate with both on several occasions, but a large portion of the project was engineered
+						by me.
+					</p>
+				</div>
 			),
 		},
 		{
 			question: `Where can I see the project?`,
 			answer: (
-				<p>
-					The project is available for free use at{` `}
-					<a
-						href="https://web.sprintzero.app"
-						target="_blank"
-						rel="noreferrer"
-						className="text-[oklch(0.92_0.16_110.54)] underline decoration-2 underline-offset-2"
-					>
-						https://web.sprintzero.app
-					</a>
-					. Unfortunately, the founder was having trouble securing funding and we were forced to stop work before we
-					reached full stability, so expect occasional issues when using the app.
-				</p>
+				<div className="hyphens flex flex-col gap-2">
+					<p>
+						The project is available for free use at:
+						<br />
+						<span className="mt-2 inline-flex w-full justify-center">
+							<a
+								href="https://web.sprintzero.app"
+								target="_blank"
+								rel="noreferrer"
+								className="rounded-md border border-text/30 bg-[oklch(0.2_0.5_115/0.8)] px-4 py-1 text-sm font-bold text-[oklch(0.92_0.16_110.54)] underline underline-offset-2"
+							>
+								https://web.sprintzero.app
+							</a>
+						</span>
+					</p>
+					<p className="text-justify indent-8">
+						Unfortunately, the founder was having trouble securing funding and we were forced to stop work before we
+						reached full stability, so expect occasional issues when using the app.
+					</p>
+				</div>
 			),
 		},
 	],
