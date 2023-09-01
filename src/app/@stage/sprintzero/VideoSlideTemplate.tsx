@@ -25,10 +25,10 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 	return (
 		<div className="flex h-full w-full flex-col justify-center">
 			<video
-				autoPlay={false}
+				autoPlay
 				loop
 				muted
-				className="border-text/20 rounded-2xl border"
+				className="rounded-2xl border border-text/20"
 				ref={videoRef}
 				onClick={(e) => {
 					if (e.currentTarget.paused) e.currentTarget.play()
@@ -69,7 +69,7 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 			</div>
 
 			<div
-				className="border-text/20 mt-12 rounded-2xl border px-6 py-4 text-lg"
+				className="mt-12 rounded-2xl border border-text/20 px-6 py-4 text-lg"
 				style={{
 					backgroundImage: `linear-gradient(to bottom, oklch(25% 0.058 144.97 / 97%), oklch(29.9% 0.056 144.97 / 97%) 80%, oklch(32% 0.052 144.97 / 97%))`,
 					boxShadow: `

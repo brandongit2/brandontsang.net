@@ -24,18 +24,6 @@ export const useDesqueezeAndScaleMatrix = (
 			)
 	}, [canvasHeightNoMargin, canvasWidthNoMargin, textAspect])
 
-export const useApplyExtraScaleMatrix = (extraScale: number): Matrix3 =>
-	useMemo(
-		() =>
-			// prettier-ignore
-			new Matrix3(
-				extraScale, 0, 0,
-				0, extraScale, 0,
-				0, 0, 1,
-			),
-		[extraScale],
-	)
-
 export const useCenterTextMatrix = (
 	canvasWidthNoMargin: number,
 	canvasHeightNoMargin: number,
@@ -71,28 +59,19 @@ export const useTextToScreenSpaceMatrix = (
 	canvasWidth: number,
 	canvasHeight: number,
 	textAspect: number,
-	extraScale: number,
 	canvasMargin: number,
 ): Matrix3 => {
 	const canvasWidthNoMargin = canvasWidth - canvasMargin * 2
 	const canvasHeightNoMargin = canvasHeight - canvasMargin * 2
 
 	const desqueezeAndScaleMatrix = useDesqueezeAndScaleMatrix(canvasWidthNoMargin, canvasHeightNoMargin, textAspect)
-	const extraScaleMatrix = useApplyExtraScaleMatrix(extraScale)
-	const desqueezeAndScaleAndExtraScaleMatrix = useMemo(
-		() => extraScaleMatrix.clone().multiply(desqueezeAndScaleMatrix),
-		[desqueezeAndScaleMatrix, extraScaleMatrix],
-	)
-	const textDims = useMemo(
-		() => new Vector2(1, 1).applyMatrix3(desqueezeAndScaleAndExtraScaleMatrix),
-		[desqueezeAndScaleAndExtraScaleMatrix],
-	)
+	const textDims = useMemo(() => new Vector2(1, 1).applyMatrix3(desqueezeAndScaleMatrix), [desqueezeAndScaleMatrix])
 
 	const centerTextMatrix = useCenterTextMatrix(canvasWidthNoMargin, canvasHeightNoMargin, textDims.x, textDims.y)
 	const applyMarginMatrix = useApplyMarginMatrix(canvasMargin)
 	return useMemo(
-		() => applyMarginMatrix.clone().multiply(centerTextMatrix).multiply(desqueezeAndScaleAndExtraScaleMatrix),
-		[applyMarginMatrix, centerTextMatrix, desqueezeAndScaleAndExtraScaleMatrix],
+		() => applyMarginMatrix.clone().multiply(centerTextMatrix).multiply(desqueezeAndScaleMatrix),
+		[applyMarginMatrix, centerTextMatrix, desqueezeAndScaleMatrix],
 	)
 }
 
@@ -100,14 +79,12 @@ export const useScreenToTextSpaceMatrix = (
 	canvasWidthNoMargin: number,
 	canvasHeightNoMargin: number,
 	textAspect: number,
-	extraScale: number,
 	canvasMargin: number,
 ): Matrix3 => {
 	const textToScreenSpaceMatrix = useTextToScreenSpaceMatrix(
 		canvasWidthNoMargin,
 		canvasHeightNoMargin,
 		textAspect,
-		extraScale,
 		canvasMargin,
 	)
 	return useMemo(() => textToScreenSpaceMatrix.invert(), [textToScreenSpaceMatrix])
