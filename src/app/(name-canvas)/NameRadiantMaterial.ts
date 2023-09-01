@@ -30,22 +30,17 @@ const NameRadiantMaterial = shaderMaterial(
     void main() {
       float tex = texture2D(sdfMap, vUv).r; // tex is 0.5 at text, going to 0.0 at edge
       float dist = max(1.0 - tex * 2.0, 0.0); // dist is 0.0 at text, going to 1.0 at edge
-      // Make the waves denser closer to the edge. Plug into graphing calculator to see.
-      // float weightedDist = -1.0 / (50.0 * (dist - 1.035)) + 0.445 * dist;
-      float weightedDist = dist;
 
-      // float steepness = mix(40.0, 4.0, transitionProg);
-      // float speed = mix(0.016, 0.16, transitionProg);
       float steepness = 20.0;
       float speed = 0.016;
       float spacing = 0.9; // Relative to size of wave
-      float fade = fract((weightedDist - time * speed) * steepness);
+      float fade = fract((dist - time * speed) * steepness);
       fade *= fade;
       fade = max((fract(fade) - 1.0) * spacing + 1.0, 0.2);
 
       // Max alpha gets lower the larger dist is
       float dimmingFactor = 0.5;
-      fade *= max(1.0 - weightedDist, 0.0) * dimmingFactor;
+      fade *= max(1.0 - dist, 0.0) * dimmingFactor;
       if (dist < 0.0001) fade = 0.5;
 
       vec3 textColor = vec3(0.98431, 1.0, 0.47059);

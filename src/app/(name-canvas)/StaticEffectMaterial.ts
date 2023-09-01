@@ -44,25 +44,7 @@ const StaticEffectMaterial = shaderMaterial(
 			vec2 xy = vUv * vec2(canvasWidth, canvasHeight);
 			vec3 textUv = screenToTextSpaceMatrix * vec3(xy, 1.0);
 			vec4 color = texture2D(nameMap, textUv.xy);
-
-			// Shade margins
-			vec2 distFromSafeCorner = abs(xy - vec2(canvasWidth, canvasHeight) / 2.0) - vec2(canvasWidth, canvasHeight) / 2.0 + vec2(marginSize);
-			float distFromSafeArea;
-			if (distFromSafeCorner.x < 0.0 && distFromSafeCorner.y < 0.0) {
-				// Inside safe area
-				distFromSafeArea = max(distFromSafeCorner.x, distFromSafeCorner.y);
-			} else {
-				// Outside safe area; round corners
-				distFromSafeArea = length(max(distFromSafeCorner, vec2(0.0)));
-			}
-
-			// Feather down to near transparent and plateau
-			float feather = smoothstep(-30.0, 50.0, distFromSafeArea) * 0.8;
-			color.a = mix(color.a, 0.0, feather);
-
-			vec3 bgColor = vec3(0.13333, 0.30980, 0.14510);
-			vec3 fakeOpacity = mix(color.rgb, bgColor, feather);
-      pc_fragColor = vec4(fakeOpacity, 1.0);
+      pc_fragColor = vec4(color.rgb, 1.0);
     }
   `,
 )
