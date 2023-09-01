@@ -26,16 +26,16 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 		<html lang="en" className={clsx(figtree.className, `h-full`)}>
 			<body className="grid h-full overflow-hidden bg-text text-text">
 				<div className="absolute inset-1.5 overflow-hidden rounded-md bg-bg">
-					<div className="mx-auto grid h-full max-w-[90rem] grid-cols-[1fr_36rem]">
+					<div className="isolate mx-auto grid h-full max-w-[100rem] grid-cols-[1fr_36rem]">
 						<div className="grid grid-rows-[1fr_auto]">
-							<div className="relative isolate ml-6 mt-6">
-								<div className="absolute -inset-64">
+							<div className="relative ml-6 mt-6">
+								<div className="absolute -inset-64 z-[-2]">
 									<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 								</div>
 								<div className="absolute inset-0">{stage}</div>
 							</div>
-							<div className="relative isolate mb-16 mt-8 grid grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">
-								<div className="absolute top-1/2 h-px w-[calc(100%-1rem)] -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
+							<div className="relative mb-16 mt-8 grid grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">
+								<div className="absolute right-4 top-1/2 h-px w-[100vw] -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
 								<div className="absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
 
 								<div />
@@ -52,7 +52,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 							</div>
 						</div>
 
-						<div className="isolate min-h-0">{audience}</div>
+						<div className="grid min-h-0 items-center">{audience}</div>
 					</div>
 				</div>
 			</body>
