@@ -6,14 +6,12 @@ import {useMemo, type ReactElement, useRef} from "react"
 import {Scene} from "three"
 
 import type {FontAtlas} from "@/types/FontAtlas"
-import type {Camera} from "three"
+import type {OrthographicCamera as OrthographicCameraClass} from "three"
 
 import NameComposite from "./NameComposite"
 import StaticEffectMaterial from "./StaticEffectMaterial"
 import {useScreenToTextSpaceMatrix} from "./transformMatrices"
 import bmFontLayout from "@/helpers/bmFontLayout"
-
-const canvasMarginSize = 256
 
 export type FinalNameProps = {
 	msdfFontAtlas: FontAtlas
@@ -25,7 +23,7 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 	const {width: canvasWidth, height: canvasHeight} = useThree((state) => state.viewport)
 
 	const fboScene = useMemo(() => new Scene(), [])
-	const cam = useRef<Camera>(null)
+	const cam = useRef<OrthographicCameraClass>(null)
 
 	const target = useFBO()
 	useFrame(() => {
@@ -63,7 +61,7 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 	])
 
 	const textAspect = sdfTextLayout.texelW / sdfTextLayout.texelH
-	const screenToTextSpaceMatrix = useScreenToTextSpaceMatrix(canvasWidth, canvasHeight, textAspect, canvasMarginSize)
+	const screenToTextSpaceMatrix = useScreenToTextSpaceMatrix(canvasWidth, canvasHeight, textAspect)
 
 	return (
 		<>
@@ -95,7 +93,6 @@ export default function FinalName({msdfFontAtlas, sdfFontAtlas}: FinalNameProps)
 					nameMap={target.texture}
 					canvasWidth={canvasWidth}
 					canvasHeight={canvasHeight}
-					marginSize={canvasMarginSize}
 					screenToTextSpaceMatrix={screenToTextSpaceMatrix}
 					premultipliedAlpha={false}
 				/>
