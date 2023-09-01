@@ -9,7 +9,6 @@ export type StaticEffectMaterialUniforms = {
 	nameMap: Texture
 	canvasWidth: number
 	canvasHeight: number
-	marginSize: number
 	screenToTextSpaceMatrix: Matrix3
 }
 
@@ -19,7 +18,6 @@ const StaticEffectMaterial = shaderMaterial(
 		nameMap: new Texture(),
 		canvasWidth: 1,
 		canvasHeight: 1,
-		marginSize: 1,
 		screenToTextSpaceMatrix: new Matrix3(),
 	} satisfies StaticEffectMaterialUniforms,
 	glsl`
@@ -37,7 +35,6 @@ const StaticEffectMaterial = shaderMaterial(
 		uniform sampler2D nameMap;
 		uniform float canvasWidth;
 		uniform float canvasHeight;
-		uniform float marginSize;
 		uniform mat3 screenToTextSpaceMatrix;
 
     void main() {

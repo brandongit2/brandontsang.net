@@ -4,7 +4,6 @@ import {OrthographicCamera} from "@react-three/drei"
 import {useLoader} from "@react-three/fiber"
 import {forwardRef, useEffect, useMemo, useRef} from "react"
 import {
-	NearestFilter,
 	type OrthographicCamera as OrthographicCameraClass,
 	RedFormat,
 	FloatType,
@@ -74,25 +73,21 @@ const TextLayout = forwardRef<OrthographicCameraClass, TextLayoutProps>(function
 		// Float 8n+6: dstWidth
 		// Float 8n+7: dstHeight
 		const {layout} = sdfTextLayout
-		const buffer = new Float32Array(layout.length * 8)
+		const charDataArray = new Array(layout.length * 8)
 		for (let i = 0; i < layout.length; i++) {
 			const charData = layout[i]
 
 			const idx = i * 8
-			buffer[idx] = charData.u
-			buffer[idx + 1] = charData.v
-			buffer[idx + 2] = charData.width
-			buffer[idx + 3] = charData.height
-			buffer[idx + 4] = charData.dstU
-			buffer[idx + 5] = charData.dstV
-			buffer[idx + 6] = charData.dstWidth
-			buffer[idx + 7] = charData.dstHeight
+			charDataArray[idx] = charData.u
+			charDataArray[idx + 1] = charData.v
+			charDataArray[idx + 2] = charData.width
+			charDataArray[idx + 3] = charData.height
+			charDataArray[idx + 4] = charData.dstU
+			charDataArray[idx + 5] = charData.dstV
+			charDataArray[idx + 6] = charData.dstWidth
+			charDataArray[idx + 7] = charData.dstHeight
 		}
-		const charData = new DataTexture(buffer, layout.length * 8, 1, RedFormat, FloatType)
-		charData.minFilter = NearestFilter
-		charData.magFilter = NearestFilter
-		charData.needsUpdate = true
-		return charData
+		return charDataArray
 	}, [sdfTextLayout])
 
 	return (

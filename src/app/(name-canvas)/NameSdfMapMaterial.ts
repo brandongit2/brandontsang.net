@@ -1,24 +1,19 @@
 import {shaderMaterial} from "@react-three/drei"
 import {extend} from "@react-three/fiber"
-import {DataTexture, FloatType, NearestFilter, RedFormat, Texture} from "three"
+import {Texture} from "three"
 
 import glsl from "@/helpers/glsl"
 
 export type NameSdfMapMaterialUniforms = {
 	sdfMap: Texture
-	charData: Texture
+	charData: number[]
 	stringLength: number
 }
-
-const charData = new DataTexture(new Float32Array(1), 1, 1, RedFormat, FloatType)
-charData.minFilter = NearestFilter
-charData.magFilter = NearestFilter
-charData.needsUpdate = true
 
 const NameSdfMapMaterial = shaderMaterial(
 	{
 		sdfMap: new Texture(),
-		charData,
+		charData: [],
 		stringLength: 1,
 	} satisfies NameSdfMapMaterialUniforms,
 	glsl`
@@ -33,7 +28,7 @@ const NameSdfMapMaterial = shaderMaterial(
     in vec2 vUv;
 
     uniform sampler2D sdfMap;
-    uniform sampler2D charData;
+    uniform float charData[512]; // Accommodates 16 characters
 
     void main() {
       float textAlpha = 0.0;
@@ -43,14 +38,14 @@ const NameSdfMapMaterial = shaderMaterial(
       #pragma unroll_loop_start
       for (int i = 0; i < 16; i++) {
         idx = UNROLLED_LOOP_INDEX * 8;
-        u = texelFetch(charData, ivec2(idx, 0), 0).r;
-        v = texelFetch(charData, ivec2(idx + 1, 0), 0).r;
-        width = texelFetch(charData, ivec2(idx + 2, 0), 0).r;
-        height = texelFetch(charData, ivec2(idx + 3, 0), 0).r;
-        dstU = texelFetch(charData, ivec2(idx + 4, 0), 0).r;
-        dstV = texelFetch(charData, ivec2(idx + 5, 0), 0).r;
-        dstWidth = texelFetch(charData, ivec2(idx + 6, 0), 0).r;
-        dstHeight = texelFetch(charData, ivec2(idx + 7, 0), 0).r;
+        u = charData[idx];
+        v = charData[idx + 1];
+        width = charData[idx + 2];
+        height = charData[idx + 3];
+        dstU = charData[idx + 4];
+        dstV = charData[idx + 5];
+        dstWidth = charData[idx + 6];
+        dstHeight = charData[idx + 7];
 
         insideX = (vUv.x >= dstU) && (vUv.x <= (dstU + dstWidth));
         insideY = (vUv.y >= dstV) && (vUv.y <= (dstV + dstHeight));
@@ -61,6 +56,7 @@ const NameSdfMapMaterial = shaderMaterial(
       }
       #pragma unroll_loop_end
 
+      pc_fragColor = vec4(textAlpha, 1.0, 1.0, 1.0);
       pc_fragColor = vec4(textAlpha, 1.0, 1.0, 1.0);
     }
   `,
