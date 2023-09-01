@@ -2,6 +2,9 @@
 module.exports = {
 	content: [`./src/**/*.{js,ts,jsx,tsx,mdx}`],
 	theme: {
+		screens: {
+			full: `1330px`,
+		},
 		extend: {
 			colors: {
 				bg: `oklch(var(--bg-color) / <alpha-value>)`,

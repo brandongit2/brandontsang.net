@@ -5,7 +5,7 @@ import LinkedinIcon from "@public/linkedin.svg"
 
 export default function MainPageAudience(): ReactElement | null {
 	return (
-		<div className="relative h-fit max-h-full">
+		<div className="relative h-fit max-h-full max-w-xl place-self-center">
 			<div className="absolute inset-12 z-[-1] bg-current text-bg/80 shadow-[0px_0px_3rem_3rem_currentColor]" />
 			<div className="flex h-full flex-col items-start gap-4 overflow-auto p-6 text-text">
 				<p>
