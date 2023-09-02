@@ -5,8 +5,9 @@ import type {ReactElement, ReactNode} from "react"
 
 import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
 import NameCanvas from "./(name-canvas)/NameCanvas"
-import NavLink from "./NavLink"
+import NavSection from "./NavSection"
 import "./styles.css"
+import {easeInOutQuadInv, easingWithDensity} from "@/helpers/easingWithDensity"
 
 // eslint-disable-next-line @typescript-eslint/quotes
 const figtree = Figtree({subsets: ["latin"]})
@@ -25,15 +26,13 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 	return (
 		<html lang="en" className={clsx(figtree.className, `h-full`)}>
 			<body className="grid h-full overflow-hidden bg-text text-text">
-				<div className="full:overflow-hidden absolute inset-1.5 overflow-auto rounded-md bg-bg">
+				<div className="absolute inset-1.5 overflow-y-auto rounded-md bg-bg full:overflow-y-hidden">
 					<div
-						className="full:[grid-template:--full-grid] full:h-full isolate mx-auto grid h-max max-w-[100rem] [grid-template:--scroll-grid]"
+						className="isolate mx-auto grid max-w-[100rem] [grid-template:--scroll-grid] full:h-full full:[grid-template:--full-grid]"
 						style={{
 							[`--scroll-grid` as any]: `
-								"stage" calc(100dvh - 0.75rem - 4.25rem - 2rem)
-								"nav" 4.25rem
-								"." 2rem
-								"audience" auto / 1fr
+								"stage" 100dvh
+								"audience" max-content / 100%
 							`,
 							[`--full-grid` as any]: `
 								"stage audience" 1fr
@@ -47,24 +46,51 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 							</div>
 							<div className="absolute inset-0">{stage}</div>
 						</div>
-						<div className="full:mb-16 full:mt-8 full:max-w-none full:grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr] relative mx-auto grid w-full max-w-4xl grid-cols-[2fr_max-content_2fr_max-content_2fr_max-content_2fr] [grid-area:nav]">
-							<div className="full:right-4 absolute right-[-50vw] top-1/2 h-px w-[200vw] -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
-							<div className="full:block absolute right-0 top-1/2 hidden h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
-
-							<div />
-							<NavLink href="/">main page</NavLink>
-							<div />
-							<NavLink href="/sprintzero" subtext="PROJECT">
-								sprintzero
-							</NavLink>
-							<div />
-							<NavLink href="/" subtext="PROJECT">
-								hemlane marketing site
-							</NavLink>
-							<div />
+						<div className="mb-16 mt-8 hidden [grid-area:nav] full:block">
+							<NavSection />
 						</div>
 
-						<div className="grid min-h-0 items-center [grid-area:audience]">{audience}</div>
+						<div className="relative grid min-h-0 items-center [grid-area:audience]">
+							{audience}
+							<div className="pointer-events-none absolute inset-0 top-24 isolate flex items-end full:hidden">
+								<div className="pointer-events-auto sticky bottom-0 w-full">
+									<div className="absolute left-1/2 top-0 h-full w-[36rem] max-w-[100vw] -translate-x-1/2 [contain:content] [container-type:size]">
+										{(() => {
+											const easingSamples = easingWithDensity(8, easeInOutQuadInv)
+											return easingSamples.map(({adjustedT: t, y: a}, i) => {
+												const blurRadius = `${a * 5}px`
+												const oversizeAmt = `(${blurRadius} + 10cqh)`
+												const nextT = easingSamples[i + 1]?.adjustedT ?? 1
+												const blurRect = (
+													<div
+														key={i}
+														className="contain absolute left-0 w-full"
+														style={{
+															top: `calc(${t * 100}cqh - ${oversizeAmt})`,
+															height: `calc(${(nextT - t) * 100}cqh + 2 * ${oversizeAmt})`,
+															backdropFilter: `blur(${blurRadius})`,
+															WebkitBackdropFilter: `blur(${blurRadius})`,
+															maskImage: `linear-gradient(to top, transparent ${blurRadius}, black calc(${oversizeAmt}), black calc(100% - ${oversizeAmt}), transparent calc(100% - ${blurRadius}))`,
+															WebkitMaskImage: `linear-gradient(to top, transparent ${blurRadius}, black calc(${oversizeAmt}), black calc(100% - ${oversizeAmt}), transparent calc(100% - ${blurRadius}))`,
+														}}
+													/>
+												)
+												return blurRect
+											})
+										})()}
+									</div>
+
+									<div
+										className="mx-auto w-full max-w-4xl py-8"
+										style={{
+											backgroundImage: `linear-gradient(to bottom, transparent 30%, oklch(38.42% 0.085 144.97) calc(100% - 15px))`,
+										}}
+									>
+										<NavSection />
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</body>
