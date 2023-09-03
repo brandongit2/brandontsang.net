@@ -9,7 +9,7 @@ import type {ReactElement} from "react"
 import MotionLink from "@/components/motion/MotionLink"
 
 // eslint-disable-next-line @typescript-eslint/quotes
-const karrik = localFont({src: "../../public/bmfont/Karrik-Regular.ttf"})
+const karrik = localFont({src: "../../public/bmfont/Karrik-Regular.woff2"})
 
 export type NavLinkProps = {
 	href: string
