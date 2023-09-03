@@ -38,7 +38,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 	return (
 		<html lang="en" className={clsx(figtree.className, `h-full`)}>
 			<body className="grid h-full overflow-hidden bg-text text-text">
-				<div className="absolute inset-1.5 overflow-y-auto rounded-md bg-bg full:overflow-y-hidden">
+				<div className="absolute inset-1.5 overflow-y-auto overflow-x-hidden rounded-md bg-bg full:overflow-y-hidden">
 					<div
 						className="isolate mx-auto grid max-w-[100rem] [grid-template:--scroll-grid] full:h-full full:[grid-template:--full-grid]"
 						style={{
