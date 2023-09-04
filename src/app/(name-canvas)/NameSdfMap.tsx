@@ -1,77 +1,35 @@
-"use client"
+import {OrthographicCamera, useFBO} from "@react-three/drei"
+import {createPortal, useThree} from "@react-three/fiber"
+import {useEffect, useMemo, useRef} from "react"
+import {Scene, FloatType, RedFormat} from "three"
 
-import {OrthographicCamera} from "@react-three/drei"
-import {useLoader} from "@react-three/fiber"
-import {forwardRef, useEffect, useMemo, useRef} from "react"
-import {
-	type OrthographicCamera as OrthographicCameraClass,
-	RedFormat,
-	FloatType,
-	FileLoader,
-	LinearFilter,
-	type ShaderMaterial,
-} from "three"
-import {DataTexture} from "three"
-
-import type {FontAtlas} from "@/types/FontAtlas"
+import type {TextLayout as NameSdfMap} from "@/helpers/bmFontLayout"
+import type {ReactNode} from "react"
+import type {Texture, OrthographicCamera as OrthographicCameraClass} from "three"
 
 import NameSdfMapMaterial from "./NameSdfMapMaterial"
-import {TextLayout} from "@/helpers/bmFontLayout"
-import {useGlobalStore} from "@/helpers/useGlobalStore"
+import UnpackSdf from "./UnpackSdf"
 
-export type TextLayoutProps = {
-	sdfFontAtlas: FontAtlas
-	sdfTextLayout: TextLayout
+export type NameSdfMapProps = {
+	sdfTextLayout: NameSdfMap
+	render: (texture: Texture) => ReactNode
 }
 
-const TextLayout = forwardRef<OrthographicCameraClass, TextLayoutProps>(function TextLayoutWithRef(
-	{sdfFontAtlas, sdfTextLayout},
-	ref,
-) {
-	const transitionProg = useGlobalStore((store) => store.transitionProg)
-
-	const sdfMapRef = useRef<ShaderMaterial | null>(null)
+export default function NameSdfMap({sdfTextLayout, render}: NameSdfMapProps) {
+	const gl = useThree((state) => state.gl)
+	const viewport = useThree((state) => state.viewport)
+	const fboScene = useMemo(() => new Scene(), [])
+	const camRef = useRef<OrthographicCameraClass>(null)
+	const target = useFBO({type: FloatType, format: RedFormat})
 	useEffect(() => {
-		if (transitionProg === 0) return
+		if (!camRef.current) return
 
-		const unsubscribe = transitionProg.on(`change`, (latest) => {
-			if (!sdfMapRef.current) return
-			sdfMapRef.current.uniforms.transitionProg.value = latest
-		})
-
-		return () => unsubscribe()
-	}, [transitionProg])
-
-	const sdfMapData = useLoader(FileLoader, `/bmfont/Karrik-Regular-sdf.bin`, (loader) => {
-		loader.setResponseType(`arraybuffer`)
-	})
-	const sdfMap = useMemo(() => {
-		const texture = new DataTexture(
-			new Float32Array(sdfMapData as ArrayBuffer),
-			sdfFontAtlas.atlas.width,
-			sdfFontAtlas.atlas.height,
-			RedFormat,
-			FloatType,
-			undefined,
-			undefined,
-			undefined,
-			LinearFilter,
-			LinearFilter,
-		)
-		texture.needsUpdate = true
-		return texture
-	}, [sdfFontAtlas.atlas.height, sdfFontAtlas.atlas.width, sdfMapData])
+		gl.setRenderTarget(target)
+		gl.render(fboScene, camRef.current)
+		gl.setRenderTarget(null)
+	}, [fboScene, gl, target, viewport.width, viewport.height])
 
 	const charData = useMemo(() => {
-		// Repeating pattern of eight floats.
-		// Float 8n:   u
-		// Float 8n+1: v
-		// Float 8n+2: width
-		// Float 8n+3: height
-		// Float 8n+4: dstU
-		// Float 8n+5: dstV
-		// Float 8n+6: dstWidth
-		// Float 8n+7: dstHeight
 		const {layout} = sdfTextLayout
 		const charDataArray = new Array(layout.length * 8)
 		for (let i = 0; i < layout.length; i++) {
@@ -92,20 +50,27 @@ const TextLayout = forwardRef<OrthographicCameraClass, TextLayoutProps>(function
 
 	return (
 		<>
-			<OrthographicCamera ref={ref} left={-0.5} right={0.5} top={0.5} bottom={-0.5} position={[0, 0, 5]} />
-			<mesh>
-				<planeGeometry />
-				<nameSdfMapMaterial
-					key={NameSdfMapMaterial.key}
-					sdfMap={sdfMap}
-					charData={charData}
-					stringLength={sdfTextLayout.layout.length}
-					premultipliedAlpha={false}
-					ref={sdfMapRef}
-				/>
-			</mesh>
+			{createPortal(
+				<>
+					<OrthographicCamera ref={camRef} left={-0.5} right={0.5} top={0.5} bottom={-0.5} position={[0, 0, 5]} />
+					<mesh>
+						<planeGeometry />
+						<UnpackSdf
+							render={(texture) => (
+								<nameSdfMapMaterial
+									key={NameSdfMapMaterial.key}
+									sdfMap={texture}
+									charData={charData}
+									stringLength={sdfTextLayout.layout.length}
+									premultipliedAlpha={false}
+								/>
+							)}
+						/>
+					</mesh>
+				</>,
+				fboScene,
+			)}
+			{render(target.texture)}
 		</>
 	)
-})
-
-export default TextLayout
+}

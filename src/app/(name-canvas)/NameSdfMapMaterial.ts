@@ -35,6 +35,7 @@ const NameSdfMapMaterial = shaderMaterial(
       int idx;
       float u, v, width, height, dstU, dstV, dstWidth, dstHeight, glyph;
       bool insideX, insideY;
+
       #pragma unroll_loop_start
       for (int i = 0; i < 16; i++) {
         idx = UNROLLED_LOOP_INDEX * 8;
@@ -50,14 +51,16 @@ const NameSdfMapMaterial = shaderMaterial(
         insideX = (vUv.x >= dstU) && (vUv.x <= (dstU + dstWidth));
         insideY = (vUv.y >= dstV) && (vUv.y <= (dstV + dstHeight));
         if (insideX && insideY) {
-          glyph = texture2D(sdfMap, vec2((vUv.x - dstU) * width / dstWidth + u, (vUv.y - dstV) * height / dstHeight + v)).r;
+          u = (vUv.x - dstU) * width / dstWidth + u;
+          v = (vUv.y - dstV) * height / dstHeight + v;
+          glyph = texture2D(sdfMap, vec2(u, v)).r;
+
           if (glyph > textAlpha) textAlpha = glyph;
         }
       }
       #pragma unroll_loop_end
 
-      pc_fragColor = vec4(textAlpha, 1.0, 1.0, 1.0);
-      pc_fragColor = vec4(textAlpha, 1.0, 1.0, 1.0);
+      pc_fragColor = vec4(textAlpha, 0.0, 0.0, 1.0);
     }
   `,
 )

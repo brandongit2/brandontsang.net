@@ -37,8 +37,6 @@ export const useCenterTextMatrix = (
 		[canvasHeight, canvasWidth, textHeight, textWidth],
 	)
 
-// Combinations & inverses
-
 export const useTextToScreenSpaceMatrix = (canvasWidth: number, canvasHeight: number, textAspect: number): Matrix3 => {
 	const desqueezeAndScaleMatrix = useDesqueezeAndScaleMatrix(canvasWidth, canvasHeight, textAspect)
 	const textDims = useMemo(() => new Vector2(1, 1).applyMatrix3(desqueezeAndScaleMatrix), [desqueezeAndScaleMatrix])

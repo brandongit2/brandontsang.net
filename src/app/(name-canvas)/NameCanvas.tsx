@@ -5,7 +5,7 @@ import {Canvas} from "@react-three/fiber"
 import type {FontAtlas} from "@/types/FontAtlas"
 import type {ReactElement} from "react"
 
-import FinalName from "./FinalName"
+import NamePostprocess from "./NamePostprocess"
 
 export type NameCanvasProps = {
 	msdfFontAtlas: FontAtlas
@@ -14,8 +14,8 @@ export type NameCanvasProps = {
 
 export default function NameCanvas({msdfFontAtlas, sdfFontAtlas}: NameCanvasProps): ReactElement | null {
 	return (
-		<Canvas flat legacy linear gl={{premultipliedAlpha: false}} className="full:translate-x-0 translate-x-[-2%]">
-			<FinalName msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
+		<Canvas flat legacy linear gl={{premultipliedAlpha: false}} className="translate-x-[-2%] full:translate-x-0">
+			<NamePostprocess msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 		</Canvas>
 	)
 }
