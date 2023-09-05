@@ -23,12 +23,12 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 	})
 
 	return (
-		<div className="flex h-full w-full flex-col justify-center">
+		<div className="flex h-full flex-col items-center">
 			<video
 				autoPlay
 				loop
 				muted
-				className="rounded-2xl border border-text/20"
+				className="h-full min-h-0 min-w-0 shrink grow basis-0 rounded-2xl border border-text/20"
 				ref={videoRef}
 				onClick={(e) => {
 					if (e.currentTarget.paused) e.currentTarget.play()

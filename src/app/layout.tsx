@@ -46,7 +46,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 						className="isolate mx-auto grid max-w-[100rem] [grid-template:--scroll-grid] full:h-full full:[grid-template:--full-grid]"
 						style={{
 							[`--scroll-grid` as any]: `
-								"stage" 100dvh
+								"stage" calc(100dvh - 0.75rem)
 								"audience" max-content
 								"." 10rem / 100%
 							`,
@@ -57,11 +57,11 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 						}}
 					>
 						<div className="relative [grid-area:stage] full:ml-6 full:mt-6">
-							<div className="absolute -inset-64 z-[-2]">
+							<div className="absolute inset-[max(-40vw,-8rem)] z-[-2]">
 								<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 							</div>
-							<div className="absolute inset-0 grid place-items-center">
-								<div>{stage}</div>
+							<div className="absolute inset-0 flex justify-center">
+								<div className="flex h-full items-center">{stage}</div>
 							</div>
 						</div>
 						<div className="mb-16 mt-8 hidden [grid-area:nav] full:block">

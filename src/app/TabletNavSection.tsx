@@ -1,10 +1,12 @@
 "use client"
 
 import {motion, useMotionTemplate, useScroll, useTransform} from "framer-motion"
-import {useEffect, useRef} from "react"
+import {useEffect, useMemo, useRef} from "react"
 
 import CommonNavSection from "./CommonNavSection"
 import {easeInOutQuadInv, easingWithDensity} from "@/helpers/easingWithDensity"
+
+const easeInOutQuad = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2)
 
 export default function TabletNavSection() {
 	const scrollerRef = useRef<HTMLDivElement | null>(null)
@@ -18,47 +20,71 @@ export default function TabletNavSection() {
 	})
 	const navOpacity = useTransform(scrollY, (y) => Math.min(Math.max((y - 200) / 70, 0), 1))
 
-	const easingSamples = easingWithDensity(8, easeInOutQuadInv)
-	const sections = easingSamples.map(({adjustedT: t, y: a}, i) => {
-		const nextT = easingSamples[i + 1]?.adjustedT ?? 1
+	const sections = useMemo(() => {
+		const easingSamples = easingWithDensity(6, easeInOutQuadInv)
+		const easeDistance = 1 // From top, out of 1, how far down the blur easing should go until hitting max blur
+		const sections = easingSamples.slice(0, -1).map(({adjustedT, y: a}, i) => {
+			const prevT = (easingSamples[i - 1]?.adjustedT ?? 0) * easeDistance
+			const t1 = adjustedT * easeDistance
+			const t2 = (easingSamples[i + 1]?.adjustedT ?? 1) * easeDistance
+			const nextT = (easingSamples[i + 2]?.adjustedT ?? 1) * easeDistance
 
-		const blurRadius = a * 5
-		const oversizeAmt = `calc(${blurRadius}px + 5cqh)`
-		const plainHeight = `${(nextT - t) * 100}cqh`
+			const blurRadius = a * 4
+			const plainHeight = (t2 - t1) * 100
+			const extraHeightTop = ((t1 - prevT) / 2) * 100
+			const extraHeightBottom = ((nextT - t2) / 2) * 100
+			const top = t1 * 100 - extraHeightTop
 
-		return {
-			plainHeight,
-			oversizeAmt,
-			top: `${t * 100}cqh`,
-			maskImage: `linear-gradient(
-				to bottom,
-				transparent 0cqh,
-				black ${oversizeAmt},
-				black calc(${plainHeight} + ${oversizeAmt}),
-				transparent calc(${plainHeight} + 2 * ${oversizeAmt})
-			)`,
-			backdropFilter: useMotionTemplate`blur(calc(${blurRadius}px * ${navOpacity}))`,
-		}
-	})
+			const gradientSamplesPerSide = 4
+			const gradientPortionTop = Array.from({length: gradientSamplesPerSide}, (_, i) => {
+				const t = i / (gradientSamplesPerSide - 1)
+				let o = easeInOutQuad(t)
+				const dist = t * extraHeightTop
+				return `oklch(0 0 0 / ${o}) ${dist}cqh`
+			}).join(`,`)
+			const gradientPortionBottom = Array.from({length: gradientSamplesPerSide}, (_, i) => {
+				const t = i / (gradientSamplesPerSide - 1)
+				const o = easeInOutQuad(t)
+				const dist = extraHeightTop + plainHeight + t * extraHeightBottom
+				return `oklch(0 0 0 / ${1 - o}) ${dist}cqh`
+			}).join(`,`)
+
+			const isLastSegment = i === easingSamples.length - 2
+			return {
+				height: isLastSegment ? `100cqh` : `calc(${plainHeight}cqh + ${extraHeightTop}cqh + ${extraHeightBottom}cqh)`,
+				top: `${top}cqh`,
+				maskImage: isLastSegment
+					? `linear-gradient(to bottom,${gradientPortionTop})`
+					: `linear-gradient(to bottom,${gradientPortionTop},${gradientPortionBottom})`,
+				blurRadius,
+				navOpacity,
+			}
+		})
+
+		return sections
+	}, [navOpacity])
 
 	return (
 		<div className="w-full" ref={targetRef}>
 			<div className="absolute bottom-0 left-1/2 h-[calc(100%+2rem)] w-[36rem] max-w-full -translate-x-1/2 [container-type:size]">
-				{sections.map(({top, plainHeight, maskImage, oversizeAmt, backdropFilter}, i) => (
-					<motion.div
-						key={i}
-						className="absolute left-0 w-full"
-						style={{
-							top: `calc(${top} - ${oversizeAmt})`,
-							height: `calc(${plainHeight} + 2 * ${oversizeAmt})`,
-							maxHeight: `calc(100cqh - ${top} + ${oversizeAmt})`,
-							backdropFilter,
-							WebkitBackdropFilter: backdropFilter,
-							maskImage,
-							WebkitMaskImage: maskImage,
-						}}
-					/>
-				))}
+				{sections.map(({top, height, maskImage, blurRadius, navOpacity}, i) => {
+					const backdropFilter = useMotionTemplate`blur(calc(${blurRadius}px * ${navOpacity}))`
+					return (
+						<motion.div
+							key={i}
+							className="absolute left-0 w-full"
+							style={{
+								top,
+								height,
+								maxHeight: `calc(100cqh - ${top})`,
+								backdropFilter,
+								WebkitBackdropFilter: backdropFilter,
+								maskImage,
+								WebkitMaskImage: maskImage,
+							}}
+						/>
+					)
+				})}
 			</div>
 
 			<motion.div
