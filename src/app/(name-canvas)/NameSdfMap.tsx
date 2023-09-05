@@ -1,7 +1,7 @@
 import {OrthographicCamera, useFBO} from "@react-three/drei"
 import {createPortal, useThree} from "@react-three/fiber"
 import {useEffect, useMemo, useRef} from "react"
-import {Scene, FloatType, RedFormat} from "three"
+import {Scene, RedFormat} from "three"
 
 import type {TextLayout as NameSdfMap} from "@/helpers/bmFontLayout"
 import type {ReactNode} from "react"
@@ -20,7 +20,7 @@ export default function NameSdfMap({sdfTextLayout, render}: NameSdfMapProps) {
 	const viewport = useThree((state) => state.viewport)
 	const fboScene = useMemo(() => new Scene(), [])
 	const camRef = useRef<OrthographicCameraClass>(null)
-	const target = useFBO({type: FloatType, format: RedFormat})
+	const target = useFBO({format: RedFormat})
 	useEffect(() => {
 		if (!camRef.current) return
 

@@ -1,7 +1,7 @@
 import {OrthographicCamera, useFBO, useTexture} from "@react-three/drei"
 import {createPortal, useThree} from "@react-three/fiber"
 import {useEffect, useMemo, useRef} from "react"
-import {ClampToEdgeWrapping, FloatType, NearestFilter, RedFormat, Scene} from "three"
+import {ClampToEdgeWrapping, NearestFilter, RedFormat, Scene} from "three"
 
 import type {ReactNode} from "react"
 import type {Texture, OrthographicCamera as OrthographicCameraClass} from "three"
@@ -16,7 +16,7 @@ export default function UnpackSdf({render}: UnpackSdfProps) {
 	const gl = useThree((state) => state.gl)
 	const fboScene = useMemo(() => new Scene(), [])
 	const cam = useRef<OrthographicCameraClass>(null)
-	const target = useFBO(1096, 1096, {type: FloatType, format: RedFormat})
+	const target = useFBO(1096, 1096, {format: RedFormat})
 	useEffect(() => {
 		if (!cam.current) return
 
