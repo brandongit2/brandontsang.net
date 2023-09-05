@@ -4,14 +4,14 @@ import {LayoutGroup} from "framer-motion"
 
 import type {ReactElement} from "react"
 
-import QABlockRender from "./QABlockRender"
-import {QaTree} from "./QaTree"
+import {sprintZeroQaTree} from "./sprintZeroQaTree"
+import QaTree from "@/components/QaTree"
 
 export default function SprintZeroAudience(): ReactElement | null {
 	return (
-		<div className="flex h-full flex-col items-stretch gap-2 overflow-auto p-6">
+		<div className="max-w-xl font-extralight leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)]">
 			<LayoutGroup>
-				<QABlockRender qaBlock={QaTree} />
+				<QaTree qaTree={sprintZeroQaTree} />
 			</LayoutGroup>
 		</div>
 	)

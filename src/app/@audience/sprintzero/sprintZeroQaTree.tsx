@@ -1,26 +1,22 @@
 import {motion} from "framer-motion"
 import {enableMapSet, produce} from "immer"
 import Image from "next/image"
-import {useState, type ReactNode} from "react"
+import {useState} from "react"
 
-import Bg from "./Bg"
+import type {QaNode} from "@/components/QaTree/types"
+
 import FramerMotionLogo from "./FramerMotionLogo"
 import NextJsLogo from "./NextJsLogo"
 import ReactLogo from "./ReactLogo"
-import Under from "./Under"
+import Bg from "@/components/QaTree/Bg"
+import Under from "@/components/QaTree/Under"
 import cloudFirestoreLogo from "@public/icons/cloud-firestore.png"
 import sprintZeroLogo from "@public/icons/sprintzero.png"
 import typescriptLogo from "@public/icons/typescript.png"
 
 enableMapSet()
 
-export type QABlock = {
-	question: string
-	answer: ReactNode | (() => ReactNode)
-	furtherQuestions?: QABlock[]
-}
-
-export const QaTree: QABlock = {
+export const sprintZeroQaTree: QaNode = {
 	question: `What is SprintZero?`,
 	answer: (
 		<p className="hyphens text-justify">

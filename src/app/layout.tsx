@@ -5,8 +5,9 @@ import type {ReactElement, ReactNode} from "react"
 
 import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
 import NameCanvas from "./(name-canvas)/NameCanvas"
-import NavSection from "./NavSection"
+import CommonNavSection from "./CommonNavSection"
 import "./styles.css"
+import TabletNavSection from "./TabletNavSection"
 
 /* eslint-disable @typescript-eslint/quotes */
 const figtree = localFont({
@@ -47,7 +48,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 							[`--scroll-grid` as any]: `
 								"stage" 100dvh
 								"audience" max-content
-								"." 7rem / 100%
+								"." 10rem / 100%
 							`,
 							[`--full-grid` as any]: `
 								"stage audience" 1fr
@@ -55,20 +56,26 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 							`,
 						}}
 					>
-						<div className="relative ml-6 mt-6 [grid-area:stage]">
+						<div className="relative [grid-area:stage] full:ml-6 full:mt-6">
 							<div className="absolute -inset-64 z-[-2]">
 								<NameCanvas msdfFontAtlas={msdfFontAtlas} sdfFontAtlas={sdfFontAtlas} />
 							</div>
-							<div className="absolute inset-0">{stage}</div>
+							<div className="absolute inset-0 grid place-items-center">
+								<div>{stage}</div>
+							</div>
 						</div>
 						<div className="mb-16 mt-8 hidden [grid-area:nav] full:block">
-							<NavSection />
+							<CommonNavSection />
 						</div>
 
-						<div className="relative grid min-h-0 items-center [grid-area:audience]">{audience}</div>
+						<div className="relative grid min-h-0 place-items-center [grid-area:audience]">
+							<div>{audience}</div>
+						</div>
 					</div>
 
-					<NavSection />
+					<div className="pointer-events-none fixed bottom-1.5 w-[calc(100%-0.75rem)] full:hidden">
+						<TabletNavSection />
+					</div>
 				</div>
 			</body>
 		</html>
