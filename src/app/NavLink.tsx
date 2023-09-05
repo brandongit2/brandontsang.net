@@ -22,7 +22,7 @@ export default function NavLink({href, children, subtext}: NavLinkProps): ReactE
 		<MotionLink
 			href={href}
 			className={clsx(
-				`relative flex flex-col items-center justify-center rounded-full px-10 py-4 text-center text-xl font-bold leading-none`,
+				`pointer-events-auto relative flex flex-col items-center justify-center rounded-full px-10 py-4 text-center text-xl font-bold leading-none`,
 				karrik.className,
 			)}
 			initial="normal"
