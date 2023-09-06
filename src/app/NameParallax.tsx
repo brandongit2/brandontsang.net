@@ -19,7 +19,9 @@ export default function NameParallax({sdfFontAtlas, msdfFontAtlas}: NameParallax
 			className="relative mx-12 flex h-[70svh] items-center self-stretch [container-type:inline-size]"
 			style={{
 				y: useTransform(scrollY, [0, 600], [0, 250], {clamp: false}),
-				opacity: useTransform(scrollY, [300, 600], [1, 0.1]),
+				opacity: useTransform(scrollY, (y) =>
+					typeof window === `undefined` ? 1 : Math.min(Math.max(1 - ((3 * y) / window.innerHeight - 0.6), 0.1), 1),
+				),
 			}}
 		>
 			<div className="relative h-max w-[100cqw] [@media(min-width:870px)]:translate-x-[-4%]">

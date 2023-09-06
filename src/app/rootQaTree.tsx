@@ -8,6 +8,7 @@ import FramerMotionLogo from "@/components/logo-svgs/FramerMotionLogo"
 import NextJsLogo from "@/components/logo-svgs/NextJsLogo"
 import ReactLogo from "@/components/logo-svgs/ReactLogo"
 import Bg from "@/components/QaTree/Bg"
+import NoBr from "@/components/QaTree/Nobr"
 import Under from "@/components/QaTree/Under"
 import hemlaneLogo from "@public/logos/hemlane.png"
 import mintbeanLogo from "@public/logos/mintbean.png"
@@ -17,23 +18,23 @@ import typescriptLogo from "@public/logos/typescript.png"
 import TorontoOutline from "@public/toronto.svg"
 
 // eslint-disable-next-line @typescript-eslint/quotes
-const playfair = localFont({src: "../../public/fonts/PlayfairItalicVF.ttf", weight: "800"})
+const playfair = localFont({src: "../../public/fonts/Playfair_9pt-ExtraBoldItalic-subset.woff2"})
 // eslint-disable-next-line @typescript-eslint/quotes
-const redaction = localFont({src: "../../public/fonts/Redaction_70-Italic.woff2"})
+const redaction = localFont({src: "../../public/fonts/Redaction_70-Italic-subset.woff2"})
 // eslint-disable-next-line @typescript-eslint/quotes
-const courier = localFont({src: "../../public/fonts/Courier Prime.ttf"})
+const courier = localFont({src: "../../public/fonts/Courier-Prime-subset.woff2"})
 // eslint-disable-next-line @typescript-eslint/quotes
-const computerModern = localFont({src: "../../public/fonts/cmunrm.otf"})
+const computerModern = localFont({src: "../../public/fonts/cmunrm-subset.woff2"})
 
 export const rootQaTree: QaNode = {
 	question: `Who are you?`,
 	answer: (
 		<p className="isolate">
-			<span className={clsx(playfair.className, `mr-2 text-3xl`)}>Hey!</span>
+			<span className={clsx(playfair.className, `mr-1 text-3xl`)}>Hey!</span>
 			{` `}I am a{` `}
-			<span className="relative mr-0.5 inline-block h-[2.5em] indent-0 align-[-17px]">
+			<span className="relative mr-0.5 inline-block h-[2.5em] indent-0 align-[-18px]">
 				<TorontoOutline className="relative -z-10 my-[-8px] h-[calc(100%+16px)] rotate-[10deg]" />
-				<span className="absolute bottom-0 left-1/2 translate-x-[calc(-50%-4px)] translate-y-[-11px] font-semibold text-bg">
+				<span className="absolute bottom-0 left-1/2 translate-x-[calc(-50%-4px)] translate-y-[-12px] font-semibold text-bg">
 					Toronto
 				</span>
 			</span>
@@ -62,21 +63,37 @@ export const rootQaTree: QaNode = {
 						<>
 							<p>
 								I practically grew up with the JavaScript ecosystem. Which means my bread and butter include{` `}
-								<Image src={typescriptLogo} alt="" className="mr-1.5 inline-block h-[1em] w-auto align-[-2px]" />
-								<span className="font-semibold">TypeScript</span>,{` `}
-								<ReactLogo
-									className="align-center mr-1 inline-block h-[0.95em] w-auto align-[-2px]"
-									style={{
-										filter: `drop-shadow(rgb(0 0 0 / 0.3) 0px 0px 10px) drop-shadow(rgb(0 0 0 / 1) 0px 0px 1px) drop-shadow(black 0px 0px 1px)`,
-									}}
-								/>
-								<span className="font-semibold">React</span>, and{` `}
-								<NextJsLogo className="mr-1 inline-block h-[1.1em] w-auto align-[-3px]" />
-								<span className="font-semibold">Next.js</span>. I also love working with{` `}
-								<TailwindCssLogo className="mr-1 inline-block h-[0.7em] w-auto align-baseline" />
-								<span className="font-semibold">TailwindCSS</span> and{` `}
-								<FramerMotionLogo className="mr-1 inline-block h-[0.9em] w-auto align-[-2px]" />
-								<span className="font-semibold">Framer Motion</span>.
+								<NoBr>
+									<Image src={typescriptLogo} alt="" className="mr-1.5 inline-block h-[1em] w-auto align-[-2px]" />
+									<span className="font-semibold">TypeScript</span>
+								</NoBr>
+								,{` `}
+								<NoBr>
+									<ReactLogo
+										className="align-center mr-1 inline-block h-[0.95em] w-auto align-[-2px]"
+										style={{
+											filter: `drop-shadow(rgb(0 0 0 / 0.3) 0px 0px 10px) drop-shadow(rgb(0 0 0 / 1) 0px 0px 1px) drop-shadow(black 0px 0px 1px)`,
+										}}
+									/>
+									<span className="font-semibold">React</span>
+								</NoBr>
+								, and{` `}
+								<NoBr>
+									<NextJsLogo className="mr-1 inline-block h-[1.1em] w-auto align-[-3px]" />
+									<span className="font-semibold">Next.js</span>
+								</NoBr>
+								. I also love working with{` `}
+								<NoBr>
+									<TailwindCssLogo className="mr-1 inline-block h-[0.7em] w-auto align-baseline" />
+									<span className="font-semibold">TailwindCSS</span>
+								</NoBr>
+								{` `}
+								and{` `}
+								<NoBr>
+									<FramerMotionLogo className="mr-1 inline-block h-[0.9em] w-auto align-[-2px]" />
+									<span className="font-semibold">Framer</span>
+								</NoBr>
+								<span className="font-semibold"> Motion</span>.
 							</p>
 							<p className="mt-4">
 								My knowledge isn&apos;t limited to just the frontend either; I have loads of experience building out
@@ -149,12 +166,15 @@ export const rootQaTree: QaNode = {
 						<>
 							<p>
 								My first web development job was at{` `}
-								<Image
-									src={mintbeanLogo}
-									alt=""
-									className="mr-1 inline-block aspect-square h-[1em] w-auto align-[-2px]"
-								/>
-								<span className="font-semibold">Mintbean</span>, which was part <Bg>consulting</Bg> company, part
+								<NoBr>
+									<Image
+										src={mintbeanLogo}
+										alt=""
+										className="mr-1 inline-block aspect-square h-[1em] w-auto align-[-2px]"
+									/>
+									<span className="font-semibold">Mintbean</span>
+								</NoBr>
+								, which was part <Bg>consulting</Bg> company, part
 								{` `}
 								<Bg>developer-mentoring</Bg> company. My React familiarity paid off there as I was part of the
 								company&apos;s Discord server where I answered tons of questions from entry-level developers, and I
@@ -164,14 +184,16 @@ export const rootQaTree: QaNode = {
 							</p>
 							<p className="mt-4">
 								I then worked at{` `}
-								<div className="mr-1 inline-block rounded bg-white/90 p-px align-[-3px]">
-									<Image src={hemlaneLogo} alt="" className="aspect-square h-[1em] w-auto" />
-								</div>
-								<span className="font-semibold">Hemlane</span>, a <Bg>property management SaaS</Bg> company. There, I
-								worked as part of the marketing team as opposed to the primary development team. I gave the very small
-								marketing team representation in the site they hadn&apos;t had before, and I contributed some of my
-								design experience as well. In addition to these, I helped integrate the company&apos;s existing
-								marketing site with{` `}
+								<NoBr>
+									<div className="mr-1 inline-block rounded bg-white/90 p-px align-[-3px]">
+										<Image src={hemlaneLogo} alt="" className="aspect-square h-[1em] w-auto" />
+									</div>
+									<span className="font-semibold">Hemlane</span>
+								</NoBr>
+								, a <Bg>property management SaaS</Bg> company. There, I worked as part of the marketing team as opposed
+								to the primary development team. I gave the very small marketing team representation in the site they
+								hadn&apos;t had before, and I contributed some of my design experience as well. In addition to these, I
+								helped integrate the company&apos;s existing marketing site with{` `}
 								<a href="https://www.builder.io/" target="_blank" rel="noreferrer" className="underline">
 									Builder.io
 								</a>
@@ -184,14 +206,16 @@ export const rootQaTree: QaNode = {
 							</p>
 							<p className="mt-4">
 								My most recent work experience was at{` `}
-								<Image
-									src={sprintZeroLogo}
-									alt=""
-									className="mr-1 inline-block h-auto w-[1.1em] translate-y-0.5 align-baseline"
-									style={{filter: `drop-shadow(rgb(0 0 0 / 0.4) 0px 0px 4px)`}}
-								/>
-								<span className="font-semibold">SprintZero</span>, which you can learn all about from my retrospective
-								on the project.
+								<NoBr>
+									<Image
+										src={sprintZeroLogo}
+										alt=""
+										className="mr-1 inline-block h-auto w-[1.1em] translate-y-0.5 align-baseline"
+										style={{filter: `drop-shadow(rgb(0 0 0 / 0.4) 0px 0px 4px)`}}
+									/>
+									<span className="font-semibold">SprintZero</span>
+								</NoBr>
+								, which you can learn all about from my retrospective on the project.
 							</p>
 						</>
 					),
@@ -203,7 +227,7 @@ export const rootQaTree: QaNode = {
 									<p>
 										For the past few years, I&apos;ve been divided on whether to delve further into backend work, or
 										specialize in frontend for good. That decision is clear as day to me now:{` `}
-										<span className="font-bold">
+										<span className="font-semibold">
 											<Under>frontend is where I belong</Under>
 										</span>
 										. I want to keep doing what I&apos;m currently doing, and also expand my skillset by entering{` `}

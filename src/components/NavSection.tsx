@@ -70,7 +70,7 @@ export default function NavSection() {
 	useEffect(() => navOpacity.on(`change`, () => setIsPointable(getIsPointable())), [getIsPointable, navOpacity])
 
 	return (
-		<div className="w-full" ref={targetRef}>
+		<div className={clsx(`w-full`, isPointable ? `pointer-events-auto` : `pointer-events-none`)} ref={targetRef}>
 			<div className="pointer-events-none absolute bottom-0 left-1/2 h-[calc(100%+2rem)] w-[36rem] max-w-full -translate-x-1/2 [container-type:size]">
 				{sections.map(({top, height, maskImage, blurRadius, navOpacity}, i) => {
 					const backdropFilter = useMotionTemplate`blur(calc(${blurRadius}px * ${navOpacity}))`
@@ -105,21 +105,19 @@ export default function NavSection() {
 				<div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
 				<div className="absolute left-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
 
-				<div
-					className={clsx(`w-full overflow-x-auto py-8`, isPointable ? `pointer-events-auto` : `pointer-events-none`)}
-				>
-					<div className="mx-auto grid w-max grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">
-						<div className="min-w-[1rem]" />
+				<div className="w-full overflow-x-auto py-8">
+					<div className="mx-auto grid w-full grid-cols-[var(--space)_max-content_var(--space)_max-content_var(--space)_max-content_var(--space)] [--space:minmax(1rem,1fr)]">
+						<div />
 						<NavLink href="/">main page</NavLink>
-						<div className="min-w-[1rem]" />
+						<div />
 						<NavLink href="/sprintzero" subtext="PROJECT">
 							sprintzero
 						</NavLink>
-						<div className="min-w-[1rem]" />
+						<div />
 						<NavLink href="/" subtext="PROJECT">
 							hemlane marketing site
 						</NavLink>
-						<div className="min-w-[1rem]" />
+						<div />
 					</div>
 				</div>
 			</motion.div>

@@ -10,7 +10,7 @@ export type MsdfNameProps = {
 }
 
 export default function MsdfName({msdfTextLayout}: MsdfNameProps) {
-	const msdfMap = useTexture(`/fonts/Karrik-Regular/Karrik-Regular-msdf.png`)
+	const msdfMap = useTexture(`/fonts/sdfs/Karrik-Regular-msdf.png`)
 
 	const {vertices, uvs, indices} = useMemo(() => {
 		const vertices = []

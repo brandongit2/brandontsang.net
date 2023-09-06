@@ -6,7 +6,7 @@ import {type ReactElement} from "react"
 import MotionLink from "@/components/motion/MotionLink"
 
 // eslint-disable-next-line @typescript-eslint/quotes
-const karrik = localFont({src: "../../public/fonts/Karrik-Regular/Karrik-Regular.woff2"})
+const karrik = localFont({src: "../../public/fonts/Karrik-Regular-subset.woff2"})
 
 export type NavLinkProps = {
 	href: string
@@ -19,7 +19,7 @@ export default function NavLink({href, children, subtext}: NavLinkProps): ReactE
 		<MotionLink
 			href={href}
 			className={clsx(
-				`relative flex flex-col items-center justify-center rounded-full px-8 py-2 text-center font-bold leading-none tablet:px-10 tablet:py-4 tablet:text-xl`,
+				`relative flex flex-col items-center justify-center rounded-full px-8 py-2 text-center leading-none tablet:px-10 tablet:py-4 tablet:text-xl`,
 				karrik.className,
 			)}
 			initial="normal"
