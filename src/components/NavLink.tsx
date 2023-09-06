@@ -1,10 +1,7 @@
-"use client"
-
 import clsx from "clsx"
 import {motion} from "framer-motion"
 import localFont from "next/font/local"
-
-import type {ReactElement} from "react"
+import {type ReactElement} from "react"
 
 import MotionLink from "@/components/motion/MotionLink"
 
@@ -22,7 +19,7 @@ export default function NavLink({href, children, subtext}: NavLinkProps): ReactE
 		<MotionLink
 			href={href}
 			className={clsx(
-				`pointer-events-auto relative flex flex-col items-center justify-center rounded-full px-10 py-4 text-center text-xl font-bold leading-none`,
+				`relative flex flex-col items-center justify-center rounded-full px-8 py-2 text-center font-bold leading-none tablet:px-10 tablet:py-4 tablet:text-xl`,
 				karrik.className,
 			)}
 			initial="normal"

@@ -4,6 +4,7 @@ import localFont from "next/font/local"
 import type {ReactElement, ReactNode} from "react"
 
 import "./styles.css"
+import NavSection from "@/components/NavSection"
 
 /* eslint-disable @typescript-eslint/quotes */
 const figtree = localFont({
@@ -50,6 +51,10 @@ export default async function RootLayout({children}: Props): Promise<ReactElemen
 
 				<div className="p-1.5">
 					<div className="relative">{children}</div>
+				</div>
+
+				<div className="fixed bottom-0 left-0 w-full">
+					<NavSection />
 				</div>
 			</body>
 		</html>

@@ -10,11 +10,11 @@ import NamePostprocess from "./NamePostprocess"
 import bmFontLayout from "@/helpers/bmFontLayout"
 
 export type NameCanvasProps = {
-	msdfFontAtlas: FontAtlas
 	sdfFontAtlas: FontAtlas
+	msdfFontAtlas: FontAtlas
 }
 
-export default function NameCanvas({msdfFontAtlas, sdfFontAtlas}: NameCanvasProps): ReactElement | null {
+export default function NameCanvas({sdfFontAtlas, msdfFontAtlas}: NameCanvasProps): ReactElement | null {
 	const sdfTextLayout = useMemo(() => bmFontLayout(sdfFontAtlas, name), [sdfFontAtlas])
 	const msdfTextLayout = useMemo(() => {
 		const layout = bmFontLayout(msdfFontAtlas, name)
@@ -48,7 +48,7 @@ export default function NameCanvas({msdfFontAtlas, sdfFontAtlas}: NameCanvasProp
 				className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
 				style={{[`--scale` as any]: `min(239cqw, 523cqh)`, width: `var(--scale)`, height: `var(--scale)`}}
 			>
-				<Canvas flat legacy linear gl={{premultipliedAlpha: false}}>
+				<Canvas flat legacy linear gl={{premultipliedAlpha: false}} resize={{offsetSize: true}}>
 					<NamePostprocess sdfTextLayout={sdfTextLayout} msdfTextLayout={msdfTextLayout} />
 				</Canvas>
 			</div>

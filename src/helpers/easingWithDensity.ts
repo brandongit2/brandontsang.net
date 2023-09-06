@@ -9,7 +9,7 @@ export const easingWithDensity = (numSamples: number, easingFuncInv: EasingFunct
 
 	for (let i = 0; i < numSamples; i++) {
 		const y = i / (numSamples - 1)
-		const weightedY = y * y * y
+		const weightedY = y * y
 
 		samples.push({adjustedT: easingFuncInv(weightedY), y: weightedY})
 	}

@@ -1,14 +1,15 @@
 "use client"
 
+import clsx from "clsx"
 import {motion, useMotionTemplate, useScroll, useTransform} from "framer-motion"
-import {useEffect, useMemo, useRef} from "react"
+import {useCallback, useEffect, useMemo, useRef, useState} from "react"
 
-import TabletAndFullNavSection from "./TabletAndFullNavSection"
+import NavLink from "./NavLink"
 import {easeInOutQuadInv, easingWithDensity} from "@/helpers/easingWithDensity"
 
 const easeInOutQuad = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2)
 
-export default function TabletNavSection() {
+export default function NavSection() {
 	const scrollerRef = useRef<HTMLDivElement | null>(null)
 	const targetRef = useRef<HTMLDivElement | null>(null)
 	useEffect(() => {
@@ -22,7 +23,7 @@ export default function TabletNavSection() {
 
 	const sections = useMemo(() => {
 		const easingSamples = easingWithDensity(6, easeInOutQuadInv)
-		const easeDistance = 0.6 // From top, out of 1, how far down the blur easing should go until hitting max blur
+		const easeDistance = 0.8 // From top, out of 1, how far down the blur easing should go until hitting max blur
 		const sections = easingSamples.slice(0, -1).map(({adjustedT, y: a}, i) => {
 			const prevT = (easingSamples[i - 1]?.adjustedT ?? 0) * easeDistance
 			const t1 = adjustedT * easeDistance
@@ -64,9 +65,13 @@ export default function TabletNavSection() {
 		return sections
 	}, [navOpacity])
 
+	const getIsPointable = useCallback(() => navOpacity.get() > 0.1, [navOpacity])
+	const [isPointable, setIsPointable] = useState(getIsPointable())
+	useEffect(() => navOpacity.on(`change`, () => setIsPointable(getIsPointable())), [getIsPointable, navOpacity])
+
 	return (
 		<div className="w-full" ref={targetRef}>
-			<div className="absolute bottom-0 left-1/2 h-[calc(100%+2rem)] w-[36rem] max-w-full -translate-x-1/2 [container-type:size]">
+			<div className="pointer-events-none absolute bottom-0 left-1/2 h-[calc(100%+2rem)] w-[36rem] max-w-full -translate-x-1/2 [container-type:size]">
 				{sections.map(({top, height, maskImage, blurRadius, navOpacity}, i) => {
 					const backdropFilter = useMotionTemplate`blur(calc(${blurRadius}px * ${navOpacity}))`
 					return (
@@ -88,16 +93,37 @@ export default function TabletNavSection() {
 			</div>
 
 			<motion.div
-				className="absolute h-full w-full"
+				className="pointer-events-none absolute h-full w-full"
 				style={{
 					backgroundImage: `linear-gradient(to bottom, transparent 30%, oklch(38.42% 0.085 144.97) calc(100% - 15px))`,
 					opacity: navOpacity,
 				}}
 			/>
 
-			<motion.div className="py-8" style={{opacity: navOpacity}}>
-				<TabletAndFullNavSection />
-			</motion.div>
+			<div className="relative mx-auto w-full max-w-4xl">
+				<div className="absolute right-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
+				<div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
+				<div className="absolute left-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
+
+				<motion.div
+					className={clsx(`w-full overflow-x-auto py-8`, isPointable ? `pointer-events-auto` : `pointer-events-none`)}
+					style={{opacity: navOpacity}}
+				>
+					<div className="mx-auto grid w-max grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">
+						<div className="min-w-[1rem]" />
+						<NavLink href="/">main page</NavLink>
+						<div className="min-w-[1rem]" />
+						<NavLink href="/sprintzero" subtext="PROJECT">
+							sprintzero
+						</NavLink>
+						<div className="min-w-[1rem]" />
+						<NavLink href="/" subtext="PROJECT">
+							hemlane marketing site
+						</NavLink>
+						<div className="min-w-[1rem]" />
+					</div>
+				</motion.div>
+			</div>
 		</div>
 	)
 }
