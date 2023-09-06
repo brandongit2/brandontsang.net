@@ -25,7 +25,7 @@ export default function UnpackSdf({render}: UnpackSdfProps) {
 		gl.setRenderTarget(null)
 	}, [fboScene, gl, target])
 
-	const sdfMap = useTexture(`/bmfont/Karrik-Regular-sdf.png`)
+	const sdfMap = useTexture(`/fonts/Karrik-Regular/Karrik-Regular-sdf.png`)
 	sdfMap.generateMipmaps = false
 	sdfMap.minFilter = NearestFilter
 	sdfMap.wrapS = sdfMap.wrapT = ClampToEdgeWrapping

@@ -3,20 +3,19 @@ import {createPortal, useFrame, useThree} from "@react-three/fiber"
 import {useMemo, type ReactElement, useRef} from "react"
 import {Scene} from "three"
 
-import type {FontAtlas} from "@/types/FontAtlas"
+import type {TextLayout} from "@/helpers/bmFontLayout"
 import type {OrthographicCamera as OrthographicCameraClass} from "three"
 
 import NameComposite from "./NameComposite"
 import NamePostprocessMaterial from "./NamePostprocessMaterial"
 import {useScreenToTextSpaceMatrix} from "./transformMatrices"
-import bmFontLayout from "@/helpers/bmFontLayout"
 
 export type NamePostprocessProps = {
-	msdfFontAtlas: FontAtlas
-	sdfFontAtlas: FontAtlas
+	sdfTextLayout: TextLayout
+	msdfTextLayout: TextLayout
 }
 
-export default function NamePostprocess({msdfFontAtlas, sdfFontAtlas}: NamePostprocessProps): ReactElement | null {
+export default function NamePostprocess({sdfTextLayout, msdfTextLayout}: NamePostprocessProps): ReactElement | null {
 	const gl = useThree((state) => state.gl)
 	const {width: canvasWidth, height: canvasHeight} = useThree((state) => state.viewport)
 
@@ -31,32 +30,6 @@ export default function NamePostprocess({msdfFontAtlas, sdfFontAtlas}: NamePostp
 		gl.render(fboScene, cam.current)
 		gl.setRenderTarget(null)
 	})
-
-	const text = `brandon\ntsang`
-	const sdfTextLayout = useMemo(() => bmFontLayout(sdfFontAtlas, text), [sdfFontAtlas, text])
-	const msdfTextLayout = useMemo(() => {
-		const layout = bmFontLayout(msdfFontAtlas, text)
-		layout.layout.forEach((char) => {
-			char.dstU -= layout.paddingLeft / layout.texelW
-			char.dstV -= layout.paddingBottom / layout.texelH
-
-			char.dstU *= layout.texelW / sdfTextLayout.texelW
-			char.dstWidth *= layout.texelW / sdfTextLayout.texelW
-			char.dstV *= layout.texelH / sdfTextLayout.texelH
-			char.dstHeight *= layout.texelH / sdfTextLayout.texelH
-
-			char.dstU += sdfTextLayout.paddingLeft / sdfTextLayout.texelW
-			char.dstV += sdfTextLayout.paddingBottom / sdfTextLayout.texelH
-		})
-		return layout
-	}, [
-		msdfFontAtlas,
-		sdfTextLayout.paddingBottom,
-		sdfTextLayout.paddingLeft,
-		sdfTextLayout.texelH,
-		sdfTextLayout.texelW,
-		text,
-	])
 
 	const textAspect = sdfTextLayout.texelW / sdfTextLayout.texelH
 	const screenToTextSpaceMatrix = useScreenToTextSpaceMatrix(canvasWidth, canvasHeight, textAspect)

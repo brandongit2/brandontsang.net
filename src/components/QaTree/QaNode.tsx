@@ -118,7 +118,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 					onClick={() => {
 						setShowAnswer(true)
 					}}
-					className="relative mx-auto my-1 w-2/3 min-w-[18rem] rounded-xl border border-text/50 px-3 py-1 [&+:not(button)]:mt-2 [:not(button)+&]:mt-3"
+					className="relative mx-auto w-2/3 min-w-[18rem] rounded-xl border border-text/50 px-3 py-1"
 					style={{
 						backgroundImage: `linear-gradient(
 									oklch(98% 0.157 110.543 / 0.3),

@@ -8,7 +8,7 @@ const config = {
 		config.module.rules.push({
 			test: /\.svg$/i,
 			resourceQuery: {not: /url/}, // exclude if *.svg?url
-			use: [{loader: `@svgr/webpack`, options: {icon: true}}],
+			use: [{loader: `@svgr/webpack`}],
 		})
 		fileLoaderRule.exclude = /\.svg$/i
 
