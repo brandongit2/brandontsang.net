@@ -9,7 +9,7 @@ import QaTree from "@/components/QaTree"
 
 export default function SprintZeroAudience(): ReactElement | null {
 	return (
-		<div className="max-w-xl font-extralight leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)]">
+		<div className="mx-4 max-w-xl font-extralight leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)]">
 			<LayoutGroup>
 				<QaTree qaTree={sprintZeroQaTree} />
 			</LayoutGroup>

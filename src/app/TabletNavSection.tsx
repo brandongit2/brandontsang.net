@@ -3,7 +3,7 @@
 import {motion, useMotionTemplate, useScroll, useTransform} from "framer-motion"
 import {useEffect, useMemo, useRef} from "react"
 
-import CommonNavSection from "./CommonNavSection"
+import TabletAndFullNavSection from "./TabletAndFullNavSection"
 import {easeInOutQuadInv, easingWithDensity} from "@/helpers/easingWithDensity"
 
 const easeInOutQuad = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2)
@@ -22,7 +22,7 @@ export default function TabletNavSection() {
 
 	const sections = useMemo(() => {
 		const easingSamples = easingWithDensity(6, easeInOutQuadInv)
-		const easeDistance = 1 // From top, out of 1, how far down the blur easing should go until hitting max blur
+		const easeDistance = 0.6 // From top, out of 1, how far down the blur easing should go until hitting max blur
 		const sections = easingSamples.slice(0, -1).map(({adjustedT, y: a}, i) => {
 			const prevT = (easingSamples[i - 1]?.adjustedT ?? 0) * easeDistance
 			const t1 = adjustedT * easeDistance
@@ -96,7 +96,7 @@ export default function TabletNavSection() {
 			/>
 
 			<motion.div className="py-8" style={{opacity: navOpacity}}>
-				<CommonNavSection />
+				<TabletAndFullNavSection />
 			</motion.div>
 		</div>
 	)

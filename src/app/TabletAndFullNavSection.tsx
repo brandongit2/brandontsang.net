@@ -1,6 +1,6 @@
 import NavLink from "./NavLink"
 
-export default function CommonNavSection() {
+export default function TabletAndFullNavSection() {
 	return (
 		<div className="mx-auto w-full max-w-4xl">
 			<div className="relative grid grid-cols-[2fr_max-content_2fr_max-content_2fr_max-content_2fr] full:grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">

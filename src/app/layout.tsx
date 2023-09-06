@@ -5,8 +5,8 @@ import type {ReactElement, ReactNode} from "react"
 
 import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
 import NameCanvas from "./(name-canvas)/NameCanvas"
-import CommonNavSection from "./CommonNavSection"
 import "./styles.css"
+import TabletAndFullNavSection from "./TabletAndFullNavSection"
 import TabletNavSection from "./TabletNavSection"
 
 /* eslint-disable @typescript-eslint/quotes */
@@ -40,7 +40,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 			<body className="grid h-full overflow-hidden bg-text text-text">
 				<div
 					id="scroller"
-					className="absolute inset-1.5 overflow-y-auto overflow-x-hidden rounded-md bg-bg full:overflow-y-hidden"
+					className="tablet:top-1.5 absolute inset-1.5 top-8 overflow-y-auto overflow-x-hidden rounded-md bg-bg full:overflow-y-hidden"
 				>
 					<div
 						className="isolate mx-auto grid max-w-[100rem] [grid-template:--scroll-grid] full:h-full full:[grid-template:--full-grid]"
@@ -65,7 +65,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 							</div>
 						</div>
 						<div className="mb-16 mt-8 hidden [grid-area:nav] full:block">
-							<CommonNavSection />
+							<TabletAndFullNavSection />
 						</div>
 
 						<div className="relative grid min-h-0 place-items-center [grid-area:audience]">
@@ -73,7 +73,7 @@ export default async function RootLayout({stage, audience}: Props): Promise<Reac
 						</div>
 					</div>
 
-					<div className="pointer-events-none fixed bottom-1.5 w-[calc(100%-0.75rem)] full:hidden">
+					<div className="tablet:block pointer-events-none fixed bottom-1.5 hidden w-[calc(100%-0.75rem)] full:hidden">
 						<TabletNavSection />
 					</div>
 				</div>
