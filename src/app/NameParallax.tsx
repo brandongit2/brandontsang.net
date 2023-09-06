@@ -16,7 +16,7 @@ export default function NameParallax({sdfFontAtlas, msdfFontAtlas}: NameParallax
 
 	return (
 		<motion.div
-			className="relative mx-12 flex h-[70dvh] items-center self-stretch [container-type:inline-size]"
+			className="relative mx-12 flex h-[70svh] items-center self-stretch [container-type:inline-size]"
 			style={{
 				y: useTransform(scrollY, [0, 600], [0, 250], {clamp: false}),
 				opacity: useTransform(scrollY, [300, 600], [1, 0.1]),

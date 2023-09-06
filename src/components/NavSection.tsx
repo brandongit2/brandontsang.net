@@ -100,14 +100,13 @@ export default function NavSection() {
 				}}
 			/>
 
-			<div className="relative mx-auto w-full max-w-4xl">
+			<motion.div className="relative mx-auto w-full max-w-4xl" style={{opacity: navOpacity}}>
 				<div className="absolute right-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
 				<div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
 				<div className="absolute left-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
 
-				<motion.div
+				<div
 					className={clsx(`w-full overflow-x-auto py-8`, isPointable ? `pointer-events-auto` : `pointer-events-none`)}
-					style={{opacity: navOpacity}}
 				>
 					<div className="mx-auto grid w-max grid-cols-[1fr_max-content_2fr_max-content_2fr_max-content_1fr]">
 						<div className="min-w-[1rem]" />
@@ -122,8 +121,8 @@ export default function NavSection() {
 						</NavLink>
 						<div className="min-w-[1rem]" />
 					</div>
-				</motion.div>
-			</div>
+				</div>
+			</motion.div>
 		</div>
 	)
 }
