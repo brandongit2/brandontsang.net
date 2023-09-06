@@ -23,12 +23,12 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 	})
 
 	return (
-		<div className="flex h-full flex-col items-center">
+		<div className="grid grid-rows-[auto_auto_12rem]">
 			<video
 				autoPlay
 				loop
 				muted
-				className="h-full min-h-0 min-w-0 shrink grow basis-0 rounded-2xl border border-text/20"
+				className="mx-3 h-auto min-h-0 w-[calc(100%-1.5rem)] min-w-0 shrink grow basis-0 rounded-2xl border border-text/20"
 				ref={videoRef}
 				onClick={(e) => {
 					if (e.currentTarget.paused) e.currentTarget.play()
@@ -37,7 +37,7 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 			>
 				<source src={videoPath} type="video/mp4" />
 			</video>
-			<div className="relative mt-2 w-full">
+			<div className="relative mt-2">
 				<input
 					type="range"
 					min="0"
@@ -69,7 +69,7 @@ export default function VideoSlideTemplate({videoPath, chapters}: VideoSlideTemp
 			</div>
 
 			<div
-				className="mt-12 rounded-2xl border border-text/20 px-6 py-4 text-lg"
+				className="mx-3 mt-4 rounded-2xl border border-text/20 px-6 py-4 text-lg"
 				style={{
 					backgroundImage: `linear-gradient(to bottom, oklch(25% 0.058 144.97 / 97%), oklch(29.9% 0.056 144.97 / 97%) 80%, oklch(32% 0.052 144.97 / 97%))`,
 					boxShadow: `
