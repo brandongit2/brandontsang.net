@@ -25,6 +25,15 @@ const figtree = localFont({
 			path: "../../public/fonts/Figtree-SemiBold-subset.woff2",
 			weight: "600",
 		},
+		{
+			path: "../../public/fonts/Figtree-Bold-subset.woff2",
+			weight: "700",
+		},
+		{
+			path: "../../public/fonts/Figtree-LightItalic-subset.woff2",
+			style: "italic",
+			weight: "300",
+		},
 	],
 })
 /* eslint-enable @typescript-eslint/quotes */

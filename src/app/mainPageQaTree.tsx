@@ -8,7 +8,7 @@ import FramerMotionLogo from "@/components/logo-svgs/FramerMotionLogo"
 import NextJsLogo from "@/components/logo-svgs/NextJsLogo"
 import ReactLogo from "@/components/logo-svgs/ReactLogo"
 import Bg from "@/components/QaTree/Bg"
-import NoBr from "@/components/QaTree/Nobr"
+import NoBr from "@/components/QaTree/NoBr"
 import Under from "@/components/QaTree/Under"
 import hemlaneLogo from "@public/logos/hemlane.png"
 import mintbeanLogo from "@public/logos/mintbean.png"
@@ -26,7 +26,7 @@ const courier = localFont({src: "../../public/fonts/Courier-Prime-subset.woff2"}
 // eslint-disable-next-line @typescript-eslint/quotes
 const computerModern = localFont({src: "../../public/fonts/cmunrm-subset.woff2"})
 
-export const rootQaTree: QaNode = {
+export const mainPageQaTree: QaNode = {
 	question: `Who are you?`,
 	answer: (
 		<p className="isolate">
@@ -95,14 +95,14 @@ export const rootQaTree: QaNode = {
 								</NoBr>
 								<span className="font-semibold"> Motion</span>.
 							</p>
-							<p className="mt-4">
+							<p>
 								My knowledge isn&apos;t limited to just the frontend either; I have loads of experience building out
 								{` `}
 								<Bg>backends</Bg>, working with <Bg>databases</Bg>, and even a little experience deploying on{` `}
 								<Bg>cloud platforms</Bg> and with{` `}
 								<Bg>Docker</Bg>.
 							</p>
-							<p className="mt-4">
+							<p>
 								While I may use all the latest, shiniest technologies, I didn&apos;t start out this way at all. My
 								fundamentals are rock-solid, having started with just hobby HTML/CSS sites, evolving through JavaScript,
 								bundling, TypeScript, all the way through to the modern frameworks of today.{` `}
@@ -127,14 +127,14 @@ export const rootQaTree: QaNode = {
 								don&apos;t care that no one cared, because I did it for myself, and sometimes that&apos;s all you need
 								to keep going.
 							</p>
-							<p className="mt-4">
+							<p>
 								Later on when I was 17, I got hooked on{` `}
 								<a href="https://www.khanacademy.org/" target="_blank" rel="noreferrer" className="underline">
 									Khan Academy
 								</a>
 								{` `}
-								(a weird thing to get hooked on, I&apos;m sure) and decided I wanted to make my own version of it, with
-								a strong emphasis on interactive articles. I also wanted to make a graphing calculator to generate
+								(a strange thing to get hooked on, I&apos;m sure) and decided I wanted to make my own version of it,
+								with a strong emphasis on interactive articles. I also wanted to make a graphing calculator to generate
 								really slick-looking visuals. And <Bg>this was how I learned React</Bg>. I honestly didn&apos;t even
 								know what it was at the time, I just wanted to be able to re-use my HTML in component form. Anyway of
 								course, my plans were too ambitious and the project never materialized. But I{` `}
@@ -182,7 +182,7 @@ export const rootQaTree: QaNode = {
 								of these events, where the founder noticed my work and reached out to me. He has since served as a
 								helpful mentor and a friend.
 							</p>
-							<p className="mt-4">
+							<p>
 								I then worked at{` `}
 								<NoBr>
 									<div className="mr-1 inline-block rounded bg-white/90 p-px align-[-3px]">
@@ -204,7 +204,7 @@ export const rootQaTree: QaNode = {
 								then on I learned that I wasn&apos;t the corporate type; I much prefer to work at smaller, indie-feeling
 								companies.
 							</p>
-							<p className="mt-4">
+							<p>
 								My most recent work experience was at{` `}
 								<NoBr>
 									<Image
@@ -235,7 +235,7 @@ export const rootQaTree: QaNode = {
 										want to work with others who are as passionate and dedicated as I am, and I want to work on projects
 										which push the limits of what I&apos;m capable of.
 									</p>
-									<p className="mt-4">
+									<p>
 										I particularly want to work with <Bg>Swift/SwiftUI</Bg> and <Bg>Metal</Bg>, because it&apos;s my
 										impression that they have great developer experience, and it sounds very nice to not have to work
 										with CSS for a bit.
@@ -259,7 +259,7 @@ export const rootQaTree: QaNode = {
 								</a>
 								. I&apos;d love to elaborate on my background, and talk about where I would fit in on your projects.
 							</p>
-							<p className="mt-4">
+							<p>
 								You can also find a PDF of my résumé{` `}
 								<a href="/techresume2023.pdf" target="_blank" className="mr-px font-semibold underline">
 									here

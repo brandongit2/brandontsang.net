@@ -12,9 +12,10 @@ export type NavLinkProps = {
 	href: string
 	children: string
 	subtext?: string
+	zIndex?: number | `unset`
 }
 
-export default function NavLink({href, children, subtext}: NavLinkProps): ReactElement | null {
+export default function NavLink({href, children, subtext, zIndex = `unset`}: NavLinkProps): ReactElement | null {
 	return (
 		<MotionLink
 			href={href}
@@ -33,6 +34,7 @@ export default function NavLink({href, children, subtext}: NavLinkProps): ReactE
 			style={{
 				color: `oklch(0.23 0.03 134.46)`,
 				textShadow: `oklch(0.99 0.1 114 / 0.6) -1px 1px 1px`,
+				zIndex,
 			}}
 		>
 			<motion.div

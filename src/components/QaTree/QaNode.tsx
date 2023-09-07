@@ -100,7 +100,11 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 		<>
 			{showAnswer ? (
 				<>
-					<motion.div className="relative [&_*]:invisible [&_[data-visible]]:visible" layout="position" ref={answerRef}>
+					<motion.div
+						className="relative flex flex-col gap-4 [&_*]:invisible [&_[data-visible]]:visible"
+						layout="position"
+						ref={answerRef}
+					>
 						{answerElement}
 					</motion.div>
 

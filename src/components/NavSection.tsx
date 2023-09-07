@@ -19,7 +19,9 @@ export default function NavSection() {
 		container: scrollerRef,
 		layoutEffect: false,
 	})
-	const navOpacity = useTransform(scrollY, (y) => Math.min(Math.max((y - 200) / 70, 0), 1))
+	const navOpacity = useTransform(scrollY, (y) =>
+		typeof window === `undefined` ? 0 : Math.min(Math.max((5 * y) / window.innerHeight - 0.1, 0), 1),
+	)
 
 	const sections = useMemo(() => {
 		const easingSamples = easingWithDensity(6, easeInOutQuadInv)
@@ -105,17 +107,19 @@ export default function NavSection() {
 				<div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 border-2 border-dashed border-text opacity-40" />
 				<div className="absolute left-full top-1/2 h-4 w-4 -translate-y-1/2 rounded bg-text opacity-40" />
 
-				<div className="w-full overflow-x-auto py-8">
+				<div className="w-full overflow-x-auto py-4 tablet:py-8">
 					<div className="mx-auto grid w-full grid-cols-[var(--space)_max-content_var(--space)_max-content_var(--space)_max-content_var(--space)] [--space:minmax(1rem,1fr)]">
 						<div />
-						<NavLink href="/">main page</NavLink>
+						<NavLink href="/" zIndex={3}>
+							main page
+						</NavLink>
 						<div />
-						<NavLink href="/sprintzero" subtext="PROJECT">
+						<NavLink href="/sprintzero" subtext="PROJECT" zIndex={4}>
 							sprintzero
 						</NavLink>
 						<div />
-						<NavLink href="/" subtext="PROJECT">
-							hemlane marketing site
+						<NavLink href="/" subtext="WEBPAGE" zIndex={5}>
+							hemlane marketing
 						</NavLink>
 						<div />
 					</div>
