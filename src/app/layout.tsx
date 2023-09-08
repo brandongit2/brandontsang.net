@@ -1,12 +1,18 @@
 import {Code} from "bright"
 import clsx from "clsx"
 
+import type {Metadata} from "next"
 import type {ReactElement, ReactNode} from "react"
 
 import "./styles.css"
 import NavSection from "@/components/NavSection"
 import {beardedTheme} from "@/helpers/beardedTheme"
 import {figtree} from "@/helpers/fonts"
+
+export const metadata: Metadata = {
+	title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
+	description: `Hey! I am a Toronto-based senior frontend web developer who loves building unique and challenging user interfaces.`,
+}
 
 Code.theme = beardedTheme
 
