@@ -12,6 +12,34 @@ import {figtree} from "@/helpers/fonts"
 export const metadata: Metadata = {
 	title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
 	description: `Hey! I am a Toronto-based senior frontend web developer who loves building unique and challenging user interfaces.`,
+	applicationName: `BRANDON TSANG`,
+	themeColor: `#fbff78`,
+	openGraph: {
+		type: `website`,
+		title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
+		description: `Hey! I am a Toronto-based senior frontend web developer who loves building unique and challenging user interfaces.`,
+		url: `https://www.brandontsang.net`,
+		countryName: `Canada`,
+	},
+	twitter: {
+		card: `summary_large_image`,
+		creator: `@brandontsang2`,
+		title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
+		description: `Hey! I am a Toronto-based senior frontend web developer who loves building unique and challenging user interfaces.`,
+	},
+	keywords: [
+		`Brandon Tsang`,
+		`portfolio`,
+		`web developer`,
+		`react`,
+		`software engineer`,
+		`front-end`,
+		`next.js`,
+		`javascript`,
+		`typescript`,
+		`css`,
+	],
+	referrer: `origin`,
 }
 
 Code.theme = beardedTheme
