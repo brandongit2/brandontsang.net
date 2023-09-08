@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import Image from "next/image"
+import Link from "next/link"
 
 import type {QaNode} from "@/components/QaTree/types"
 
@@ -206,7 +207,18 @@ export const mainPageQaTree: QaNode = {
 									/>
 									<span className="font-semibold">SprintZero</span>
 								</NoBr>
-								, which you can learn all about from my retrospective on the project.
+								, which you can learn all about from my retrospective on the project.{` `}
+								<Link
+									href="/sprintzero"
+									className="align-center mx-1 my-0.5 inline-block rounded-full bg-text px-4 py-1 indent-0 align-[1px] text-xs font-semibold tracking-wider text-black"
+									style={{
+										backgroundImage: `linear-gradient(2deg, #1e2e00e6, #0d21007a 40%, #00000021 90%, #ffffff61)`,
+										boxShadow: `inset -3px -2px 9px rgb(255 255 255 / 0.3), -4px 2px 14px rgb(0 0 0 / 0.3)`,
+										textShadow: `oklch(0.99 0.1 114 / 0.3) -1px 1px 1px`,
+									}}
+								>
+									See here →
+								</Link>
 							</p>
 						</>
 					),

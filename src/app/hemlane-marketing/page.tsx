@@ -19,14 +19,13 @@ export default async function HemlaneMarketingPage() {
 		<div className="flex flex-col items-center gap-4">
 			<div className="mx-3 mt-6 grid h-auto w-full max-w-xl justify-items-stretch" style={{aspectRatio}}>
 				<div className="max-w-full [container-type:size]">
-					<h1 className={clsx(karrik.className, `whitespace-nowrap text-[91cqh] leading-[normal]`)}>
-						hemlane marketing page
-					</h1>
+					<h1 className={clsx(karrik.className, `whitespace-nowrap text-[91cqh] leading-[normal]`)}>{text}</h1>
 				</div>
 			</div>
-			<p className="mx-3 -mt-3 mb-4 flex max-w-xl flex-col gap-4 px-8 text-justify font-medium leading-snug text-[oklch(97.1%_0.07_110.543)] opacity-90">
-				I worked on a large variety of things during my time at Hemlane. One of the most memorable contributions I made
-				was a marketing page targeted at registered realtors:
+			<p className="mx-3 -mt-3 mb-4 max-w-xl px-8 text-justify font-medium leading-snug text-[oklch(97.1%_0.07_110.543)] opacity-90">
+				i worked on a large variety of things during my time at Hemlane. one of the most memorable contributions i made
+				was a marketing page targeted at registered realtors.{` `}
+				<span className="opacity-30">(the content on this page is not yet complete; sorry)</span>
 			</p>
 			<div className="mx-3 max-w-3xl">
 				<HemlaneMarketingGallery />

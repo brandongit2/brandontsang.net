@@ -14,7 +14,7 @@ const chapters: Chapter[] = [
 	{
 		start: 10.5,
 		title: `Adding Stories`,
-		description: `User stories are the main unit of work in the app. Each story has a slew of associated data`,
+		description: `User stories are the main unit of work in the app. Each story has a slew of associated data, accessible from a panel that slides up from the bottom.`,
 	},
 ]
 
