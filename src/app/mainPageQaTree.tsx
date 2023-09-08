@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import localFont from "next/font/local"
 import Image from "next/image"
 
 import type {QaNode} from "@/components/QaTree/types"
@@ -10,21 +9,13 @@ import ReactLogo from "@/components/logo-svgs/ReactLogo"
 import Bg from "@/components/QaTree/Bg"
 import NoBr from "@/components/QaTree/NoBr"
 import Under from "@/components/QaTree/Under"
+import {computerModern, courier, ft88, playfair} from "@/helpers/fonts"
 import hemlaneLogo from "@public/logos/hemlane.png"
 import mintbeanLogo from "@public/logos/mintbean.png"
 import sprintZeroLogo from "@public/logos/sprintzero.png"
 import TailwindCssLogo from "@public/logos/tailwindcss.svg"
 import typescriptLogo from "@public/logos/typescript.png"
 import TorontoOutline from "@public/toronto.svg"
-
-// eslint-disable-next-line @typescript-eslint/quotes
-const playfair = localFont({src: "../../public/fonts/Playfair_9pt-ExtraBoldItalic-subset.woff2"})
-// eslint-disable-next-line @typescript-eslint/quotes
-const redaction = localFont({src: "../../public/fonts/Redaction_70-Italic-subset.woff2"})
-// eslint-disable-next-line @typescript-eslint/quotes
-const courier = localFont({src: "../../public/fonts/Courier-Prime-subset.woff2"})
-// eslint-disable-next-line @typescript-eslint/quotes
-const computerModern = localFont({src: "../../public/fonts/cmunrm-subset.woff2"})
 
 export const mainPageQaTree: QaNode = {
 	question: `Who are you?`,
@@ -48,7 +39,7 @@ export const mainPageQaTree: QaNode = {
 			answer: (
 				<p>
 					Some people express themselves through physical art, some through music, some through words&hellip; Well, I do
-					it through <span className={clsx(redaction.className, `text-xl`)}>pixels on a screen</span>, with{` `}
+					it through <span className={clsx(ft88.className)}>pixels on a screen</span>, with{` `}
 					<span className={clsx(courier.className, `bg-black px-0.5 pt-1 text-green-400`)}>code</span> and{` `}
 					<span className={clsx(computerModern.className, `bg-white/90 px-0.5 text-black`)}>mathematics</span>
 					{` `}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ttFont sfntVersion="\x00\x01\x00\x00" ttLibVersion="4.42">
+
+  <fvar>
+
+    <!-- Optical size -->
+    <Axis>
+      <AxisTag>opsz</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>5.0</MinValue>
+      <DefaultValue>5.0</DefaultValue>
+      <MaxValue>1200.0</MaxValue>
+      <AxisNameID>268</AxisNameID>
+    </Axis>
+
+    <!-- Width -->
+    <Axis>
+      <AxisTag>wdth</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>87.5</MinValue>
+      <DefaultValue>112.5</DefaultValue>
+      <MaxValue>112.5</MaxValue>
+      <AxisNameID>269</AxisNameID>
+    </Axis>
+
+    <!-- Weight -->
+    <Axis>
+      <AxisTag>wght</AxisTag>
+      <Flags>0x0</Flags>
+      <MinValue>300.0</MinValue>
+      <DefaultValue>300.0</DefaultValue>
+      <MaxValue>900.0</MaxValue>
+      <AxisNameID>270</AxisNameID>
+    </Axis>
+
+    <!-- Light Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="271">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="300.0"/>
+    </NamedInstance>
+
+    <!-- Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="272">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="400.0"/>
+    </NamedInstance>
+
+    <!-- Medium Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="273">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="500.0"/>
+    </NamedInstance>
+
+    <!-- SemiBold Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="274">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="600.0"/>
+    </NamedInstance>
+
+    <!-- Bold Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="275">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="700.0"/>
+    </NamedInstance>
+
+    <!-- ExtraBold Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="276">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="800.0"/>
+    </NamedInstance>
+
+    <!-- Black Italic -->
+    <NamedInstance flags="0x0" subfamilyNameID="277">
+      <coord axis="opsz" value="12.0"/>
+      <coord axis="wdth" value="100.0"/>
+      <coord axis="wght" value="900.0"/>
+    </NamedInstance>
+  </fvar>
+
+</ttFont>

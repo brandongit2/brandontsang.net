@@ -1,12 +1,9 @@
 import clsx from "clsx"
 import {motion} from "framer-motion"
-import localFont from "next/font/local"
 import {type ReactElement} from "react"
 
 import MotionLink from "@/components/motion/MotionLink"
-
-// eslint-disable-next-line @typescript-eslint/quotes
-const karrik = localFont({src: "../../public/fonts/Karrik-Regular-subset.woff2"})
+import {karrik} from "@/helpers/fonts"
 
 export type NavLinkProps = {
 	href: string

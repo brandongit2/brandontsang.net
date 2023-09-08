@@ -1,42 +1,14 @@
+import {Code} from "bright"
 import clsx from "clsx"
-import localFont from "next/font/local"
 
 import type {ReactElement, ReactNode} from "react"
 
 import "./styles.css"
 import NavSection from "@/components/NavSection"
+import {beardedTheme} from "@/helpers/beardedTheme"
+import {figtree} from "@/helpers/fonts"
 
-/* eslint-disable @typescript-eslint/quotes */
-const figtree = localFont({
-	src: [
-		{
-			path: "../../public/fonts/Figtree-Light-subset.woff2",
-			weight: "300",
-		},
-		{
-			path: "../../public/fonts/Figtree-Regular-subset.woff2",
-			weight: "400",
-		},
-		{
-			path: "../../public/fonts/Figtree-Medium-subset.woff2",
-			weight: "500",
-		},
-		{
-			path: "../../public/fonts/Figtree-SemiBold-subset.woff2",
-			weight: "600",
-		},
-		{
-			path: "../../public/fonts/Figtree-Bold-subset.woff2",
-			weight: "700",
-		},
-		{
-			path: "../../public/fonts/Figtree-LightItalic-subset.woff2",
-			style: "italic",
-			weight: "300",
-		},
-	],
-})
-/* eslint-enable @typescript-eslint/quotes */
+Code.theme = beardedTheme
 
 type Props = {
 	children?: ReactNode

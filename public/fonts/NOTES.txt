@@ -1,0 +1,25 @@
+basic latin:
+U+0020-007F
+
+latin-1 punctuation and symbols:
+U+00A1-00BB
+
+latin-1 letters:
+U+00C0-00D6,U+00D8-00F6,U+00F8-00FF
+
+Œ,œ
+U+0152-0153
+
+COMMANDS
+
+instance variable fonts:
+fonttools varLib.instancer font.ttf wdth=75 wght=400:700
+
+subsetting:
+pyftsubset font.ttf --unicodes="..." --layout-features="*"
+
+listing axes + values (produces an xml file with .ttx extension):
+ttx -t fvar font.ttf
+
+compress w/ woff2:
+~/projects/downloads/woff2/woff2_compress font.ttf
