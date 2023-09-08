@@ -33,6 +33,7 @@ module.exports = {
 		"no-console": [`warn`, {allow: [`info`, `warn`, `error`]}],
 		"no-constant-condition": [`error`, {checkLoops: false}],
 		"no-control-regex": `off`,
+		"no-debugger": `warn`,
 		"no-empty": [`warn`, {allowEmptyCatch: true}],
 		"no-mixed-spaces-and-tabs": [`warn`, `smart-tabs`],
 		"no-unused-vars": [`warn`, {ignoreRestSiblings: true}],

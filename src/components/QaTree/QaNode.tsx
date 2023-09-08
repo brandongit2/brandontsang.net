@@ -4,50 +4,106 @@ import {createElement, useEffect, useMemo, useRef, useState} from "react"
 
 import type {QaNode as QaNodeType} from "./types"
 
-// Call `.normalize()` on the element before calling this function, please!
-function* wrapTextNodes(element: Element, remainingChars: number): Generator<undefined, number, number> {
+function isWrapLocked(node: Node) {
+	let currentNode: Node | null = node
+	while (currentNode) {
+		if (currentNode instanceof Element && currentNode.hasAttribute(`data-wrap-lock`)) return true
+		currentNode = currentNode.parentElement ?? currentNode.parentNode
+	}
+	return false
+}
+
+function makeElementInvisible(element: Element) {
+	const tagName = element.tagName.toLowerCase()
+	if (tagName === `style` || tagName === `svg`) return
+
+	element.setAttribute(`data-invisible`, ``)
+	element.childNodes.forEach((child) => {
+		if (child instanceof Element) {
+			makeElementInvisible(child)
+		} else if (child instanceof Text) {
+			const span = document.createElement(`span`)
+			span.setAttribute(`data-text-node-wrapper`, ``)
+			span.setAttribute(`data-invisible`, ``)
+			span.textContent = child.data
+			child.before(span)
+			child.remove()
+		}
+	})
+}
+
+function filterOutDescendants(nodes: Node[]) {
+	const nodeSet = new Set(nodes)
+	nodes.forEach((node) => {
+		let current = node.parentElement
+		while (current) {
+			if (nodeSet.has(current)) {
+				nodeSet.delete(node)
+				break
+			}
+			current = current.parentElement
+		}
+	})
+	return Array.from(nodeSet)
+}
+
+function* wrapTextNodes(element: Element, remainingChars: number): Generator<undefined, number, number | `quit`> {
+	if (!element.hasAttribute(`data-invisible`)) return remainingChars
+	element.removeAttribute(`data-invisible`)
+	if (element.childNodes.length === 0 || remainingChars <= 0) return remainingChars
+	element.setAttribute(`data-wrap-lock`, ``)
+
 	let _remainingChars = remainingChars
-
-	if (element.childNodes.length === 0) return _remainingChars
-
 	for (let i = 0; i < element.childNodes.length; i++) {
 		const child = element.childNodes[i]
 		if (child instanceof Element) {
-			_remainingChars = yield* wrapTextNodes(child, _remainingChars)
-			child.setAttribute(`data-visible`, ``)
-		} else if (child instanceof Text) {
-			if (element.hasAttribute(`data-visible`)) continue
+			if (child.hasAttribute(`data-text-node-wrapper`)) {
+				let visibleSpan: HTMLSpanElement
+				let invisibleSpan: HTMLSpanElement
 
-			const textContent = child.data
-			if (textContent.trim().length === 0) continue
-
-			const span = document.createElement(`span`)
-			span.setAttribute(`data-visible`, ``)
-			child.before(span)
-			for (let i = 0; i < textContent.length; i++) {
-				const textToWrap = textContent.charAt(i)
-				child.data = textContent.slice(i + 1)
-				span.textContent += textToWrap
-				_remainingChars--
-				if (_remainingChars <= 0) {
-					_remainingChars += yield
+				if (child.hasAttribute(`data-invisible`)) {
+					visibleSpan = document.createElement(`span`)
+					visibleSpan.setAttribute(`data-text-node-wrapper`, ``)
+					child.before(visibleSpan)
+					invisibleSpan = child as HTMLSpanElement
+				} else if (child.nextElementSibling?.hasAttribute(`data-invisible`)) {
+					visibleSpan = child as HTMLSpanElement
+					invisibleSpan = child.nextElementSibling as HTMLSpanElement
+				} else {
+					child.before(child.textContent ?? ``)
+					child.remove()
+					continue
 				}
+				const textContent = (visibleSpan.textContent ?? ``) + (invisibleSpan.textContent ?? ``)
+				if (textContent.trim().length === 0) {
+					visibleSpan.before(textContent)
+					invisibleSpan.remove()
+					visibleSpan.remove()
+					continue
+				}
+
+				for (let i = 0; i < textContent.length; i++) {
+					const textToWrap = textContent.charAt(i)
+					invisibleSpan.textContent = textContent.slice(i + 1)
+					visibleSpan.textContent += textToWrap
+					_remainingChars--
+					if (_remainingChars <= 0) {
+						const nextRes = yield
+						if (nextRes === `quit`) return 0
+						_remainingChars += nextRes
+					}
+				}
+
+				invisibleSpan.remove()
+				visibleSpan.before(textContent)
+				visibleSpan.remove()
+			} else {
+				_remainingChars = yield* wrapTextNodes(child, _remainingChars)
 			}
 		}
 	}
 
-	for (const child of element.childNodes) {
-		if (
-			child instanceof Element &&
-			child.tagName.toLowerCase() === `span` &&
-			child.hasAttribute(`data-visible`) &&
-			child.attributes.length === 1
-		) {
-			child.before(child.textContent ?? ``)
-			child.remove()
-		}
-	}
-
+	element.removeAttribute(`data-wrap-lock`)
 	return _remainingChars
 }
 
@@ -63,36 +119,45 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 	)
 
 	const [showAnswer, setShowAnswer] = useState(root)
-	const [showChildren, setShowChildren] = useState(false)
+	const [initialInvisibility, setInitialInvisibility] = useState(true)
+	const [showFurtherQuestions, setShowFurtherQuestions] = useState(false)
 
 	const answerRef = useRef<HTMLDivElement>(null)
-	const ongoingWrapping = useRef<ReturnType<typeof wrapTextNodes> | null>(null)
+	const ongoingWrappings = useRef<ReturnType<typeof wrapTextNodes>[]>([])
 
 	useEffect(() => {
-		if (!showAnswer) return
-		if (!answerRef.current || ongoingWrapping.current) return
+		if (!showAnswer || !answerRef.current) return
 
-		answerRef.current.normalize()
-		ongoingWrapping.current = wrapTextNodes(answerRef.current, 5)
+		makeElementInvisible(answerRef.current)
+		setInitialInvisibility(false)
+		ongoingWrappings.current.push(wrapTextNodes(answerRef.current, 5))
 
-		const mutationObserver = new MutationObserver(() => {
-			if (!answerRef.current || ongoingWrapping.current) return
-			answerRef.current.normalize()
-			ongoingWrapping.current = wrapTextNodes(answerRef.current, 5)
+		const mutationObserver = new MutationObserver((mutations) => {
+			mutations.forEach((mutation) => {
+				if (mutation.type !== `childList`) return
+				filterOutDescendants(Array.from(mutation.addedNodes))
+					.filter((node) => !isWrapLocked(node))
+					.forEach((node) => {
+						if (!(node instanceof Element) || !document.body.contains(node)) return
+						makeElementInvisible(node)
+						ongoingWrappings.current.push(wrapTextNodes(node, 5))
+					})
+			})
 		})
 		mutationObserver.observe(answerRef.current, {childList: true, subtree: true})
 
 		return () => {
 			mutationObserver.disconnect()
+			ongoingWrappings.current.forEach((wrapping) => wrapping.next(`quit`))
+			ongoingWrappings.current = []
 		}
 	}, [answerElement, showAnswer])
 
 	useAnimationFrame((_, delta) => {
-		if (!answerRef.current || !ongoingWrapping.current) return
-		const res = ongoingWrapping.current.next(delta / 2)
-		if (res.done) {
-			ongoingWrapping.current = null
-			setTimeout(() => setShowChildren(true), 150)
+		if (!answerRef.current || ongoingWrappings.current.length === 0) return
+		ongoingWrappings.current = ongoingWrappings.current.filter((wrapping) => !wrapping.next(delta / 2).done)
+		if (ongoingWrappings.current.length === 0) {
+			setTimeout(() => setShowFurtherQuestions(true), 150)
 		}
 	})
 
@@ -101,14 +166,17 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 			{showAnswer ? (
 				<>
 					<motion.div
-						className="relative flex flex-col gap-4 [&_*]:invisible [&_[data-visible]]:visible"
+						className={clsx(
+							`relative flex flex-col gap-4 [&_[data-invisible]]:invisible`,
+							initialInvisibility && `invisible`,
+						)}
 						layout="position"
 						ref={answerRef}
 					>
 						{answerElement}
 					</motion.div>
 
-					{showChildren && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}
+					{showFurtherQuestions && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}
 				</>
 			) : (
 				<motion.button

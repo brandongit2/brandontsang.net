@@ -118,7 +118,7 @@ export default function NavSection() {
 							sprintzero
 						</NavLink>
 						<div />
-						<NavLink href="/" subtext="WEBPAGE" zIndex={5}>
+						<NavLink href="/hemlane-marketing" subtext="WEBPAGE" zIndex={5}>
 							hemlane marketing
 						</NavLink>
 						<div />

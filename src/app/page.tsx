@@ -1,9 +1,8 @@
 import type {ReactElement} from "react"
 
 import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
-import {mainPageQaTree} from "./mainPageQaTree"
 import NameParallax from "./NameParallax"
-import QaTree from "@/components/QaTree"
+import QaWrapper from "./QaWrapper"
 
 export default async function Home(): Promise<ReactElement | null> {
 	const sdfFontAtlas = await loadSdfFontAtlas()
@@ -13,8 +12,8 @@ export default async function Home(): Promise<ReactElement | null> {
 		<div className="mx-auto flex max-w-2xl flex-col">
 			<NameParallax sdfFontAtlas={sdfFontAtlas} msdfFontAtlas={msdfFontAtlas} />
 
-			<div className="mx-auto max-w-xl px-3 pb-[50%] text-justify font-light leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)] [&_p:not(.indent-0)]:indent-4">
-				<QaTree qaTree={mainPageQaTree} />
+			<div className="mx-auto max-w-xl px-3 pb-[50%] text-[oklch(97.1%_0.07_110.543)]">
+				<QaWrapper />
 			</div>
 		</div>
 	)

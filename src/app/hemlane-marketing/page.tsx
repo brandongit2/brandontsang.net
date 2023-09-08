@@ -1,0 +1,39 @@
+import clsx from "clsx"
+import * as fontkit from "fontkit"
+import path from "path"
+
+import HemlaneMarketingGallery from "./Gallery"
+import {hemlaneMarketingQaTree} from "./hemlaneMarketingQaTree"
+import QaTree from "@/components/QaTree"
+import {karrik} from "@/helpers/fonts"
+
+export default async function HemlaneMarketingPage() {
+	const font = await fontkit.open(path.resolve(process.cwd(), `public/fonts/Karrik-Regular.woff2`))
+	const text = `hemlane marketing page`
+	const layout = font.layout(text)
+	const width = layout.advanceWidth
+	const height = font.ascent - font.descent
+	const aspectRatio = width / height
+
+	return (
+		<div className="flex flex-col items-center gap-4">
+			<div className="mx-3 mt-6 grid h-auto w-full max-w-xl justify-items-stretch" style={{aspectRatio}}>
+				<div className="max-w-full [container-type:size]">
+					<h1 className={clsx(karrik.className, `whitespace-nowrap text-[91cqh] leading-[normal]`)}>
+						hemlane marketing page
+					</h1>
+				</div>
+			</div>
+			<p className="mx-3 -mt-3 mb-4 flex max-w-xl flex-col gap-4 px-8 text-justify font-medium leading-snug text-[oklch(97.1%_0.07_110.543)] opacity-90">
+				I worked on a large variety of things during my time at Hemlane. One of the most memorable contributions I made
+				was a marketing page targeted at registered realtors:
+			</p>
+			<div className="mx-3 max-w-3xl">
+				<HemlaneMarketingGallery />
+			</div>
+			<div className="mx-3 flex max-w-xl flex-col gap-4 pb-[50%] text-justify font-light leading-snug tracking-wide text-[oklch(97.1%_0.07_110.543)] [&_p:not(.indent-0)]:indent-4">
+				<QaTree qaTree={hemlaneMarketingQaTree} />
+			</div>
+		</div>
+	)
+}

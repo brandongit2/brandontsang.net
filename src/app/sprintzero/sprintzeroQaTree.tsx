@@ -11,6 +11,7 @@ import FramerMotionLogo from "@/components/logo-svgs/FramerMotionLogo"
 import NextJsLogo from "@/components/logo-svgs/NextJsLogo"
 import ReactLogo from "@/components/logo-svgs/ReactLogo"
 import Bg from "@/components/QaTree/Bg"
+import Cde from "@/components/QaTree/Cde"
 import NoBr from "@/components/QaTree/NoBr"
 import Under from "@/components/QaTree/Under"
 import cloudFirestoreLogo from "@public/logos/cloud-firestore.png"
@@ -176,7 +177,7 @@ export const sprintzeroQaTree: QaNode = {
 												)
 											}
 										>
-											{expandedPanels.has(0) ? `(see less)` : `(see more)`}
+											{expandedPanels.has(1) ? `(see less)` : `(see more)`}
 										</button>
 										{expandedPanels.has(1) && (
 											<div className="relative flex items-stretch text-base">
@@ -199,8 +200,7 @@ export const sprintzeroQaTree: QaNode = {
 														huge leap. We took advantage of Server Components with Next.js&nbsp;13 in SprintZero, and
 														the experience was amazing. Although we didn&apos;t do much data fetching ourselves because
 														of Cloud Firestore, giving some components direct access to the backend&mdash;not to mention
-														allowing them to be <code className="-mx-0.5 bg-black/20 px-0.5 text-[0.9em]">async</code>
-														&mdash;was an{` `}
+														allowing them to be <Cde>async</Cde>&mdash;was an{` `}
 														<Bg>honest game-changer</Bg> in the development and user experiences.
 													</p>
 												</div>
