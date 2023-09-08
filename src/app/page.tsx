@@ -15,7 +15,7 @@ export default async function Home(): Promise<ReactElement | null> {
 			<div className="relative mx-auto max-w-xl px-3 pb-[50%] text-[oklch(97.1%_0.07_110.543)]">
 				<QaWrapper />
 
-				<div className="absolute bottom-20 left-0 mt-12 w-full text-xs opacity-40 tablet:bottom-40">
+				<div className="absolute bottom-20 left-0 mx-3 mt-12 w-full text-xs opacity-40 tablet:bottom-40">
 					<p>
 						This website is a WORK-IN-PROGRESS! You can see the source{` `}
 						<a

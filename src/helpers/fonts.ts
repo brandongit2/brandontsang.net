@@ -7,10 +7,12 @@ export const figtree = localFont({
 		{
 			path: "../../public/fonts/Figtree-VariableFont_wght-instance.subset.woff2",
 			style: "normal",
+			weight: "300 700",
 		},
 		{
 			path: "../../public/fonts/Figtree-Italic-VariableFont_wght-instance.subset.woff2",
 			style: "italic",
+			weight: "300 700",
 		},
 	],
 })
