@@ -40,7 +40,7 @@ export const hemlaneMarketingQaTree: QaNode = {
 								So each column gets a <Cde>grow</Cde> value, and that value is set to <Cde>0</Cde> when the column is
 								closed:
 							</p>
-							<div className="-my-3.5 text-sm leading-[normal]">
+							<div className="-my-3.5 max-w-[calc(100vw-2.25rem)] text-sm leading-[normal]">
 								<Code lang="html" title="HTML">
 									{columnAnimHtml}
 								</Code>
