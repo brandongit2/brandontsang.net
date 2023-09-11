@@ -9,7 +9,7 @@ import {karrik} from "@/helpers/fonts"
 
 export default async function SprintzeroPage() {
 	const font = await fontkit.open(path.resolve(process.cwd(), `public/fonts/Karrik-Regular.woff2`))
-	const text = `sprintzero - project retrospective`
+	const text = `sprintzero - project summary`
 	const layout = font.layout(text)
 	const width = layout.advanceWidth
 	const height = font.ascent - font.descent
@@ -23,8 +23,8 @@ export default async function SprintzeroPage() {
 				</div>
 			</div>
 			<p className="-mt-3 mb-4 flex max-w-xl flex-col gap-4 px-8 text-justify font-medium leading-snug text-[oklch(97.1%_0.07_110.543)] opacity-70">
-				this is a brief recount and analysis of my work on SprintZero. working on SprintZero was a milestone in my
-				career, and it is the first full-production app i&apos;ve ever built, start-to-finish.
+				this is a brief recount and analysis of my work on SprintZero. working on SprintZero was a major milestone in my
+				career, and it is the closest i&apos;ve been involved in a full-production app.
 			</p>
 
 			<div className="max-w-3xl">

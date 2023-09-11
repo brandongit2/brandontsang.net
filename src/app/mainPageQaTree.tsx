@@ -177,9 +177,9 @@ export const mainPageQaTree: QaNode = {
 							<p>
 								I then worked at{` `}
 								<NoBr>
-									<div className="mr-1 inline-block rounded bg-white/90 p-px align-[-3px]">
+									<span className="mr-1 inline-block rounded bg-white/90 p-px align-[-3px]">
 										<Image src={hemlaneLogo} alt="" className="aspect-square h-[1em] w-auto" />
-									</div>
+									</span>
 									<span className="font-semibold">Hemlane</span>
 								</NoBr>
 								, a <Bg>property management SaaS</Bg> company. There, I worked as part of the marketing team as opposed
@@ -253,14 +253,15 @@ export const mainPageQaTree: QaNode = {
 					answer: (
 						<>
 							<p>
-								😀 And of course I&apos;m looking for work!! If you think my skills will be an asset to you or your
-								company, please don&apos;t hesitate to reach out to me at{` `}
+								<span className="inline-block translate-y-0.5 text-xl">😀</span> And of course I&apos;m looking for
+								work!! If you think my skills will be an asset to you or your company, please don&apos;t hesitate to
+								reach out to me at{` `}
 								<a href="mailto:brandononline2@gmail.com" className="underline">
 									brandononline2
 									<wbr />
 									@gmail.com
 								</a>
-								. I&apos;d love to elaborate on my background, and talk about where I would fit in on your projects.
+								. I&apos;d love to elaborate on my background, and talk about where I could fit in on your projects.
 							</p>
 							<p>
 								You can also find a PDF of my résumé{` `}

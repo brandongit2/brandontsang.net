@@ -46,7 +46,7 @@ export const sprintzeroQaTree: QaNode = {
 						The key feature of the project was a unique tool known as the{` `}
 						<strong className="font-semibold">Story&nbsp;Map</strong>. The Story&nbsp;Map organized all user stories of
 						the project into groups called <em>features</em>, and those into groups called{` `}
-						<em>epics</em>. The result was a three-tier tree structure, as you can see in the gallery to the left.
+						<em>epics</em>. The result was a three-tier tree structure, as you can see in the gallery above.
 					</p>
 					<p>
 						Users were able to <Bg>freely rearrange the tree</Bg>, changing the order of stories, features, and epics,
@@ -392,14 +392,52 @@ export const sprintzeroQaTree: QaNode = {
 						the story map feature. From then, I was the <Bg>primary engineer</Bg> on the project.
 					</p>
 					<p>
-						Besides the founder, I worked somewhat with a co-founder who was also a senior developer. However his
-						background was mainly in Java/enterprise, so his contribution was primarily technical and backend guidance.
-						I also worked with a junior developer, but he worked part-time and his contribution was largely tangential
-						to mine. I did collaborate with both on several occasions, but a large portion of the project was engineered
-						by me.
+						In addition to the founder, the team included a co-founder whose expertise lies in Java and enterprise
+						solutions. His guidance was invaluable on the technical and backend aspects of the project. I also
+						collaborated with a junior developer, who worked part-time and contributed in areas that were separate but
+						complementary to my own work. While I was the main engineer for a significant portion of the project, it was
+						a team effort and each member brought unique skills to the table.
 					</p>
 				</>
 			),
+			furtherQuestions: [
+				{
+					question: `What did you learn from working there?`,
+					answer: (
+						<>
+							<p>
+								This project marked the first time my skills have been used to{` `}
+								<Bg>extensively build a full-stack application.</Bg> I learned a ton about simply managing work and
+								juggling priorities, as well as the amount of effort required from all those involved. It truly was a
+								small but tight operation.
+							</p>
+							<p>
+								In addition to the business side of things, my feeling that I had mastered React and the DOM was
+								shattered completely. Working on SprintZero challenged me technically in ways I had never been
+								challenged before.
+							</p>
+							<p className="italic">
+								&ldquo;How do I do extensive manual DOM manipulation while tolerating React&apos; lifecycle?&rdquo;
+							</p>
+							<p className="italic">
+								&ldquo;I&apos;m pushing the limits of what&apos;s possible with the current architecutre. Do I really
+								have to refactor again?&rdquo;
+							</p>
+							<p>
+								At times the tasks remaining seemed insurmountable, but time passed and things magically started
+								working. And after a couple months, the project was already near completion.
+							</p>
+							<p>
+								Working on a project with such tight deadlines and little resources revealed a lot to me about{` `}
+								<Under>how much time can get distorted in your head.</Under> Things that initially seemed quick ended up
+								taking forever, and then after they were over, I was amazed at how quickly it was finished. My time at
+								SprintZero was the ultimate contrast to my time at Hemlane, and{` `}
+								<span className="font-semibold">I&apos;m ultimately grateful that I was able to experience both.</span>
+							</p>
+						</>
+					),
+				},
+			],
 		},
 		{
 			question: `Where can I see the project?`,
@@ -420,8 +458,8 @@ export const sprintzeroQaTree: QaNode = {
 						</span>
 					</p>
 					<p>
-						Unfortunately, the founder was having trouble securing funding and we were forced to stop work before we
-						reached full stability, so expect occasional issues when using the app.
+						Unfortunately, the project ended prematurely before we reached full stability, so expect occasional issues
+						when using the app.
 					</p>
 				</>
 			),
