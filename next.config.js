@@ -3,6 +3,7 @@ import NextBundleAnalyzer from "@next/bundle-analyzer"
 /** @type {import('next').NextConfig} */
 const config = {
 	trailingSlash: true,
+	transpilePackages: [`three`],
 	webpack: (config) => {
 		config.module.rules.push({test: /\.glsl$/, use: `raw-loader`})
 

@@ -1,8 +1,8 @@
 import * as fontkit from "fontkit"
 import path from "path"
 
+import {hemlaneMarketingQaTree} from "./(qa-tree)/hemlaneMarketingQaTree"
 import HemlaneMarketingGallery from "./Gallery"
-import {hemlaneMarketingQaTree} from "./hemlaneMarketingQaTree"
 import Parallax from "./Parallax"
 import QaTree from "@/components/QaTree"
 import "@/helpers/katex.css"
@@ -22,10 +22,10 @@ export default async function HemlaneMarketingPage() {
 					<div className="mx-3 flex min-h-[80svh] flex-col items-center justify-center gap-4">
 						<div className="grid h-auto w-full max-w-2xl justify-items-stretch" style={{aspectRatio}}>
 							<div className="max-w-full [container-type:size]">
-								<h1 className="font-karrik whitespace-nowrap text-[91cqh] leading-[normal]">{text}</h1>
+								<h1 className="whitespace-nowrap font-karrik text-[91cqh] leading-[normal]">{text}</h1>
 							</div>
 						</div>
-						<p className="font-karrik -mt-3 mb-2 max-w-2xl px-1 text-justify text-[min(3vw,1rem)] leading-snug tracking-tight text-[oklch(85%_0.04_110.543)]">
+						<p className="-mt-3 mb-2 max-w-2xl px-1 text-justify font-karrik text-[min(3vw,1rem)] leading-snug tracking-tight text-[oklch(85%_0.04_110.543)]">
 							i worked on a wide variety of things during my time at Hemlane. one of the most memorable contributions i
 							made was a marketing page targeted at registered realtors.
 						</p>

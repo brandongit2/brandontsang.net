@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import {motion, useAnimationFrame} from "framer-motion"
 import {throttle} from "lodash-es"
-import {useEffect, useRef, useState} from "react"
+import {Suspense, useEffect, useRef, useState} from "react"
 
 import type {QaNode as QaNodeType} from "./types"
 
@@ -180,7 +180,12 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						{node.answer}
 					</motion.div>
 
-					{showFurtherQuestions && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}
+					{showFurtherQuestions &&
+						node.furtherQuestions?.map((child) => (
+							<Suspense key={child.question}>
+								<QaNode node={child} />
+							</Suspense>
+						))}
 				</>
 			) : (
 				<motion.button
