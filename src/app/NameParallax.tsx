@@ -1,11 +1,11 @@
 "use client"
 
 import {motion, useScroll, useTransform} from "framer-motion"
-import {Suspense} from "react"
+import {Suspense, lazy} from "react"
 
 import type {FontAtlas} from "@/types/FontAtlas"
 
-import NameCanvas from "./(name-canvas)/NameCanvas"
+const NameCanvas = lazy(() => import(`./(name-canvas)/NameCanvas`))
 
 export type NameParallaxProps = {
 	sdfFontAtlas: FontAtlas

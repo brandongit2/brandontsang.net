@@ -176,34 +176,34 @@ export const hemlaneMarketingQaTree: QaNode = {
 						to know why, and whether or not I could change that.
 					</p>
 					<p className="indent-0">The implementation can be broken down into several pieces:</p>
-					<div className="mx-auto w-max rounded-2xl border border-text/40 bg-black/30 px-6 py-4">
+					<div className="mx-auto w-fit rounded-2xl border border-text/40 bg-black/30 px-6 py-4">
 						<ol className="flex flex-col gap-2">
-							<li>
-								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
+							<li className="flex gap-2">
+								<span className="font-karrik w-6 shrink-0 basis-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									1.{` `}
 								</span>
 								the transition from the button to the opened dialog;
 							</li>
-							<li>
-								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
+							<li className="flex gap-2">
+								<span className="font-karrik w-6 shrink-0 basis-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									2.{` `}
 								</span>
 								a grab gesture for the dialog&apos;s handle;
 							</li>
-							<li>
-								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
+							<li className="flex gap-2">
+								<span className="font-karrik w-6 shrink-0 basis-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									3.{` `}
 								</span>
 								detection of left-right swipe and upward swipe gestures;
 							</li>
-							<li>
-								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
+							<li className="flex gap-2">
+								<span className="font-karrik w-6 shrink-0 basis-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									4.{` `}
 								</span>
 								the transition between two dialog pages;
 							</li>
-							<li>
-								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
+							<li className="flex gap-2">
+								<span className="font-karrik w-6 shrink-0 basis-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									5.{` `}
 								</span>
 								and the transition from the dialog back to the button.

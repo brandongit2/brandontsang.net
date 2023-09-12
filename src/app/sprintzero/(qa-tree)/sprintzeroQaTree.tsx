@@ -130,7 +130,7 @@ export const sprintzeroQaTree: QaNode = {
 								challenged before.
 							</p>
 							<p className="italic">
-								&ldquo;How do I do extensive manual DOM manipulation while tolerating React&apos; lifecycle?&rdquo;
+								&ldquo;How do I do extensive manual DOM manipulation while tolerating React&apos;s lifecycle?&rdquo;
 							</p>
 							<p className="italic">
 								&ldquo;I&apos;m pushing the limits of what&apos;s possible with the current architecutre. Do I really
