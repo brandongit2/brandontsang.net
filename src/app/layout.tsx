@@ -51,16 +51,17 @@ type Props = {
 
 export default async function RootLayout({children, pageBg}: Props) {
 	return (
-		<html lang="en" className={clsx(figtree.variable, karrik.variable, `font-figtree h-full`)}>
+		<html lang="en" className={clsx(figtree.variable, karrik.variable, `h-full font-figtree`)}>
 			<body className="grid h-full bg-text text-text">
 				{pageBg}
 				{/* Some yellow below the screen because iOS Safari renders down there below the search bar */}
 				<div className="fixed -bottom-24 z-50 h-24 w-full bg-text" />
 				<div className="z-50">
+					{/* The columns are taller than the screen since Safari WebView (in Twitter at least) is misreporting the `lvh` or something? */}
 					<div className="fixed left-0 top-0 h-1.5 w-full bg-text" />
-					<div className="fixed left-0 top-0 h-[100lvh] w-1.5 bg-text" />
+					<div className="fixed left-0 top-0 h-[120lvh] w-1.5 bg-text" />
 					<div className="fixed bottom-0 right-0 h-1.5 w-full bg-text" />
-					<div className="fixed bottom-0 right-0 h-[100lvh] w-1.5 bg-text" />
+					<div className="fixed bottom-0 right-0 h-[120lvh] w-1.5 bg-text" />
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1" className="fixed left-0 top-0 h-3 w-3">
 						<path d="M0,0 L1,0 L1,0.5 A0.5,0.5 0 0 0 0.5,1 L0,1 Z" fill="currentColor" />
 					</svg>

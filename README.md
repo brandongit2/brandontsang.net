@@ -4,7 +4,7 @@ everything is still a work in progress, although at this point close to 95% of t
 
 ### task summary:
 
-- [x] name glsl mastead
+- [x] name glsl masthead
   - [x] generate SDF and MSDF textures
   - [x] wave effect
   - [x] perf optimization

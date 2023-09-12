@@ -17,12 +17,12 @@ export default async function SprintzeroPage() {
 		<div className="mx-3 flex flex-col items-center gap-4">
 			<div className="mt-6 grid h-auto w-full max-w-2xl justify-items-stretch" style={{aspectRatio}}>
 				<div className="max-w-full [container-type:size]">
-					<h1 className="font-karrik whitespace-nowrap text-[91cqh] leading-[normal]">{text}</h1>
+					<h1 className="whitespace-nowrap font-karrik text-[91cqh] leading-[normal]">{text}</h1>
 				</div>
 			</div>
-			<p className="font-karrik -mt-3 mb-2 max-w-2xl px-1 text-justify text-[min(3vw,1rem)] leading-snug tracking-tight text-[oklch(85%_0.04_110.543)]">
+			<p className="-mt-3 mb-2 max-w-2xl px-1 text-justify font-karrik text-[min(3vw,1rem)] leading-snug tracking-tight text-[oklch(85%_0.04_110.543)]">
 				this is a brief recount and analysis of my work on SprintZero. working on SprintZero was a major milestone in my
-				career, and it is the closest i&apos;ve been involved in a full-production app.
+				career, and it is the closest i&apos;ve ever worked on building a full-production app.
 			</p>
 
 			<div className="max-w-3xl">
