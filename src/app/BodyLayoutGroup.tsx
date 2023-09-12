@@ -2,13 +2,13 @@
 
 import {LayoutGroup, MotionConfig, motion} from "framer-motion"
 
-import {mainPageQaTree} from "./mainPageQaTree"
+import {mainPageQaTree} from "./(qa-tree)/mainPageQaTree"
 import QaTree from "@/components/QaTree"
 import {springVarHelper} from "@/helpers/springVarHelper"
 import GithubIcon from "@public/logos/github.svg"
 import LinkedinIcon from "@public/logos/linkedin.svg"
 
-export default function QaWrapper() {
+export default function BodyLayoutGroup() {
 	return (
 		<LayoutGroup>
 			<MotionConfig transition={{layout: {type: `spring`, velocity: -180, ...springVarHelper(150, 0.6)}}}>

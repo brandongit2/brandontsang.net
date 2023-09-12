@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import {motion, useAnimationFrame} from "framer-motion"
-import {createElement, useEffect, useMemo, useRef, useState} from "react"
+import {useEffect, useRef, useState} from "react"
 
 import type {QaNode as QaNodeType} from "./types"
 
@@ -113,11 +113,6 @@ export type QaNodeProps = {
 }
 
 export default function QaNode({node, root = false}: QaNodeProps) {
-	const answerElement = useMemo(
-		() => (typeof node.answer === `function` ? createElement(node.answer) : node.answer),
-		[node.answer],
-	)
-
 	const [showAnswer, setShowAnswer] = useState(root)
 	const [initialInvisibility, setInitialInvisibility] = useState(true)
 	const [showFurtherQuestions, setShowFurtherQuestions] = useState(false)
@@ -151,7 +146,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 			ongoingWrappings.current.forEach((wrapping) => wrapping.next(`quit`))
 			ongoingWrappings.current = []
 		}
-	}, [answerElement, showAnswer])
+	}, [showAnswer])
 
 	useAnimationFrame((_, delta) => {
 		if (!answerRef.current || ongoingWrappings.current.length === 0) return
@@ -173,7 +168,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						layout="position"
 						ref={answerRef}
 					>
-						{answerElement}
+						{node.answer}
 					</motion.div>
 
 					{showFurtherQuestions && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}

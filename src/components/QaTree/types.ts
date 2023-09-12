@@ -1,7 +1,7 @@
-import {type ReactNode} from "react"
+import type {ReactNode} from "react"
 
 export type QaNode = {
 	question: string
-	answer: ReactNode | (() => ReactNode)
+	answer: ReactNode
 	furtherQuestions?: QaNode[]
 }

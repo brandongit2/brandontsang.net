@@ -25,7 +25,7 @@ export default function NavSection() {
 
 	const sections = useMemo(() => {
 		const easingSamples = easingWithDensity(6, easeInOutQuadInv)
-		const easeDistance = 0.8 // From top, out of 1, how far down the blur easing should go until hitting max blur
+		const easeDistance = 1 // From top, out of 1, how far down the blur easing should go until hitting max blur
 		const sections = easingSamples.slice(0, -1).map(({adjustedT, y: a}, i) => {
 			const prevT = (easingSamples[i - 1]?.adjustedT ?? 0) * easeDistance
 			const t1 = adjustedT * easeDistance

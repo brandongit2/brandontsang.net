@@ -1,8 +1,8 @@
 "use client"
 
 import clsx from "clsx"
-import {useAnimationFrame} from "framer-motion"
-import {useRef, useState} from "react"
+import {animate, motion, useAnimationFrame, useMotionTemplate, useMotionValue, useTransform} from "framer-motion"
+import {useEffect, useRef, useState} from "react"
 
 type Chapter = {start: number; title: string; description: string}
 
@@ -36,15 +36,21 @@ const chapters: Chapter[] = [
 
 export default function Gallery() {
 	const [currentChapterIndex, setCurrentChapterIndex] = useState(0)
-	const [videoProg, _setVideoProg] = useState(0)
+	const videoProg = useMotionValue(0)
 	const setVideoProg = (v: number) => {
 		let chapterIndex = chapters.findIndex((c) => c.start > v) - 1
 		if (chapterIndex < 0) chapterIndex = chapters.length - 1
 		setCurrentChapterIndex(chapterIndex)
-		_setVideoProg(v)
+		animate(videoProg, v, {type: `tween`, duration: 0.1})
 	}
 
 	const videoRef = useRef<HTMLVideoElement>(null)
+	const [videoDuration, setVideoDuration] = useState(120)
+	useEffect(() => {
+		if (!videoRef.current) return
+		setVideoDuration(videoRef.current.duration)
+	}, [])
+
 	useAnimationFrame(() => {
 		if (!videoRef.current) return
 		setVideoProg(videoRef.current.currentTime)
@@ -71,23 +77,36 @@ export default function Gallery() {
 			</video>
 
 			<div className="relative mt-4 h-0.5 w-full bg-black/90">
-				<div
+				<motion.div
 					className="h-full bg-text"
-					style={{width: `${(videoProg / (videoRef.current?.duration ?? 200)) * 100}%`}}
+					style={{
+						width: useMotionTemplate`${useTransform(videoProg, (p) => (p / videoDuration) * 100)}%`,
+					}}
 				/>
 				{chapters.map((chapter, i) => (
-					<div
+					<button
 						key={i}
+						type="button"
 						className={clsx(
-							`absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white`,
+							`absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500`,
 							`before:absolute before:-bottom-4 before:-left-4 before:-right-4 before:-top-4 before:block before:content-[""]`,
+							currentChapterIndex === i ? `bg-text/80` : `bg-text saturate-0`,
 						)}
-						style={{left: `${(100 * chapter.start) / (videoRef.current?.duration ?? 10)}%`}}
+						style={{left: `${(100 * chapter.start) / videoDuration}%`}}
 						onClick={() => {
 							if (!videoRef.current) return
 							videoRef.current.currentTime = chapter.start
 						}}
-					/>
+					>
+						<div
+							className="absolute inset-0 rounded-full mix-blend-luminosity"
+							style={{
+								backgroundImage: `linear-gradient(135deg, oklch(0.8 0 0) 30%, oklch(0.4 0 0) 80%)`,
+								maskImage: `radial-gradient(transparent 45%, black 60%)`,
+								WebkitMaskImage: `radial-gradient(transparent 45%, black 60%)`,
+							}}
+						/>
+					</button>
 				))}
 			</div>
 

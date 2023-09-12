@@ -2,6 +2,10 @@
 module.exports = {
 	content: [`./src/**/*.{js,ts,jsx,tsx,mdx}`],
 	theme: {
+		fontFamily: {
+			figtree: [`var(--font-figtree)`, `sans-serif`],
+			karrik: [`var(--font-karrik)`, `sans-serif`],
+		},
 		screens: {
 			tablet: `700px`,
 			full: `1330px`,

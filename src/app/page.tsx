@@ -1,8 +1,8 @@
 import type {ReactElement} from "react"
 
 import {loadMsdfFontAtlas, loadSdfFontAtlas} from "./(name-canvas)/loadFontAtlas"
+import BodyLayoutGroup from "./BodyLayoutGroup"
 import NameParallax from "./NameParallax"
-import QaWrapper from "./QaWrapper"
 
 export default async function Home(): Promise<ReactElement | null> {
 	const sdfFontAtlas = await loadSdfFontAtlas()
@@ -13,7 +13,7 @@ export default async function Home(): Promise<ReactElement | null> {
 			<NameParallax sdfFontAtlas={sdfFontAtlas} msdfFontAtlas={msdfFontAtlas} />
 
 			<div className="relative mx-auto max-w-xl px-3 pb-[50%] text-[oklch(97.1%_0.07_110.543)]">
-				<QaWrapper />
+				<BodyLayoutGroup />
 
 				<div className="absolute bottom-20 left-0 mx-3 mt-12 w-[calc(100%-0.75rem)] text-xs opacity-40 tablet:bottom-40">
 					<p>

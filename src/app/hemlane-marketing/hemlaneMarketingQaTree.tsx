@@ -1,5 +1,4 @@
 import {Code} from "bright"
-import clsx from "clsx"
 import katex from "katex"
 
 import type {QaNode} from "@/components/QaTree/types"
@@ -16,7 +15,6 @@ import {
 } from "./codeSnippets"
 import Bg from "@/components/QaTree/Bg"
 import Cde from "@/components/QaTree/Cde"
-import {karrik} from "@/helpers/fonts"
 
 export const hemlaneMarketingQaTree: QaNode = {
 	question: `What is SprintZero?`,
@@ -179,33 +177,33 @@ export const hemlaneMarketingQaTree: QaNode = {
 					</p>
 					<p className="indent-0">The implementation can be broken down into several pieces:</p>
 					<div className="mx-auto w-max rounded-2xl border border-text/40 bg-black/30 px-6 py-4">
-						<ol className={clsx(karrik.variable, `flex flex-col gap-2`)}>
+						<ol className="flex flex-col gap-2">
 							<li>
-								<span className="mr-2 inline-block w-6 text-right font-[family-name:--font-karrik] text-2xl leading-none [font-feature-settings:'lnum']">
+								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									1.{` `}
 								</span>
 								the transition from the button to the opened dialog;
 							</li>
 							<li>
-								<span className="mr-2 inline-block w-6 text-right font-[family-name:--font-karrik] text-2xl leading-none [font-feature-settings:'lnum']">
+								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									2.{` `}
 								</span>
 								a grab gesture for the dialog&apos;s handle;
 							</li>
 							<li>
-								<span className="mr-2 inline-block w-6 text-right font-[family-name:--font-karrik] text-2xl leading-none [font-feature-settings:'lnum']">
+								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									3.{` `}
 								</span>
 								detection of left-right swipe and upward swipe gestures;
 							</li>
 							<li>
-								<span className="mr-2 inline-block w-6 text-right font-[family-name:--font-karrik] text-2xl leading-none [font-feature-settings:'lnum']">
+								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									4.{` `}
 								</span>
 								the transition between two dialog pages;
 							</li>
 							<li>
-								<span className="mr-2 inline-block w-6 text-right font-[family-name:--font-karrik] text-2xl leading-none [font-feature-settings:'lnum']">
+								<span className="font-karrik mr-2 inline-block w-6 text-right text-2xl leading-none [font-feature-settings:'lnum']">
 									5.{` `}
 								</span>
 								and the transition from the dialog back to the button.
@@ -213,10 +211,11 @@ export const hemlaneMarketingQaTree: QaNode = {
 						</ol>
 					</div>
 					<p>
-						Items <span className={clsx(karrik.className, `text-lg`)}>1</span> and{` `}
-						<span className={clsx(karrik.className, `text-lg`)}>5</span> were simple enough; I just used Framer Motion
-						to perform a layout transition. But the other three items were much more complex to build.
+						Items <span className="font-karrik text-lg">1</span> and{` `}
+						<span className="font-karrik text-lg">5</span> were simple enough; I just used Framer Motion to perform a
+						layout transition. But the other three items were much more complex to build.
 					</p>
+					<p className="font-bold">I&apos;m still in the middle of writing this; more to come!</p>
 				</>
 			),
 		},

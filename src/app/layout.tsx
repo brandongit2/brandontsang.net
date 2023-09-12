@@ -2,12 +2,12 @@ import {Code} from "bright"
 import clsx from "clsx"
 
 import type {Metadata} from "next"
-import type {ReactElement, ReactNode} from "react"
+import type {ReactNode} from "react"
 
 import "./styles.css"
 import NavSection from "@/components/NavSection"
 import {beardedTheme} from "@/helpers/beardedTheme"
-import {figtree} from "@/helpers/fonts"
+import {figtree, karrik} from "@/helpers/fonts"
 
 export const metadata: Metadata = {
 	title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
@@ -45,16 +45,17 @@ export const metadata: Metadata = {
 Code.theme = beardedTheme
 
 type Props = {
-	children?: ReactNode
+	children: ReactNode
+	pageBg: ReactNode
 }
 
-export default async function RootLayout({children}: Props): Promise<ReactElement | null> {
+export default async function RootLayout({children, pageBg}: Props) {
 	return (
-		<html lang="en" className={clsx(figtree.className, `h-full`)}>
+		<html lang="en" className={clsx(figtree.variable, karrik.variable, `font-figtree h-full`)}>
 			<body className="grid h-full bg-text text-text">
-				<div className="fixed left-0 top-0 -z-50 h-[100lvh] w-full bg-bg" />
+				{pageBg}
 				{/* Some yellow below the screen because iOS Safari renders down there below the search bar */}
-				<div className="fixed -bottom-24 -z-50 h-24 w-full bg-text" />
+				<div className="fixed -bottom-24 z-50 h-24 w-full bg-text" />
 				<div className="z-50">
 					<div className="fixed left-0 top-0 h-1.5 w-full bg-text" />
 					<div className="fixed left-0 top-0 h-[100lvh] w-1.5 bg-text" />
@@ -74,7 +75,7 @@ export default async function RootLayout({children}: Props): Promise<ReactElemen
 					</svg>
 				</div>
 
-				<div className="p-1.5">
+				<div className="min-w-0 p-1.5">
 					<div className="relative">{children}</div>
 				</div>
 

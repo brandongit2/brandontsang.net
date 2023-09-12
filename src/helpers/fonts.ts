@@ -19,6 +19,7 @@ export const figtree = localFont({
 			weight: "300 700",
 		},
 	],
+	variable: "--font-figtree",
 })
 
 export const ft88 = localFont({src: "../../public/fonts/FT88-Serif.subset.woff2"})
