@@ -41,19 +41,17 @@ export default function Gallery() {
 		let chapterIndex = chapters.findIndex((c) => c.start > v) - 1
 		if (chapterIndex < 0) chapterIndex = chapters.length - 1
 		setCurrentChapterIndex(chapterIndex)
-		animate(videoProg, v, {type: `tween`, duration: 0.1})
+		animate(videoProg, v, {type: `tween`, ease: `easeOut`, duration: 0.06})
 	}
 
 	const videoRef = useRef<HTMLVideoElement>(null)
-	const [videoDuration, setVideoDuration] = useState(120)
-	useEffect(() => {
-		if (!videoRef.current) return
-		setVideoDuration(videoRef.current.duration)
-	}, [])
+	const [videoDuration, setVideoDuration] = useState<number | null>(null)
 
 	useAnimationFrame(() => {
 		if (!videoRef.current) return
 		setVideoProg(videoRef.current.currentTime)
+
+		if (videoRef.current.duration !== videoDuration) setVideoDuration(videoRef.current.duration)
 	})
 
 	return (
@@ -80,34 +78,37 @@ export default function Gallery() {
 				<motion.div
 					className="h-full bg-text"
 					style={{
-						width: useMotionTemplate`${useTransform(videoProg, (p) => (p / videoDuration) * 100)}%`,
+						width: useMotionTemplate`${useTransform(videoProg, (p) =>
+							videoDuration === null ? 0 : (p / videoDuration) * 100,
+						)}%`,
 					}}
 				/>
-				{chapters.map((chapter, i) => (
-					<button
-						key={i}
-						type="button"
-						className={clsx(
-							`absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500`,
-							`before:absolute before:-bottom-4 before:-left-4 before:-right-4 before:-top-4 before:block before:content-[""]`,
-							currentChapterIndex === i ? `bg-text/80` : `bg-text saturate-0`,
-						)}
-						style={{left: `${(100 * chapter.start) / videoDuration}%`}}
-						onClick={() => {
-							if (!videoRef.current) return
-							videoRef.current.currentTime = chapter.start
-						}}
-					>
-						<div
-							className="absolute inset-0 rounded-full mix-blend-luminosity"
-							style={{
-								backgroundImage: `linear-gradient(135deg, oklch(0.8 0 0) 30%, oklch(0.4 0 0) 80%)`,
-								maskImage: `radial-gradient(transparent 45%, black 60%)`,
-								WebkitMaskImage: `radial-gradient(transparent 45%, black 60%)`,
+				{videoDuration !== null &&
+					chapters.map((chapter, i) => (
+						<button
+							key={i}
+							type="button"
+							className={clsx(
+								`absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full transition-all duration-500`,
+								`before:absolute before:-bottom-4 before:-left-4 before:-right-4 before:-top-4 before:block before:content-[""]`,
+								currentChapterIndex === i ? `bg-text/80` : `bg-text saturate-0`,
+							)}
+							style={{left: `${(100 * chapter.start) / videoDuration}%`}}
+							onClick={() => {
+								if (!videoRef.current) return
+								videoRef.current.currentTime = chapter.start
 							}}
-						/>
-					</button>
-				))}
+						>
+							<div
+								className="absolute inset-0 rounded-full mix-blend-luminosity"
+								style={{
+									backgroundImage: `linear-gradient(135deg, oklch(0.8 0 0) 30%, oklch(0.4 0 0) 80%)`,
+									maskImage: `radial-gradient(transparent 45%, black 60%)`,
+									WebkitMaskImage: `radial-gradient(transparent 45%, black 60%)`,
+								}}
+							/>
+						</button>
+					))}
 			</div>
 
 			<div
