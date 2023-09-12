@@ -1,5 +1,6 @@
 import clsx from "clsx"
 import {motion, useAnimationFrame} from "framer-motion"
+import {throttle} from "lodash-es"
 import {useEffect, useRef, useState} from "react"
 
 import type {QaNode as QaNodeType} from "./types"
@@ -127,17 +128,25 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 		setInitialInvisibility(false)
 		ongoingWrappings.current.push(wrapTextNodes(answerRef.current, 5))
 
-		const mutationObserver = new MutationObserver((mutations) => {
-			mutations.forEach((mutation) => {
+		let mutationQueue = new Set<MutationRecord>()
+		const throttledMutationHandler = throttle(() => {
+			mutationQueue.forEach((mutation) => {
 				if (mutation.type !== `childList`) return
 				filterOutDescendants(Array.from(mutation.addedNodes))
 					.filter((node) => !isWrapLocked(node))
+					.filter((node): node is Element => node instanceof Element && document.body.contains(node))
 					.forEach((node) => {
 						if (!(node instanceof Element) || !document.body.contains(node)) return
 						makeElementInvisible(node)
 						ongoingWrappings.current.push(wrapTextNodes(node, 5))
 					})
 			})
+			mutationQueue = new Set()
+		}, 500)
+
+		const mutationObserver = new MutationObserver((mutations) => {
+			mutationQueue = new Set([...mutationQueue, ...mutations])
+			throttledMutationHandler()
 		})
 		mutationObserver.observe(answerRef.current, {childList: true, subtree: true})
 

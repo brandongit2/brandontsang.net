@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import {animate, motion, useAnimationFrame, useMotionTemplate, useMotionValue, useTransform} from "framer-motion"
-import {useEffect, useRef, useState} from "react"
+import {useRef, useState} from "react"
 
 type Chapter = {start: number; title: string; description: string}
 
