@@ -13,22 +13,22 @@ const chapters: Chapter[] = [
 		description: `The Story Map is organized into Epics, Features, and Stories. Here, I'm adding several Epics, and then Features beneath the Epics, and finally Stories beneath those. Notice how the tree's layout is completely responsive.`,
 	},
 	{
-		start: 48,
+		start: 33,
 		title: `Editing Stories`,
 		description: `User stories are the main unit of work in the app. Each story has a slew of associated data, accessible from a panel that slides up from the bottom. All the data here and throughout the rest of the app propagates to other team members in real time.`,
 	},
 	{
-		start: 115,
+		start: 81,
 		title: `Rearranging items`,
 		description: `Every item in the Story Map is movable to anywhere else in the tree. Updates here are also propagated to other team members in real time, and the action of modifying the tree is completely fault-tolerant and consistent. Animation was planned here, and was partially implemented, but it proved too complex given our deadlines.`,
 	},
 	{
-		start: 131,
+		start: 97,
 		title: `Priorities page`,
 		description: `The Story Map is actually modified in places all throughout the app, like here in the Priorities page. On this page, you arrange Stories in terms of user value and effort, and the Story Map is updated accordingly.`,
 	},
 	{
-		start: 149,
+		start: 112,
 		title: `Sprint Board page`,
 		description: `The app had many pages, and to show them all would take too long. Here's a quick look at the Sprint Board page, where you can see all the Stories in a given Sprint, and drag them around to different columns. Not demonstrated is the ability to open the same Story information panel from earlier by clicking on a Story.`,
 	},
