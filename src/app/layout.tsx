@@ -27,6 +27,9 @@ export const metadata: Metadata = {
 		title: `BRANDON TSANG :: Senior Frontend Web Developer :: looking for work!`,
 		description: `Hey! I am a Toronto-based senior frontend web developer who loves building unique and challenging user interfaces.`,
 	},
+	alternates: {
+		canonical: `/`,
+	},
 	keywords: [
 		`Brandon Tsang`,
 		`portfolio`,
