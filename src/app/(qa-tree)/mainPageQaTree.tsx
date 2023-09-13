@@ -27,7 +27,7 @@ export const mainPageQaTree: QaNode = {
 					Toronto
 				</span>
 			</span>
-			-based <Bg>senior frontend web developer</Bg> who loves building <Under>unique</Under> and{` `}
+			-based <Bg>senior frontend software developer</Bg> who loves building <Under>unique</Under> and{` `}
 			<Under>challenging</Under> user interfaces.
 		</p>
 	),
