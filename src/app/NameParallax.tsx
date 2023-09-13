@@ -1,7 +1,7 @@
 "use client"
 
 import {motion, useScroll, useTransform} from "framer-motion"
-import {Suspense, lazy} from "react"
+import {lazy} from "react"
 
 import type {FontAtlas} from "@/types/FontAtlas"
 
@@ -25,11 +25,9 @@ export default function NameParallax({sdfFontAtlas, msdfFontAtlas}: NameParallax
 				),
 			}}
 		>
-			<Suspense fallback={<p>Loading...</p>}>
-				<div className="relative h-max w-[100cqw] [@media(min-width:870px)]:translate-x-[-4%]">
-					<NameCanvas sdfFontAtlas={sdfFontAtlas} msdfFontAtlas={msdfFontAtlas} />
-				</div>
-			</Suspense>
+			<div className="relative h-max w-[100cqw] [@media(min-width:870px)]:translate-x-[-4%]">
+				<NameCanvas sdfFontAtlas={sdfFontAtlas} msdfFontAtlas={msdfFontAtlas} />
+			</div>
 		</motion.div>
 	)
 }

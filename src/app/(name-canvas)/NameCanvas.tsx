@@ -1,6 +1,7 @@
 "use client"
 
 import {Canvas} from "@react-three/fiber"
+import Image from "next/image"
 import {useMemo, type ReactElement} from "react"
 
 import type {FontAtlas} from "@/types/FontAtlas"
@@ -8,6 +9,7 @@ import type {FontAtlas} from "@/types/FontAtlas"
 import {name} from "./name"
 import NamePostprocess from "./NamePostprocess"
 import bmFontLayout from "@/helpers/bmFontLayout"
+import nameFallback from "@public/name-fallback.avif"
 
 export type NameCanvasProps = {
 	sdfFontAtlas: FontAtlas
@@ -48,6 +50,13 @@ export default function NameCanvas({sdfFontAtlas, msdfFontAtlas}: NameCanvasProp
 				className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
 				style={{[`--scale` as any]: `min(239cqw, 523cqh)`, width: `var(--scale)`, height: `var(--scale)`}}
 			>
+				<Image
+					src={nameFallback}
+					priority
+					alt=""
+					unoptimized // My image optimization is better than theirs hahah
+					style={{width: `100%`, height: `auto`, position: `absolute`}}
+				/>
 				<Canvas flat legacy linear gl={{premultipliedAlpha: false}} resize={{offsetSize: true}}>
 					<NamePostprocess sdfTextLayout={sdfTextLayout} msdfTextLayout={msdfTextLayout} />
 				</Canvas>

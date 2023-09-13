@@ -115,6 +115,7 @@ export type QaNodeProps = {
 
 export default function QaNode({node, root = false}: QaNodeProps) {
 	const [showAnswer, setShowAnswer] = useState(root)
+	const [showLoading, setShowLoading] = useState(true)
 	const [isPending, startTransition] = useTransition()
 	const [initialInvisibility, setInitialInvisibility] = useState(true)
 	const [showFurtherQuestions, setShowFurtherQuestions] = useState(false)
@@ -160,6 +161,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 
 	useAnimationFrame((_, delta) => {
 		if (!answerRef.current || ongoingWrappings.current.length === 0) return
+		if (showLoading) setShowLoading(false)
 		ongoingWrappings.current = ongoingWrappings.current.filter((wrapping) => !wrapping.next(delta / 2).done)
 		if (ongoingWrappings.current.length === 0) {
 			setTimeout(() => setShowFurtherQuestions(true), 150)
@@ -179,6 +181,10 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						ref={answerRef}
 					>
 						{node.answer}
+
+						{showLoading && (
+							<div className="visible absolute left-0 top-0 h-full w-[max(100%,8rem)] animate-pulse rounded-md bg-text/20" />
+						)}
 					</motion.div>
 
 					{showFurtherQuestions && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}
