@@ -62,6 +62,7 @@ export default function Gallery() {
 				muted
 				controls={false}
 				playsInline
+				poster="/demos/sprintzero-demo-poster.avif"
 				className="h-auto min-h-0 w-full rounded-2xl border border-text/20"
 				ref={videoRef}
 				onClick={(e) => {
@@ -69,8 +70,8 @@ export default function Gallery() {
 					else e.currentTarget.pause()
 				}}
 			>
-				<source src="/demos/sprintzero-demo-av1.mp4" type="video/mp4; codecs=av01.0.30M.08" />
-				<source src="/demos/sprintzero-demo-hevc.mp4" type="video/mp4; codecs=hvc1" />
+				<source src="/demos/sprintzero-demo-av1.mp4" type="video/mp4; codecs=av01.0.09M.08" />
+				<source src="/demos/sprintzero-demo-hevc.mp4" type="video/mp4; codecs=hvc1.1.6.L123" />
 				<source src="/demos/sprintzero-demo-vp9.webm" type="video/webm; codecs=vp9" />
 			</video>
 

@@ -15,9 +15,10 @@ export default function HemlaneMarketingGallery() {
 
 				<div className="absolute inset-0 grid place-items-center [container-type:size]">
 					<motion.div
-						className="relative h-full w-auto overflow-clip border border-bg/80 bg-white"
+						className="relative aspect-[4/3] h-full w-auto overflow-clip border border-bg/80 bg-white"
 						style={{borderRadius: `16px`}}
 						animate={video}
+						initial={{aspectRatio: 4 / 3}}
 						variants={{
 							desktop: {aspectRatio: 4 / 3},
 							mobile: {aspectRatio: 1 / 2},
@@ -32,7 +33,7 @@ export default function HemlaneMarketingGallery() {
 								muted
 								controls={false}
 								playsInline
-								poster="/demos/hemlane-marketing/mobile-poster.jpg"
+								poster="/demos/hemlane-marketing/mobile-poster.avif"
 								className="absolute left-1/2 top-1/2 aspect-[1/2] h-[100cqh] w-auto -translate-x-1/2 -translate-y-1/2"
 							>
 								<source src="/demos/hemlane-marketing/mobile-av1.mp4" type="video/mp4; codecs=av01.0.09M.08" />
@@ -47,7 +48,7 @@ export default function HemlaneMarketingGallery() {
 								muted
 								controls={false}
 								playsInline
-								poster="/demos/hemlane-marketing/desktop-poster.jpg"
+								poster="/demos/hemlane-marketing/desktop-poster.avif"
 								className="absolute left-1/2 top-1/2 aspect-[4/3] h-[100cqh] w-auto -translate-x-1/2 -translate-y-1/2 scale-[1.001]"
 								variants={{
 									desktop: {opacity: 1},

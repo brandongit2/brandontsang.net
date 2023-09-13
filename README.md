@@ -14,11 +14,10 @@ everything is still a work in progress, although at this point close to 95% of t
   - [x] main page
   - [x] sprintzero page
   - [ ] hemlane page (todo: finish writing up mobile layout text)
-- [ ] video encoding (av1, hevc, vp9)
-  - hemlane page videos complete, sprintzero demo videos are from a previous try at encoding and quality is poor
-- [ ] SEO
+- [x] video encoding (av1, hevc, vp9)
+- [x] SEO
 - [ ] other polish!!!
-  - [ ] bundle size reduction (have made some components lazy-load, but need to do more to that end)
+  - [x] bundle size reduction (apparently three.js' bundle size is non-negotiable due to its architecture?? who knows but i have bigger fish to fry)
   - [ ] fix layout shift
   - [ ] name masthead loading optimization
     - currently the SDF is 500 kB and i wanna see how small i can get it. right now it's stored as a png but i'm thinking it might be better compressed as a binary/txt file.
