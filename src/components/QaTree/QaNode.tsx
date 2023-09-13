@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import {motion, useAnimationFrame} from "framer-motion"
 import {throttle} from "lodash-es"
-import {Suspense, useEffect, useRef, useState} from "react"
+import {useEffect, useRef, useState, useTransition} from "react"
 
 import type {QaNode as QaNodeType} from "./types"
 
@@ -115,6 +115,7 @@ export type QaNodeProps = {
 
 export default function QaNode({node, root = false}: QaNodeProps) {
 	const [showAnswer, setShowAnswer] = useState(root)
+	const [isPending, startTransition] = useTransition()
 	const [initialInvisibility, setInitialInvisibility] = useState(true)
 	const [showFurtherQuestions, setShowFurtherQuestions] = useState(false)
 
@@ -180,12 +181,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						{node.answer}
 					</motion.div>
 
-					{showFurtherQuestions &&
-						node.furtherQuestions?.map((child) => (
-							<Suspense key={child.question}>
-								<QaNode node={child} />
-							</Suspense>
-						))}
+					{showFurtherQuestions && node.furtherQuestions?.map((child) => <QaNode key={child.question} node={child} />)}
 				</>
 			) : (
 				<motion.button
@@ -196,16 +192,14 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						opacity: 1,
 						transition: {opacity: {duration: 0.5}},
 					}}
-					onClick={() => {
-						setShowAnswer(true)
-					}}
+					onClick={() => startTransition(() => setShowAnswer(true))}
 					className="relative mx-auto w-2/3 min-w-[18rem] rounded-xl border border-text/50 px-3 py-1"
 					style={{
 						backgroundImage: `linear-gradient(
-									oklch(98% 0.157 110.543 / 0.3),
-									oklch(80% 0.157 110.543 / 0.3) calc(100% - 0.8rem),
-									oklch(60% 0.157 110.543 / 0.3)
-								)`,
+							oklch(98% 0.157 110.543 / 0.3),
+							oklch(80% 0.157 110.543 / 0.3) calc(100% - 0.8rem),
+							oklch(60% 0.157 110.543 / 0.3)
+						)`,
 						boxShadow: `inset 0 0 6px oklch(0.9 0 0 / 0.4)`,
 					}}
 				>
@@ -213,6 +207,7 @@ export default function QaNode({node, root = false}: QaNodeProps) {
 						className={clsx(
 							`relative inline-block text-[oklch(100%_0.05_110.543)]`,
 							`before:absolute before:left-1/2 before:top-1/2 before:-z-10 before:inline-block before:h-full before:w-full before:translate-x-[calc(-50%-1px)] before:translate-y-[calc(-50%+1px)] before:text-black before:content-[--text-content]`,
+							isPending && `animate-pulse`,
 						)}
 						style={{
 							[`--text-content` as any]: `"${node.question}"`,
