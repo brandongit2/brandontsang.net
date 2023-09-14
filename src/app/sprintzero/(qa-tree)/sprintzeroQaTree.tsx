@@ -157,7 +157,8 @@ export const sprintzeroQaTree: QaNode = {
 			answer: (
 				<>
 					<p className="indent-0">
-						The project is available for free use at:
+						The project is available for free use{` `}
+						<span className="text-xs opacity-50">(sign-up required, sorry!)</span> at:
 						<br />
 						<span className="mt-4 inline-flex w-full justify-center text-center">
 							<a
