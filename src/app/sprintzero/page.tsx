@@ -21,8 +21,8 @@ export default async function SprintzeroPage() {
 				</div>
 			</div>
 			<p className="-mt-3 mb-2 max-w-2xl px-1 text-justify font-karrik text-[min(3vw,1rem)] leading-snug tracking-tight text-[oklch(85%_0.04_110.543)]">
-				this is a brief recount and analysis of my work on SprintZero. working on SprintZero was a major milestone in my
-				career, and it is the closest i&apos;ve ever worked on building a full-production app.
+				this is a brief recount of my work on SprintZero. working on SprintZero was a major milestone in my career, and
+				it is the most intimately i&apos;ve ever been involved with a full-production app from start to finish.
 			</p>
 
 			<div className="max-w-3xl">
