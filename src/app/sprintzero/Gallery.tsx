@@ -65,10 +65,6 @@ export default function Gallery() {
 				poster="/demos/sprintzero-demo-poster.avif"
 				className="h-auto min-h-0 w-full rounded-2xl border border-text/20"
 				ref={videoRef}
-				onClick={(e) => {
-					if (e.currentTarget.paused) e.currentTarget.play()
-					else e.currentTarget.pause()
-				}}
 			>
 				<source src="/demos/sprintzero-demo-av1.mp4" type="video/mp4; codecs=av01.0.09M.08" />
 				<source src="/demos/sprintzero-demo-hevc.mp4" type="video/mp4; codecs=hvc1.1.6.L123" />
