@@ -4,6 +4,9 @@ import NextBundleAnalyzer from "@next/bundle-analyzer"
 const config = {
 	trailingSlash: true,
 	transpilePackages: [`three`],
+	experimental: {
+		optimizePackageImports: [`lodash-es`],
+	},
 	webpack: (config) => {
 		config.module.rules.push({test: /\.glsl$/, use: `raw-loader`})
 
