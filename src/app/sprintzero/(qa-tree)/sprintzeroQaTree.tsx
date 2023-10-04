@@ -106,7 +106,7 @@ export const sprintzeroQaTree: QaNode = {
 					</p>
 					<p>
 						In addition to the founder, the team included a co-founder whose expertise lies in Java and enterprise
-						solutions. His guidance was invaluable on the technical and backend aspects of the project. I also
+						solutions. His guidance was invaluable on the technical and back-end aspects of the project. I also
 						collaborated with a junior developer, who worked part-time and contributed in areas that were separate but
 						complementary to my own work. While I was the main engineer for a significant portion of the project, it was
 						a team effort and each member brought unique skills to the table.

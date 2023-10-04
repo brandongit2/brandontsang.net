@@ -21,7 +21,7 @@ export const mainPageQaTree: QaNode = {
 					Toronto
 				</span>
 			</span>
-			-based <Bg>senior frontend software developer</Bg> who loves building <Under>unique</Under> and{` `}
+			-based <Bg>React developer</Bg> who loves building <Under>unique</Under> and{` `}
 			<Under>challenging</Under> user interfaces.
 		</p>
 	),
@@ -89,10 +89,10 @@ export const mainPageQaTree: QaNode = {
 							answer: (
 								<>
 									<p>
-										For the past few years, I&apos;ve been divided on whether to delve further into backend work, or
-										specialize in frontend for good. That decision is clear as day to me now:{` `}
+										For the past few years, I&apos;ve been divided on whether to delve further into back-end work, or
+										specialize in front-end for good. That decision is clear as day to me now:{` `}
 										<span className="font-semibold">
-											<Under>frontend is where I belong</Under>
+											<Under>front-end is where I belong</Under>
 										</span>
 										. I want to keep doing what I&apos;m currently doing, and also expand my skillset by entering{` `}
 										<Bg>WebGL development</Bg>, <Bg>graphics programming</Bg>, and <Bg>native mobile development</Bg>. I

@@ -47,9 +47,9 @@ export default function WhatTech() {
 				<span className="font-semibold"> Motion</span>.
 			</p>
 			<p>
-				My knowledge isn&apos;t limited to just the frontend either; I have loads of experience building out
+				My knowledge isn&apos;t limited to just the front-end either; I have loads of experience building out
 				{` `}
-				<Bg>backends</Bg>, working with <Bg>databases</Bg>, and even a little experience deploying on{` `}
+				<Bg>back-ends</Bg>, working with <Bg>databases</Bg>, and even a little experience deploying on{` `}
 				<Bg>cloud platforms</Bg> and with{` `}
 				<Bg>Docker</Bg>.
 			</p>

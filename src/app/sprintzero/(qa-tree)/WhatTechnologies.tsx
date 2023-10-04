@@ -113,7 +113,8 @@ export default function WhatTechnologies() {
 									And now with the introduction of <Bg>React Server Components</Bg>, React is making another huge leap.
 									We took advantage of Server Components with Next.js&nbsp;13 in SprintZero, and the experience was
 									amazing. Although we didn&apos;t do much data fetching ourselves because of Cloud Firestore, giving
-									some components direct access to the backend&mdash;not to mention allowing them to be <Cde>async</Cde>
+									some components direct access to the back-end&mdash;not to mention allowing them to be{` `}
+									<Cde>async</Cde>
 									&mdash;was an{` `}
 									<Bg>honest game-changer</Bg> in the development and user experiences.
 								</p>
@@ -213,7 +214,7 @@ export default function WhatTechnologies() {
 							<div className="mb-4 mt-2 flex grow flex-col gap-2">
 								<p>
 									Developer resources were quite strained on this project. We ultimately had to focus our efforts on the
-									frontend since that had the most impact on the user. We obviously couldn&apos;t skimp on the backend
+									front-end since that had the most impact on the user. We obviously couldn&apos;t skimp on the back-end
 									either, and that&apos;s where{` `}
 									<strong className="font-semibold">Firebase</strong>, specifically{` `}
 									<strong className="font-semibold">Cloud Firestore</strong>, comes in.
