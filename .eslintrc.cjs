@@ -73,6 +73,7 @@ module.exports = {
 				"react/jsx-boolean-value": `warn`,
 				"react/jsx-curly-brace-presence": `warn`,
 				"react/jsx-no-useless-fragment": [`warn`, {allowExpressions: true}],
+				"react/no-unescaped-entities": `warn`,
 				"react/no-unused-prop-types": `warn`,
 				"react/no-unknown-property": `off`,
 				"react/prop-types": `off`,

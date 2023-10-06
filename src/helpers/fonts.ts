@@ -2,10 +2,6 @@
 
 import localFont from "next/font/local"
 
-export const computerModern = localFont({src: "../../public/fonts/cmunrm.subset.woff2"})
-
-export const courier = localFont({src: "../../public/fonts/Courier Prime.subset.woff2"})
-
 export const figtree = localFont({
 	src: [
 		{
@@ -21,8 +17,6 @@ export const figtree = localFont({
 	],
 	variable: "--font-figtree",
 })
-
-export const ft88 = localFont({src: "../../public/fonts/FT88-Serif.subset.woff2"})
 
 export const karrik = localFont({
 	src: [

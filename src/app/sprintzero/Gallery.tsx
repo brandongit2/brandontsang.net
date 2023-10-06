@@ -109,7 +109,7 @@ export default function Gallery() {
 			</div>
 
 			<div
-				className="mt-4 rounded-2xl border border-text/20 px-6 py-4 text-lg"
+				className="mt-4 h-36 rounded-2xl border border-text/20 px-6 py-4 text-lg"
 				style={{
 					backgroundImage: `linear-gradient(to bottom, oklch(25% 0.058 144.97 / 97%), oklch(29.9% 0.056 144.97 / 97%) 80%, oklch(32% 0.052 144.97 / 97%))`,
 					boxShadow: `

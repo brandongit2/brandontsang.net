@@ -16,12 +16,13 @@ export default function WhereHaveYouWorked() {
 					<Image src={mintbeanLogo} alt="" className="mr-1 inline-block aspect-square h-[1em] w-auto align-[-2px]" />
 					<span className="font-semibold">Mintbean</span>
 				</NoBr>
-				, which was part <Bg>consulting</Bg> company, part
+				, which was a part <Bg>consulting</Bg> company, part
 				{` `}
-				<Bg>developer-mentoring</Bg> company. My React familiarity paid off there as I was part of the company&apos;s
-				Discord server where I answered tons of questions from entry-level developers, and I helped organize community
-				coding events. In fact, I got the job in the first place participating in one of these events, where the founder
-				noticed my work and reached out to me. He has since served as a helpful mentor and a friend.
+				<Bg>developer-mentoring</Bg> company. In addition to the consulting work, I was part of the company&apos;s
+				Discord server where I helped entry-level developers learn React, and where I organized community coding events.
+				In fact, the reason I got the job in the first place was because I participated in one of these events, where
+				the founder noticed my work and reached out to me for a job opening. He has since served as a helpful mentor and
+				a friend.
 			</p>
 			<p>
 				I then worked at{` `}

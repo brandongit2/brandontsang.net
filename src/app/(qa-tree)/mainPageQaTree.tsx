@@ -5,6 +5,7 @@ import type {QaNode} from "@/components/QaTree/types"
 
 import WhatTech from "./WhatTech"
 import Bg from "@/components/QaTree/Bg"
+import Bold from "@/components/QaTree/Bold"
 import Under from "@/components/QaTree/Under"
 import {playfair} from "@/helpers/fonts"
 import TorontoOutline from "@public/toronto.svg"
@@ -28,7 +29,18 @@ export const mainPageQaTree: QaNode = {
 	furtherQuestions: [
 		{
 			question: `Tell me more about yourself.`,
-			answer: createElement(lazy(() => import(`./AboutMe`))),
+			answer: (
+				<p>
+					I&apos;m an incredibly <Bold>ambitious</Bold> and{` `}
+					<Bold>meticulous</Bold> developer who loves his work. My expertise lies in the very early stage of
+					development, <Bg>from conception to MVP</Bg>; I&apos;ve helped several founders perform the initial build-out
+					of their platforms at <span className="italic">breakneck speed</span>, without sacrificing app robustness and
+					code quality. My technical skills are all <Bg>completely self-taught</Bg>, and nothing makes me happier than
+					to build up my comfort zone, then step right out of it into something new. My own personal life is unending
+					personal development and self-inquiry, and I&apos;m forever glad that the startup space allows me to feel the
+					same in my professional life.
+				</p>
+			),
 			furtherQuestions: [
 				{
 					question: `What tech do you usually work with?`,
@@ -43,9 +55,7 @@ export const mainPageQaTree: QaNode = {
 								for a school presentation and I wanted to make it look really special. I went all out with transitions
 								and interactivity, played with GSAP{` `}
 								<span className="text-sm opacity-50">(a JavaScript animation library)</span>, and hardcoded everything
-								in a set of HTML files. It was glorious for its time. And probably no one at school cared, but I
-								don&apos;t care that no one cared, because I did it for myself, and sometimes that&apos;s all you need
-								to keep going.
+								in a set of HTML files. It was glorious for its time.
 							</p>
 							<p>
 								Later on when I was 17, I got hooked on{` `}
@@ -59,23 +69,13 @@ export const mainPageQaTree: QaNode = {
 								know what it was at the time, I just wanted to be able to re-use my HTML in component form. Anyway of
 								course, my plans were too ambitious and the project never materialized. But I{` `}
 								<Under>learned a ton</Under> about modern web development, including{` `}
-								<span className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
-									bundling
-								</span>
-								,{` `}
-								<span className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
-									my first framework
-								</span>
-								, and even{` `}
-								<span className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
-									user auth
-								</span>
+								<Bold>bundling</Bold>,{` `}
+								<Bold>my first framework</Bold>, and even{` `}
+								<Bold>user auth</Bold>
 								{` `}
 								and{` `}
-								<span className="font-semibold text-[color-mix(in_srgb,oklch(90%_0.157_110.543),oklch(0.45_1_120)_40%)]">
-									how to use a database
-								</span>
-								. Take it from me, being overly ambitious is the number one way to get really good at something.
+								<Bold>how to use a database</Bold>. Take it from me, being overly ambitious is the number one way to get
+								really good at something.
 							</p>
 						</>
 					),
