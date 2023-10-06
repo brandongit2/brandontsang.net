@@ -30,16 +30,21 @@ export const mainPageQaTree: QaNode = {
 		{
 			question: `Tell me more about yourself.`,
 			answer: (
-				<p>
-					I&apos;m an incredibly <Bold>ambitious</Bold> and{` `}
-					<Bold>meticulous</Bold> developer who loves his work. My expertise lies in the very early stage of
-					development, <Bg>from conception to MVP</Bg>; I&apos;ve helped several founders perform the initial build-out
-					of their platforms at <span className="italic">breakneck speed</span>, without sacrificing app robustness and
-					code quality. My technical skills are all <Bg>completely self-taught</Bg>, and nothing makes me happier than
-					to build up my comfort zone, then step right out of it into something new. My own personal life is unending
-					personal development and self-inquiry, and I&apos;m forever glad that the startup space allows me to feel the
-					same in my professional life.
-				</p>
+				<>
+					<p>
+						I&apos;m an incredibly <Bold>ambitious</Bold> and{` `}
+						<Bold>meticulous</Bold> developer who loves his work. My expertise lies in the very early stage of
+						development, <Bg>from conception to MVP</Bg>; I&apos;ve helped several founders perform the initial
+						build-out of their platforms at <span className="italic">breakneck speed</span>, without sacrificing app
+						robustness and code quality.
+					</p>
+					<p>
+						My technical skills are all <Bg>completely self-taught</Bg>, and nothing makes me happier than to build up
+						my comfort zone, then step right out of it into something new. My own personal life is unending personal
+						development and self-inquiry, and I&apos;m forever glad that the startup space allows me to feel the same in
+						my professional life.
+					</p>
+				</>
 			),
 			furtherQuestions: [
 				{
