@@ -37,7 +37,7 @@ export const mainPageQaTree: QaNode = {
 						<Bold>meticulous</Bold> developer who loves his work. My expertise lies in the very early stage of
 						development, <Bg>from conception to MVP</Bg>; I&apos;ve helped several founders perform the initial
 						build-out of their platforms at <span className="italic">breakneck speed</span>, without sacrificing app
-						robustness and code quality. While this is where I&apos;m most experienced, I very open to working on
+						robustness and code quality. While this is where I&apos;m most experienced, I&apos;m very open to working on
 						products at a more advanced stage.
 					</p>
 					<p>
